@@ -458,6 +458,7 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
       <form id="f" novalidate>
         <div class="field"><label for="biz">اسم النشاط</label><input id="biz" name="biz" placeholder="مثال: مكتب الواجهة للعقار" autocomplete="organization"><span class="err">اكتب اسم النشاط</span></div>
         <div class="field"><label for="wa">رقم الواتساب</label><input id="wa" name="wa" inputmode="tel" placeholder="05xxxxxxxx" autocomplete="tel"><span class="err">اكتب رقمًا سعوديًا يبدأ بـ05 ومكوّنًا من 10 أرقام</span></div>
+        <div class="field"><label for="em">الإيميل</label><input id="em" name="em" type="email" inputmode="email" placeholder="name@example.com" autocomplete="email" dir="ltr"><span class="err">اكتب إيميل صحيح، يوصلك عليه تأكيد الطلب</span></div>
         <div class="field"><label for="type">وش أكثر شي ياخذ وقتك؟</label><select id="type" name="type"><option value="reply">خلّ الردود على العملاء تطلع وحدها</option><option value="orders">خلّ الطلبات تتسجل بدون ما ألمسها</option><option value="appts">رتّب المواعيد والتذكير بدون موظف</option><option value="reports">وصّلني ملخص شغلي كل يوم</option><option value="data">نقّل البيانات بين أنظمتي وحدها</option><option value="unsure">مو متأكد، ساعدني أختار</option></select></div>
         <input type="hidden" id="note" name="note">
         <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -483,9 +484,9 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
 <script>
 (function(){
   var f=document.getElementById('f'),done=document.getElementById('done');
-  var biz=document.getElementById('biz'),wa=document.getElementById('wa');
+  var biz=document.getElementById('biz'),wa=document.getElementById('wa'),em=document.getElementById('em');
   function mark(el,bad){el.closest('.field').classList.toggle('bad',bad);}
-  [biz,wa].forEach(function(el){el.addEventListener('input',function(){mark(el,false);});});
+  [biz,wa,em].forEach(function(el){el.addEventListener('input',function(){mark(el,false);});});
   /* n8n webhook (backend/README.md, step 4). Until it is set, the form shows an error with the email instead of a fake "received". */
   var HL_WEBHOOK_URL='https://n8n-38e4.srv1957870.hstgr.cloud/webhook/highlink-landing-lead';
   var err=document.getElementById('sendErr'),t0=Date.now();
@@ -495,8 +496,9 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
   f.addEventListener('submit',function(e){
     e.preventDefault();
     var b=biz.value.trim().length<2; var w=!/^05\d{8}$/.test(wa.value.replace(/\s|-/g,''));
-    mark(biz,b); mark(wa,w);
-    if(b||w){ (b?biz:wa).focus(); return; }
+    var m=!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim());
+    mark(biz,b); mark(wa,w); mark(em,m);
+    if(b||w||m){ (b?biz:(w?wa:em)).focus(); return; }
     err.textContent='';
     if(!HL_WEBHOOK_URL){ err.textContent=M().fail; return; }
     var btn=f.querySelector('button[type=submit]'),label=btn.innerHTML;
@@ -504,6 +506,7 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
     var payload={
       business:biz.value.trim(),
       whatsapp:wa.value.replace(/\s|-/g,''),
+      email:em.value.trim(),
       task:document.getElementById('type').value,
       note:document.getElementById('note').value,
       lang:document.documentElement.lang==='en'?'en':'ar',
@@ -701,9 +704,9 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
 
     ['#contact h2',['The diagnosis is '+G+'free'+E+'. The report in 48 hours.']],
     ['#contact .inner > div > p',['Write your business name and number, and we will reach you on the same WhatsApp we are going to automate.']],
-    ['#contact label',['Business name','WhatsApp number','What takes most of your time?']],
+    ['#contact label',['Business name','WhatsApp number','Email','What takes most of your time?']],
     ['#biz',['e.g. Al-Wajiha Real Estate'],'placeholder'],
-    ['#contact .err',['Enter your business name','Enter a Saudi number that starts with 05 and has 10 digits']],
+    ['#contact .err',['Enter your business name','Enter a Saudi number that starts with 05 and has 10 digits','Enter a valid email — your confirmation goes there']],
     ['#type option',['Make customer replies go out on their own','Log orders without me touching them','Handle bookings and reminders without staff','Send me a summary of my work every day','Move data between my systems on its own','Not sure, help me choose']],
     ['#f button[type=submit]',['Send']],
     ['#contact .promise:not(.legal)',['We reply on WhatsApp within an hour during working hours, and nobody will call you.']],
