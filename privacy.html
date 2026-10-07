@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سياسة الخصوصية — هاي لينك</title>
+<meta name="description" content="وش نجمع من بيانات، وليش، ومع مين نشاركها، وحقوقك حسب نظام حماية البيانات الشخصية.">
+<link rel="canonical" href="https://highlink.tech/privacy.html">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* Same language memory as landing.html (?lang=en or saved choice). Default: Arabic. */
+(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=q||localStorage.getItem('hl-lang');if(l==='en'){document.documentElement.lang='en';document.documentElement.dir='ltr';}}catch(e){}})();
+</script>
+<style>
+:root{--paper:#ffffff;--paper-2:#f4f4f4;--ink:#0a0a0a;--ink-2:#4a4a4a;--ink-3:#767676;--line:#d4d4d4;
+  --grad-teal:#4ea5a3;--grad-mint:#6eda8e;--grad-lime:#d8f869;
+  --s2:8px;--s3:12px;--s4:16px;--s6:24px;--s8:32px;--s12:48px;--s16:64px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Tajawal","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.8}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:13px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--s8)}
+a{color:var(--ink)}
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.top img{height:28px;display:block}
+.lang{font:inherit;font-size:15px;font-weight:500;background:none;border:0;padding:4px 0;color:var(--ink);cursor:pointer}
+.lang:hover{text-decoration:underline;text-underline-offset:4px}
+.lang:focus-visible,a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+main{padding:var(--s16) 0}
+.doc{max-width:720px}
+html:not([lang=en]) .doc[lang=en],html[lang=en] .doc[lang=ar]{display:none}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--ink-3);margin-bottom:var(--s3)}
+.eyebrow::before{content:"";width:24px;height:1px;background:currentColor;flex:none}
+h1{font-size:44px;font-weight:700;line-height:1.15;margin:0 0 var(--s4)}
+.grad{background:linear-gradient(90deg,var(--grad-teal),var(--grad-mint),var(--grad-lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+.meta{color:var(--ink-3);margin:0 0 var(--s8)}
+.lead{font-size:19px;line-height:1.75;color:var(--ink-2);margin:0 0 var(--s12)}
+section{padding:0 0 var(--s8)}
+h2{font-size:22px;font-weight:700;line-height:1.35;margin:0 0 var(--s3);display:flex;gap:var(--s3);align-items:baseline}
+h2 .n{color:var(--ink-3);font-weight:400}
+p{margin:0 0 var(--s3)}
+ul{margin:0 0 var(--s3);padding-inline-start:var(--s6)}
+li{margin-bottom:var(--s2)}
+.box{background:var(--paper-2);padding:var(--s6);margin:var(--s4) 0 var(--s8)}
+.box p:last-child{margin:0}
+code,.tool{font-family:"IBM Plex Mono",monospace;font-size:14px}
+footer{background:var(--ink);color:#b8b8b8;font-size:15px;padding:var(--s12) 0}
+footer .wrap{display:flex;flex-wrap:wrap;gap:var(--s4) var(--s8);justify-content:space-between}
+footer a{color:#fff;text-decoration:none}
+footer a:hover{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:780px){
+  .wrap{padding:0 var(--s6)}
+  main{padding:var(--s12) 0}
+  h1{font-size:34px}
+}
+@media print{.top .lang,footer{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="/" aria-label="هاي لينك"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjQ0LjM0OCA3Ni4wMTYgMzE4LjIyNiA5Ny4wMzkiIHdpZHRoPSIzMTgiIGhlaWdodD0iOTciIHhtbG5zOmMycGE9Imh0dHA6Ly9jMnBhLm9yZy9tYW5pZmVzdCI+PG1ldGFkYXRhPjxjMnBhOm1hbmlmZXN0PkFBQVdnbXAxYldJQUFBQWVhblZ0WkdNeWNHRUFFUUFRZ0FBQXFnQTRtM0VEWXpKd1lRQUFBQlpjYW5WdFlnQUFBRWRxZFcxa1l6SnRZUUFSQUJDQUFBQ3FBRGliY1FOMWNtNDZZekp3WVRvNU1tSmpaR0UwTlMweU5XUmhMVFE1TjJRdE9HUTVOaTA0WkdFNU9XUTFPVEl6TkRNQUFBQURsMnAxYldJQUFBQXBhblZ0WkdNeVlYTUFFUUFRZ0FBQXFnQTRtM0VEWXpKd1lTNWhjM05sY25ScGIyNXpBQUFBQUx4cWRXMWlBQUFBUkdwMWJXUmpZbTl5QUJFQUVJQUFBS29BT0p0eEUyTXljR0V1YVc1bmNtVmthV1Z1ZEM1Mk13QUFBQUFZWXpKemFJaGREblRaRXBjVUhMWVFVQi94VlZzQUFBQndZMkp2Y3FOcFpHTTZabTl5YldGMGJXbHRZV2RsTDNOMlp5dDRiV3hxYVc1emRHRnVZMlZKUkhnc2VHMXdPbWxwWkRveE1qQTJNbVV6WXkxa05EWTVMVFEwTVRBdFltSTJNeTAyTmpjeVlUTXlZbVkzWVdKc2NtVnNZWFJwYjI1emFHbHdhSEJoY21WdWRFOW1BQUFCNG1wMWJXSUFBQUJCYW5WdFpHTmliM0lBRVFBUWdBQUFxZ0E0bTNFVFl6SndZUzVoWTNScGIyNXpMbll5QUFBQUFCaGpNbk5vQVpQRk1RbVlUODg4UkFRdDJqaU1hUUFBQVpsalltOXlvbWRoWTNScGIyNXpncUptWVdOMGFXOXVhMk15Y0dFdWIzQmxibVZrYW5CaGNtRnRaWFJsY25PaGEybHVaM0psWkdsbGJuUnpnYUpqZFhKc2VDMXpaV3htSTJwMWJXSm1QV015Y0dFdVlYTnpaWEowYVc5dWN5OWpNbkJoTG1sdVozSmxaR2xsYm5RdWRqTmthR0Z6YUZnZ0ZwUlVRZWNGTXhjY051cjBTeE5XdCtJWDhka0JDUVlkNHlid3RpRjMzUXVrWm1GamRHbHZibmdkWTI5dExtRnVkR2h5YjNCcFl5NWpiR0YxWkdVdWNISnZkbWxrWldScWNHRnlZVzFsZEdWeWM2RjRIMk52YlM1aGJuUm9jbTl3YVdNdWIzSnBaMmx1TFdOdmJtWnBaR1Z1WTJWbmRXNXJibTkzYm10a1pYTmpjbWx3ZEdsdmJuaG1RMnhoZFdSbElIQnliM1pwWkdWa0lIUm9hWE1nWm1sc1pTQmhkQ0IwYUdVZ2NtVnhkV1Z6ZENCdlppQmhJSFZ6WlhJZ1lXNWtJRzFoZVNCb1lYWmxJR055WldGMFpXUWdiM0lnYlc5a2FXWnBaV1FnZEdobElHWnBiR1VnWTI5dWRHVnVkSE11YlhOdlpuUjNZWEpsUVdkbGJuU2haRzVoYldWbVEyeGhkV1JsY21Gc2JFRmpkR2x2Ym5OSmJtTnNkV1JsWlBVQUFBRElhblZ0WWdBQUFFQnFkVzFrWTJKdmNnQVJBQkNBQUFDcUFEaWJjUk5qTW5CaExtaGhjMmd1WkdGMFlRQUFBQUFZWXpKemFFb0pmTUhtazJMemwyQkUzVjZUYTRjQUFBQ0FZMkp2Y3FWallXeG5abk5vWVRJMU5tTndZV1JOQUFBQUFBQUFBQUFBQUFBQUFHUm9ZWE5vV0NCUjFZT1dBTHIrYUlGZ2tLaUFmV01nY3l4dFMzdzAzMllTNktIUUt6VmdCMlJ1WVcxbGJtcDFiV0ptSUcxaGJtbG1aWE4wYW1WNFkyeDFjMmx2Ym5PQm9tVnpkR0Z5ZEJpbVpteGxibWQwYUJrZUJBQUFBajVxZFcxaUFBQUFKMnAxYldSak1tTnNBQkVBRUlBQUFLb0FPSnR4QTJNeWNHRXVZMnhoYVcwdWRqSUFBQUFDRDJOaWIzS2xZMkZzWjJaemFHRXlOVFpwYzJsbmJtRjBkWEpsZUUxelpXeG1JMnAxYldKbVBTOWpNbkJoTDNWeWJqcGpNbkJoT2preVltTmtZVFExTFRJMVpHRXRORGszWkMwNFpEazJMVGhrWVRrNVpEVTVNak0wTXk5ak1uQmhMbk5wWjI1aGRIVnlaV3BwYm5OMFlXNWpaVWxFZUN4NGJYQTZhV2xrT2prelpqY3pOV1l3TFRrNE5Ea3RORE5rWkMxaFpEUXlMVEl5TURVNU5qQmhPV0V4TVhKamNtVmhkR1ZrWDJGemMyVnlkR2x2Ym5PRG9tTjFjbXg0TFhObGJHWWphblZ0WW1ZOVl6SndZUzVoYzNObGNuUnBiMjV6TDJNeWNHRXVhVzVuY21Wa2FXVnVkQzUyTTJSb1lYTm9XQ0FXbEZSQjV3VXpGeHcyNnZSTEUxYTM0aGZ4MlFFSkJoM2pKdkMySVhmZEM2SmpkWEpzZUNwelpXeG1JMnAxYldKbVBXTXljR0V1WVhOelpYSjBhVzl1Y3k5ak1uQmhMbUZqZEdsdmJuTXVkakprYUdGemFGZ2dxbmN3YlVzamIyMDJpc0N0c2JWUFg2SnhNSVJwdFJiMUVQOXJLUlI5cEdlaVkzVnliSGdwYzJWc1ppTnFkVzFpWmoxak1uQmhMbUZ6YzJWeWRHbHZibk12WXpKd1lTNW9ZWE5vTG1SaGRHRmthR0Z6YUZnZ3RlRGdJdlNMbG5MRXIvUnhJaEVJQ21ueko5dndDNHJxUGU1Y2xqQmN4WEowWTJ4aGFXMWZaMlZ1WlhKaGRHOXlYMmx1Wm0ralpHNWhiV1Z2UVc1MGFISnZjR2xqSUVacGJHVnpaM1psY25OcGIyNWxNUzR3TGpCcmMzQmxZMVpsY25OcGIyNWxNaTQwTGpBQUFCQTRhblZ0WWdBQUFDaHFkVzFrWXpKamN3QVJBQkNBQUFDcUFEaWJjUU5qTW5CaExuTnBaMjVoZEhWeVpRQUFBQkFJWTJKdmN0S0VXUUlTb2dFbUdDRlpBZ293Z2dJR01JSUJqYUFEQWdFQ0FoUkE1YUFLN3NJNTBMNjRnL29HUWdVOVoxVVRBREFLQmdncWhrak9QUVFEQXpCSk1SY3dGUVlEVlFRS0V3NUJiblJvY205d2FXTXNJRkJDUXpFdU1Dd0dBMVVFQXhNbFFXNTBhSEp2Y0dsaklFTnZiblJsYm5RZ1EzSmxaR1Z1ZEdsaGJITWdVbTl2ZENCRFFUQWVGdzB5TmpBNE1EY3hPRFF6TlRaYUZ3MHlPREE0TURZeE9UUXpOVFphTUVReEZ6QVZCZ05WQkFvVERrRnVkR2h5YjNCcFl5d2dVRUpETVNrd0p3WURWUVFERXlCQmJuUm9jbTl3YVdNZ1EyeGhkV1JsSUVOdmJuUmxiblFnVTJsbmJtbHVaekJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCSmg2Q212TFVCZ0ZGTlUwdlVLbE9WdEU2ZGpkMTdMNVN1d1gwTGVtRmlzQk0zZGtkLzNjeWp4RkEzUW81UzQ2ZlgwL2loWTBWWjdtZmI5S0Y3MDN0NU9qV0RCV01BNEdBMVVkRHdFQi93UUVBd0lIZ0RBVkJnTlZIU1VFRGpBTUJnb3JCZ0VFQVlQb1hnSUJNQXdHQTFVZEV3RUIvd1FDTUFBd0h3WURWUjBqQkJnd0ZvQVV6bEhpQklGT1pGc2orT1BFejVvK25NSFhYTUl3Q2dZSUtvWkl6ajBFQXdNRFp3QXdaQUl3TVhNZEZKNEJldExMVlk3T1J1RTlub3FiYkFaT1puL2FBclh5VHdGQVpmS3JQenhGMnZQb0pOZjErVUNkZzFYR0FqQndYMXpkOVdHcVlrcW1MNVNGcXcxUXlTanIxekpmcEpNOSsxcmREd1NQTE1PUE9qS3VpWGpvVS9wVVVlRzlSd21oWTNCaFpGa05uZ0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVBaWVFMczU2MmpaUlphekorUTNJT29YV215b3dWZmhHSHV0NnMxMXQrb1llL2VBK1lYWWtDOCtYaEYreU02WE5yam5Md0dQLzNEMFRBY0tSUFRlNUU4TG12RT08L2MycGE6bWFuaWZlc3Q+PC9tZXRhZGF0YT48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNkOGY4NjkiLz48c3RvcCBvZmZzZXQ9IjAuNSIgc3RvcC1jb2xvcj0iIzZlZGE4ZSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzRlYTVhMyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGZpbGw9IiMwYTBhMGEiIGQ9Ik0gNjcuNjI4OTA2IDk0LjkyNTc4MSBMIDY3LjYyODkwNiAxMTAuODc4OTA2IEwgOTEuOTcyNjU2IDExMC44Nzg5MDYgTCA5MS45NzI2NTYgOTQuOTI1NzgxIEMgOTEuOTcyNjU2IDkyLjY0NDUzMSA5Mi40ODgyODEgOTAuOTM3NSA5My41MTE3MTkgODkuNzk2ODc1IEMgOTQuNTM5MDYyIDg4LjY1NjI1IDk1Ljg4NjcxOSA4OC4wODU5MzggOTcuNTU4NTk0IDg4LjA4NTkzOCBDIDk5LjI1MzkwNiA4OC4wODU5MzggMTAwLjYyODkwNiA4OC42NTIzNDQgMTAxLjY3OTY4OCA4OS43NzczNDQgQyAxMDIuNzMwNDY5IDkwLjkwNjI1IDEwMy4yNTM5MDYgOTIuNjIxMDk0IDEwMy4yNTM5MDYgOTQuOTI1NzgxIEwgMTAzLjI1MzkwNiAxMzguNzk2ODc1IEMgMTAzLjI1MzkwNiAxNDEuMDk3NjU2IDEwMi43MjI2NTYgMTQyLjgyMDMxMiAxMDEuNjYwMTU2IDE0My45NjA5MzggQyAxMDAuNTk3NjU2IDE0NS4xMDE1NjIgOTkuMjMwNDY5IDE0NS42Njc5NjkgOTcuNTU4NTk0IDE0NS42Njc5NjkgQyA5NS44NTkzNzUgMTQ1LjY2Nzk2OSA5NC41MDc4MTIgMTQ1LjA5Mzc1IDkzLjQ5NjA5NCAxNDMuOTQxNDA2IEMgOTIuNDgwNDY5IDE0Mi43ODkwNjIgOTEuOTcyNjU2IDE0MS4wNzQyMTkgOTEuOTcyNjU2IDEzOC43OTY4NzUgTCA5MS45NzI2NTYgMTIwLjA3MDMxMiBMIDY3LjYyODkwNiAxMjAuMDcwMzEyIEwgNjcuNjI4OTA2IDEzOC43OTY4NzUgQyA2Ny42Mjg5MDYgMTQxLjA5NzY1NiA2Ny4wOTM3NSAxNDIuODIwMzEyIDY2LjAzMTI1IDE0My45NjA5MzggQyA2NC45Njg3NSAxNDUuMTAxNTYyIDYzLjYwMTU2MiAxNDUuNjY3OTY5IDYxLjkyOTY4OCAxNDUuNjY3OTY5IEMgNjAuMjM0Mzc1IDE0NS42Njc5NjkgNTguODc4OTA2IDE0NS4wOTM3NSA1Ny44NjcxODggMTQzLjk0MTQwNiBDIDU2Ljg1MTU2MiAxNDIuNzg5MDYyIDU2LjM0NzY1NiAxNDEuMDc0MjE5IDU2LjM0NzY1NiAxMzguNzk2ODc1IEwgNTYuMzQ3NjU2IDk0LjkyNTc4MSBDIDU2LjM0NzY1NiA5Mi42NDQ1MzEgNTYuODQ3NjU2IDkwLjkzNzUgNTcuODQ3NjU2IDg5Ljc5Njg3NSBDIDU4Ljg0NzY1NiA4OC42NTYyNSA2MC4yMDcwMzEgODguMDg1OTM4IDYxLjkyOTY4OCA4OC4wODU5MzggQyA2My42MjUgODguMDg1OTM4IDY1IDg4LjY1MjM0NCA2Ni4wNTA3ODEgODkuNzc3MzQ0IEMgNjcuMTAxNTYyIDkwLjkwNjI1IDY3LjYyODkwNiA5Mi42MjEwOTQgNjcuNjI4OTA2IDk0LjkyNTc4MSAiLz48cGF0aCBmaWxsPSIjMGEwYTBhIiBkPSJNIDEyNS4wMTk1MzEgMTA5LjM5ODQzOCBMIDEyNS4wMTk1MzEgMTM5LjM2NzE4OCBDIDEyNS4wMTk1MzEgMTQxLjQ0MTQwNiAxMjQuNTI3MzQ0IDE0My4wMTE3MTkgMTIzLjUzOTA2MiAxNDQuMDc0MjE5IEMgMTIyLjU1MDc4MSAxNDUuMTM2NzE5IDEyMS4yOTY4NzUgMTQ1LjY2Nzk2OSAxMTkuNzc3MzQ0IDE0NS42Njc5NjkgQyAxMTguMjU3ODEyIDE0NS42Njc5NjkgMTE3LjAyMzQzOCAxNDUuMTI1IDExNi4wNzQyMTkgMTQ0LjAzNTE1NiBDIDExNS4xMjUgMTQyLjk0OTIxOSAxMTQuNjQ4NDM4IDE0MS4zOTA2MjUgMTE0LjY0ODQzOCAxMzkuMzY3MTg4IEwgMTE0LjY0ODQzOCAxMDkuNjk5MjE5IEMgMTE0LjY0ODQzOCAxMDcuNjQ4NDM4IDExNS4xMjUgMTA2LjEwNTQ2OSAxMTYuMDc0MjE5IDEwNS4wNjY0MDYgQyAxMTcuMDIzNDM4IDEwNC4wMjczNDQgMTE4LjI1NzgxMiAxMDMuNTA3ODEyIDExOS43NzczNDQgMTAzLjUwNzgxMiBDIDEyMS4yOTY4NzUgMTAzLjUwNzgxMiAxMjIuNTUwNzgxIDEwNC4wMjczNDQgMTIzLjUzOTA2MiAxMDUuMDY2NDA2IEMgMTI0LjUyNzM0NCAxMDYuMTA1NDY5IDEyNS4wMTk1MzEgMTA3LjU0Njg3NSAxMjUuMDE5NTMxIDEwOS4zOTg0MzggTSAxMTkuODkwNjI1IDk4LjY4MzU5NCBDIDExOC40NDkyMTkgOTguNjgzNTk0IDExNy4yMTQ4NDQgOTguMjQyMTg4IDExNi4xODc1IDk3LjM1NTQ2OSBDIDExNS4xNjQwNjIgOTYuNDY4NzUgMTE0LjY0ODQzOCA5NS4yMTQ4NDQgMTE0LjY0ODQzOCA5My41OTM3NSBDIDExNC42NDg0MzggOTIuMTI4OTA2IDExNS4xNzU3ODEgOTAuOTE3OTY5IDExNi4yMjY1NjIgODkuOTY4NzUgQyAxMTcuMjc3MzQ0IDg5LjAxOTUzMSAxMTguNSA4OC41NDI5NjkgMTE5Ljg5MDYyNSA4OC41NDI5NjkgQyAxMjEuMjM0Mzc1IDg4LjU0Mjk2OSAxMjIuNDIxODc1IDg4Ljk3MjY1NiAxMjMuNDYwOTM4IDg5LjgzNTkzOCBDIDEyNC41IDkwLjY5NTMxMiAxMjUuMDE5NTMxIDkxLjk0OTIxOSAxMjUuMDE5NTMxIDkzLjU5Mzc1IEMgMTI1LjAxOTUzMSA5NS4xOTE0MDYgMTI0LjUxMTcxOSA5Ni40Mzc1IDEyMy41IDk3LjMzNTkzOCBDIDEyMi40ODgyODEgOTguMjM4MjgxIDEyMS4yODUxNTYgOTguNjgzNTk0IDExOS44OTA2MjUgOTguNjgzNTk0ICIvPjxwYXRoIGZpbGw9IiMwYTBhMGEiIGQ9Ik0gMTQzLjgyMDMxMiAxMjQuMjQ2MDk0IEMgMTQzLjgyMDMxMiAxMjguNDQ5MjE5IDE0NC43MzgyODEgMTMxLjYyODkwNiAxNDYuNTc0MjE5IDEzMy43ODEyNSBDIDE0OC40MTAxNTYgMTM1LjkzMzU5NCAxNTAuNzg1MTU2IDEzNy4wMTE3MTkgMTUzLjY5NTMxMiAxMzcuMDExNzE5IEMgMTU1LjQxNzk2OSAxMzcuMDExNzE5IDE1Ny4wNDI5NjkgMTM2LjU0Njg3NSAxNTguNTc4MTI1IDEzNS42MjUgQyAxNjAuMTA5Mzc1IDEzNC42OTkyMTkgMTYxLjM1NTQ2OSAxMzMuMzA0Njg4IDE2Mi4zMjAzMTIgMTMxLjQ0NTMxMiBDIDE2My4yODEyNSAxMjkuNTgyMDMxIDE2My43NjE3MTkgMTI3LjMyNDIxOSAxNjMuNzYxNzE5IDEyNC42NjQwNjIgQyAxNjMuNzYxNzE5IDEyMC40Mzc1IDE2Mi44MzIwMzEgMTE3LjE0NDUzMSAxNjAuOTY4NzUgMTE0Ljc4OTA2MiBDIDE1OS4xMDkzNzUgMTEyLjQzMzU5NCAxNTYuNjYwMTU2IDExMS4yNTc4MTIgMTUzLjYyMTA5NCAxMTEuMjU3ODEyIEMgMTUwLjY2MDE1NiAxMTEuMjU3ODEyIDE0OC4yODUxNTYgMTEyLjM4NjcxOSAxNDYuNSAxMTQuNjM2NzE5IEMgMTQ0LjcxNDg0NCAxMTYuODkwNjI1IDE0My44MjAzMTIgMTIwLjA5Mzc1IDE0My44MjAzMTIgMTI0LjI0NjA5NCBNIDE3My44NjcxODggMTExLjEwNTQ2OSBMIDE3My44NjcxODggMTQxLjIyNjU2MiBDIDE3My44NjcxODggMTQ0LjY2Nzk2OSAxNzMuNSAxNDcuNjMyODEyIDE3Mi43NjU2MjUgMTUwLjExMzI4MSBDIDE3Mi4wMzEyNSAxNTIuNTkzNzUgMTcwLjg1MTU2MiAxNTQuNjQ0NTMxIDE2OS4yMzA0NjkgMTU2LjI2NTYyNSBDIDE2Ny42MTMyODEgMTU3Ljg4NjcxOSAxNjUuNDkyMTg4IDE1OS4wODk4NDQgMTYyLjg3MTA5NCAxNTkuODc1IEMgMTYwLjI1IDE2MC42NjAxNTYgMTU2Ljk4ODI4MSAxNjEuMDU0Njg4IDE1My4wODk4NDQgMTYxLjA1NDY4OCBDIDE0OS41MTk1MzEgMTYxLjA1NDY4OCAxNDYuMzI4MTI1IDE2MC41NTQ2ODggMTQzLjUxNTYyNSAxNTkuNTU0Njg4IEMgMTQwLjcwNzAzMSAxNTguNTUwNzgxIDEzOC41NDI5NjkgMTU3LjI2MTcxOSAxMzcuMDIzNDM4IDE1NS42Nzk2ODggQyAxMzUuNTAzOTA2IDE1NC4wOTc2NTYgMTM0Ljc0MjE4OCAxNTIuNDY4NzUgMTM0Ljc0MjE4OCAxNTAuNzk2ODc1IEMgMTM0Ljc0MjE4OCAxNDkuNTMxMjUgMTM1LjE3MTg3NSAxNDguNSAxMzYuMDM1MTU2IDE0Ny43MDMxMjUgQyAxMzYuODk0NTMxIDE0Ni45MDIzNDQgMTM3LjkzMzU5NCAxNDYuNTA3ODEyIDEzOS4xNDg0MzggMTQ2LjUwNzgxMiBDIDE0MC42Njc5NjkgMTQ2LjUwNzgxMiAxNDIgMTQ3LjE3NTc4MSAxNDMuMTM2NzE5IDE0OC41MTk1MzEgQyAxNDMuNjk1MzEyIDE0OS4yMDMxMjUgMTQ0LjI2OTUzMSAxNDkuODkwNjI1IDE0NC44NjcxODggMTUwLjU4OTg0NCBDIDE0NS40NjA5MzggMTUxLjI4NTE1NiAxNDYuMTIxMDk0IDE1MS44Nzg5MDYgMTQ2LjgzOTg0NCAxNTIuMzc1IEMgMTQ3LjU2MjUgMTUyLjg2NzE4OCAxNDguNDI5Njg4IDE1My4yMzQzNzUgMTQ5LjQ0MTQwNiAxNTMuNDc2NTYyIEMgMTUwLjQ1NzAzMSAxNTMuNzE0ODQ0IDE1MS42MjEwOTQgMTUzLjgzNTkzOCAxNTIuOTM3NSAxNTMuODM1OTM4IEMgMTU1LjYyMTA5NCAxNTMuODM1OTM4IDE1Ny43MDMxMjUgMTUzLjQ2NDg0NCAxNTkuMTgzNTk0IDE1Mi43MTQ4NDQgQyAxNjAuNjY3OTY5IDE1MS45Njg3NSAxNjEuNzAzMTI1IDE1MC45MjU3ODEgMTYyLjMwMDc4MSAxNDkuNTgyMDMxIEMgMTYyLjg5NDUzMSAxNDguMjM4MjgxIDE2My4yNDIxODggMTQ2LjgwNDY4OCAxNjMuMzQzNzUgMTQ1LjI2OTUzMSBDIDE2My40NDUzMTIgMTQzLjczODI4MSAxNjMuNTE5NTMxIDE0MS4yNzczNDQgMTYzLjU3NDIxOSAxMzcuODgyODEyIEMgMTYxLjk3NjU2MiAxNDAuMTEzMjgxIDE2MC4xMzY3MTkgMTQxLjgwODU5NCAxNTguMDQ2ODc1IDE0Mi45NzI2NTYgQyAxNTUuOTU3MDMxIDE0NC4xMzY3MTkgMTUzLjQ2ODc1IDE0NC43MTg3NSAxNTAuNTgyMDMxIDE0NC43MTg3NSBDIDE0Ny4xMTMyODEgMTQ0LjcxODc1IDE0NC4wODIwMzEgMTQzLjgzMjAzMSAxNDEuNDg0Mzc1IDE0Mi4wNjI1IEMgMTM4Ljg5MDYyNSAxNDAuMjg5MDYyIDEzNi44OTQ1MzEgMTM3LjgwODU5NCAxMzUuNTAzOTA2IDEzNC42MTcxODggQyAxMzQuMTA5Mzc1IDEzMS40MjU3ODEgMTMzLjQxNDA2MiAxMjcuNzQyMTg4IDEzMy40MTQwNjIgMTIzLjU2MjUgQyAxMzMuNDE0MDYyIDEyMC40NDkyMTkgMTMzLjgzNTkzOCAxMTcuNjQwNjI1IDEzNC42ODc1IDExNS4xMzI4MTIgQyAxMzUuNTM1MTU2IDExMi42MjUgMTM2Ljc0MjE4OCAxMTAuNTExNzE5IDEzOC4zMTI1IDEwOC43ODkwNjIgQyAxMzkuODgyODEyIDEwNy4wNjY0MDYgMTQxLjY5NTMxMiAxMDUuNzY5NTMxIDE0My43NDYwOTQgMTA0Ljg5NDUzMSBDIDE0NS43OTY4NzUgMTA0LjAyMzQzOCAxNDguMDUwNzgxIDEwMy41ODU5MzggMTUwLjUwNzgxMiAxMDMuNTg1OTM4IEMgMTUzLjQ0NTMxMiAxMDMuNTg1OTM4IDE1NS45ODgyODEgMTA0LjE0ODQzOCAxNTguMTQwNjI1IDEwNS4yNzM0MzggQyAxNjAuMjkyOTY5IDEwNi40MDIzNDQgMTYyLjI5Mjk2OSAxMDguMTY3OTY5IDE2NC4xNDA2MjUgMTEwLjU3NDIxOSBMIDE2NC4xNDA2MjUgMTA5LjE2Nzk2OSBDIDE2NC4xNDA2MjUgMTA3LjM3MTA5NCAxNjQuNTg1OTM4IDEwNS45NzY1NjIgMTY1LjQ3MjY1NiAxMDQuOTkyMTg4IEMgMTY2LjM1NTQ2OSAxMDQuMDAzOTA2IDE2Ny40OTYwOTQgMTAzLjUwNzgxMiAxNjguODkwNjI1IDEwMy41MDc4MTIgQyAxNzAuODkwNjI1IDEwMy41MDc4MTIgMTcyLjIxODc1IDEwNC4xNjAxNTYgMTcyLjg3ODkwNiAxMDUuNDY0ODQ0IEMgMTczLjUzNTE1NiAxMDYuNzY5NTMxIDE3My44NjcxODggMTA4LjY0ODQzOCAxNzMuODY3MTg4IDExMS4xMDU0NjkgIi8+PHBhdGggZmlsbD0iIzBhMGEwYSIgZD0iTSAxOTQuNDg4MjgxIDk0LjM5NDUzMSBMIDE5NC40ODgyODEgMTA5Ljc3NzM0NCBDIDE5NS44MDQ2ODggMTA4LjI1NzgxMiAxOTcuMDg5ODQ0IDEwNy4wNTQ2ODggMTk4LjM0Mzc1IDEwNi4xNjc5NjkgQyAxOTkuNTk3NjU2IDEwNS4yODEyNSAyMDAuOTg0Mzc1IDEwNC42MTcxODggMjAyLjUwMzkwNiAxMDQuMTc1NzgxIEMgMjA0LjAyMzQzOCAxMDMuNzMwNDY5IDIwNS42NTYyNSAxMDMuNTA3ODEyIDIwNy40MDIzNDQgMTAzLjUwNzgxMiBDIDIxMC4wMzkwNjIgMTAzLjUwNzgxMiAyMTIuMzcxMDk0IDEwNC4wNjY0MDYgMjE0LjQxMDE1NiAxMDUuMTc5Njg4IEMgMjE2LjQ0OTIxOSAxMDYuMjkyOTY5IDIxOC4wNTA3ODEgMTA3LjkxNDA2MiAyMTkuMjE4NzUgMTEwLjA0Mjk2OSBDIDIxOS45NDkyMTkgMTExLjI4MTI1IDIyMC40NDUzMTIgMTEyLjY2Nzk2OSAyMjAuNjk5MjE5IDExNC4xOTkyMTkgQyAyMjAuOTQ5MjE5IDExNS43MzQzNzUgMjIxLjA3ODEyNSAxMTcuNSAyMjEuMDc4MTI1IDExOS41IEwgMjIxLjA3ODEyNSAxMzkuMzYzMjgxIEMgMjIxLjA3ODEyNSAxNDEuNDQxNDA2IDIyMC42MDE1NjIgMTQzLjAxMTcxOSAyMTkuNjUyMzQ0IDE0NC4wNzQyMTkgQyAyMTguNzAzMTI1IDE0NS4xMzY3MTkgMjE3LjQ0NTMxMiAxNDUuNjY3OTY5IDIxNS44NzUgMTQ1LjY2Nzk2OSBDIDIxMi40NTcwMzEgMTQ1LjY2Nzk2OSAyMTAuNzQ2MDk0IDE0My41NjY0MDYgMjEwLjc0NjA5NCAxMzkuMzYzMjgxIEwgMjEwLjc0NjA5NCAxMjEuODU1NDY5IEMgMjEwLjc0NjA5NCAxMTguNTM5MDYyIDIxMC4yNTM5MDYgMTE1Ljk4ODI4MSAyMDkuMjY1NjI1IDExNC4xOTkyMTkgQyAyMDguMjc3MzQ0IDExMi40MTQwNjIgMjA2LjQwMjM0NCAxMTEuNTIzNDM4IDIwMy42NDQ1MzEgMTExLjUyMzQzOCBDIDIwMS43OTY4NzUgMTExLjUyMzQzOCAyMDAuMTMyODEyIDExMi4wNTA3ODEgMTk4LjY0ODQzOCAxMTMuMTAxNTYyIEMgMTk3LjE2Nzk2OSAxMTQuMTUyMzQ0IDE5Ni4wNTg1OTQgMTE1LjU4OTg0NCAxOTUuMzI0MjE5IDExNy40MTAxNTYgQyAxOTQuNzY5NTMxIDExOC45NTcwMzEgMTk0LjQ4ODI4MSAxMjEuNzAzMTI1IDE5NC40ODgyODEgMTI1LjY1MjM0NCBMIDE5NC40ODgyODEgMTM5LjM2MzI4MSBDIDE5NC40ODgyODEgMTQxLjQxNDA2MiAxOTQuMDI3MzQ0IDE0Mi45ODA0NjkgMTkzLjEwNTQ2OSAxNDQuMDU0Njg4IEMgMTkyLjE3OTY4OCAxNDUuMTMyODEyIDE5MC44OTQ1MzEgMTQ1LjY2Nzk2OSAxODkuMjQ2MDk0IDE0NS42Njc5NjkgQyAxODUuODI4MTI1IDE0NS42Njc5NjkgMTg0LjEyMTA5NCAxNDMuNTY2NDA2IDE4NC4xMjEwOTQgMTM5LjM2MzI4MSBMIDE4NC4xMjEwOTQgOTQuMzk0NTMxIEMgMTg0LjEyMTA5NCA5Mi4yOTI5NjkgMTg0LjU3MDMxMiA5MC43MTQ4NDQgMTg1LjQ2ODc1IDg5LjY2NDA2MiBDIDE4Ni4zNjcxODggODguNjEzMjgxIDE4Ny42Mjg5MDYgODguMDg5ODQ0IDE4OS4yNDYwOTQgODguMDg5ODQ0IEMgMTkwLjg5NDUzMSA4OC4wODk4NDQgMTkyLjE3OTY4OCA4OC42MjEwOTQgMTkzLjEwNTQ2OSA4OS42ODM1OTQgQyAxOTQuMDI3MzQ0IDkwLjc0NjA5NCAxOTQuNDg4MjgxIDkyLjMxNjQwNiAxOTQuNDg4MjgxIDk0LjM5NDUzMSAiLz48cGF0aCBmaWxsPSIjMGEwYTBhIiBkPSJNIDMyNy4wMjczNDQgMTE5LjUzMTI1IEMgMzMwLjc1NzgxMiAxMTUuNzUzOTA2IDMzNC40OTIxODggMTExLjk3NjU2MiAzMzguMjI2NTYyIDEwOC4yMDMxMjUgQyAzMzkuMDg5ODQ0IDEwNy4zMzIwMzEgMzM5LjkyNTc4MSAxMDYuNDI1NzgxIDM0MC44NDM3NSAxMDUuNjE3MTg4IEMgMzQyLjkyMTg3NSAxMDMuODAwNzgxIDM0NS42NTYyNSAxMDMuODEyNSAzNDcuNDkyMTg4IDEwNS41ODk4NDQgQyAzNDkuNTAzOTA2IDEwNy41MzEyNSAzNDkuNjMyODEyIDExMC4yMjI2NTYgMzQ3LjU3MDMxMiAxMTIuMzc1IEMgMzQzLjkyNTc4MSAxMTYuMTY3OTY5IDM0MC4xNjAxNTYgMTE5LjgzOTg0NCAzMzYuNDQ1MzEyIDEyMy41NjY0MDYgQyAzMzYuMTQwNjI1IDEyMy44Nzg5MDYgMzM1Ljg1MTU2MiAxMjQuMjEwOTM4IDMzNS4zMzk4NDQgMTI0Ljc2MTcxOSBDIDMzOS41MDM5MDYgMTI4Ljg5MDYyNSAzNDMuNjc5Njg4IDEzMi45NzI2NTYgMzQ3Ljc2OTUzMSAxMzcuMTMyODEyIEMgMzQ4LjY2Nzk2OSAxMzguMDQyOTY5IDM0OS41NzgxMjUgMTM5LjE1MjM0NCAzNDkuOTMzNTk0IDE0MC4zMzU5MzggQyAzNTAuNTc0MjE5IDE0Mi40NzI2NTYgMzQ5Ljc1IDE0NC4zMzk4NDQgMzQ3Ljc4NTE1NiAxNDUuNDgwNDY5IEMgMzQ1LjYxNzE4OCAxNDYuNzM0Mzc1IDM0My41MTU2MjUgMTQ2LjM1OTM3NSAzNDEuNzczNDM4IDE0NC42NTIzNDQgQyAzMzcuNDUzMTI1IDE0MC40MTc5NjkgMzMzLjIwMzEyNSAxMzYuMTA5Mzc1IDMyOC45MjE4NzUgMTMxLjgzNTkzOCBDIDMyOC4yNjU2MjUgMTMxLjE3OTY4OCAzMjcuNTcwMzEyIDEzMC41NTg1OTQgMzI2LjQ3MjY1NiAxMjkuNTIzNDM4IEMgMzI2LjQ3MjY1NiAxMzMuNTAzOTA2IDMyNi40OTIxODggMTM2Ljk2ODc1IDMyNi40Njg3NSAxNDAuNDI5Njg4IEMgMzI2LjQ0NTMxMiAxNDMuOTM3NSAzMjQuNTY2NDA2IDE0Ni4wNTQ2ODggMzIxLjU4NTkzOCAxNDUuOTg4MjgxIEMgMzE4Ljc4NTE1NiAxNDUuOTIxODc1IDMxNi45NDkyMTkgMTQzLjc2OTUzMSAzMTYuOTQ5MjE5IDE0MC40NDE0MDYgQyAzMTYuOTM3NSAxMjQuODM5ODQ0IDMxNi45MzM1OTQgMTA5LjIzODI4MSAzMTYuOTQ5MjE5IDkzLjYzMjgxMiBDIDMxNi45NTMxMjUgOTAuMjY1NjI1IDMxOC43NSA4OC4xNjAxNTYgMzIxLjU4MjAzMSA4OC4wODk4NDQgQyAzMjQuNTcwMzEyIDg4LjAxOTUzMSAzMjYuNDU3MDMxIDkwLjEyMTA5NCAzMjYuNDY0ODQ0IDkzLjY0NDUzMSBDIDMyNi40ODgyODEgMTAyLjE0NDUzMSAzMjYuNDcyNjU2IDExMC42NDQ1MzEgMzI2LjQ3MjY1NiAxMTkuMTQ0NTMxIEMgMzI2LjY1NjI1IDExOS4yNzM0MzggMzI2LjgzOTg0NCAxMTkuNDAyMzQ0IDMyNy4wMjczNDQgMTE5LjUzMTI1ICIvPjxwYXRoIGZpbGw9IiMwYTBhMGEiIGQ9Ik0gMjMyLjc1NzgxMiAxMTYuNzczNDM4IEMgMjMyLjc1NzgxMiAxMDkuMTQ4NDM4IDIzMi43NSAxMDEuNTIzNDM4IDIzMi43NjE3MTkgOTMuOTAyMzQ0IEMgMjMyLjc2OTUzMSA5MC4xMzY3MTkgMjM0LjU3ODEyNSA4OC4wMTU2MjUgMjM3LjY1MjM0NCA4OC4wODk4NDQgQyAyNDAuNTY2NDA2IDg4LjE2NDA2MiAyNDIuMjgxMjUgOTAuMjg5MDYyIDI0Mi4yODUxNTYgOTMuODk4NDM4IEMgMjQyLjI5Mjk2OSAxMDkuMzI0MjE5IDI0Mi4yOTI5NjkgMTI0Ljc1IDI0Mi4yODUxNTYgMTQwLjE3MTg3NSBDIDI0Mi4yODUxNTYgMTQzLjc0MjE4OCAyNDAuNTMxMjUgMTQ1LjkxNzk2OSAyMzcuNjUyMzQ0IDE0NS45ODgyODEgQyAyMzQuNjAxNTYyIDE0Ni4wNjI1IDIzMi43NjU2MjUgMTQzLjkwMjM0NCAyMzIuNzYxNzE5IDE0MC4xNzU3ODEgQyAyMzIuNzUgMTMyLjM3NSAyMzIuNzU3ODEyIDEyNC41NzQyMTkgMjMyLjc1NzgxMiAxMTYuNzczNDM4ICIvPjxwYXRoIGZpbGw9IiMwYTBhMGEiIGQ9Ik0gMjU5LjY1NjI1IDEyNC41NzQyMTkgQyAyNTkuNjU2MjUgMTI5LjkxNzk2OSAyNTkuNjc1NzgxIDEzNS4yNjE3MTkgMjU5LjY0ODQzOCAxNDAuNjA1NDY5IEMgMjU5LjYzMjgxMiAxNDMuODUxNTYyIDI1Ny42NjQwNjIgMTQ2LjAxNTYyNSAyNTQuODQzNzUgMTQ1Ljk5MjE4OCBDIDI1Mi4wMDM5MDYgMTQ1Ljk2ODc1IDI1MC4xMzY3MTkgMTQzLjg1MTU2MiAyNTAuMTMyODEyIDE0MC41MjM0MzggQyAyNTAuMTEzMjgxIDEyOS43NDYwOTQgMjUwLjEwOTM3NSAxMTguOTY4NzUgMjUwLjEzMjgxMiAxMDguMTkxNDA2IEMgMjUwLjEzNjcxOSAxMDQuOTE0MDYyIDI1Mi4wODk4NDQgMTAyLjc4MTI1IDI1NC45MzM1OTQgMTAyLjgxMjUgQyAyNTcuNzY1NjI1IDEwMi44NDM3NSAyNTkuNjMyODEyIDEwNC45NzI2NTYgMjU5LjY0ODQzOCAxMDguMjc3MzQ0IEMgMjU5LjY3NTc4MSAxMTMuNzA3MDMxIDI1OS42NTYyNSAxMTkuMTQwNjI1IDI1OS42NTYyNSAxMjQuNTc0MjE5ICIvPjxwYXRoIGZpbGw9IiMwYTBhMGEiIGQ9Ik0gMjU5LjY0MDYyNSA5NC41NjI1IEMgMjU5LjU3NDIxOSA5Ny4xMDU0NjkgMjU3LjQyOTY4OCA5OS4xODM1OTQgMjU0Ljg4MjgxMiA5OS4xNzE4NzUgQyAyNTIuMjEwOTM4IDk5LjE1NjI1IDI1MC4wNTA3ODEgOTYuOTI5Njg4IDI1MC4xNDA2MjUgOTQuMjc3MzQ0IEMgMjUwLjIyMjY1NiA5MS43MDcwMzEgMjUyLjMzOTg0NCA4OS42NjAxNTYgMjU0LjkwMjM0NCA4OS42NjQwNjIgQyAyNTcuNTU0Njg4IDg5LjY3MTg3NSAyNTkuNzA3MDMxIDkxLjg5NDUzMSAyNTkuNjQwNjI1IDk0LjU2MjUgIi8+PHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTSAyNjguNDg0Mzc1IDEyMC4wNTg1OTQgQyAyNzAuNDc2NTYyIDEwOS40MTc5NjkgMjgwLjE3OTY4OCAxMDIuMjM0Mzc1IDI5MS4xODc1IDEwMi44NDc2NTYgQyAzMDEuNDQ1MzEyIDEwMy40MjE4NzUgMzEwLjIwNzAzMSAxMTEuOTE0MDYyIDMxMS4yNjU2MjUgMTIyLjMyODEyNSBDIDMxMS4zMzU5MzggMTIzLjAyNzM0NCAzMTEuMzQ3NjU2IDEyMy43MzgyODEgMzExLjMyMDMxMiAxMjQuNDQxNDA2IEMgMzExLjIwNzAzMSAxMjcuMjEwOTM4IDMwOS4zMjQyMTkgMTI5LjE5OTIxOSAzMDYuNzUgMTI5LjMwNDY4OCBDIDMwNC4wOTc2NTYgMTI5LjQxNDA2MiAzMDIuMDI3MzQ0IDEyNy40NTMxMjUgMzAxLjc2MTcxOSAxMjQuNTc4MTI1IEMgMzAxLjIxNDg0NCAxMTguNjE3MTg4IDI5OC4yNDYwOTQgMTE0LjU2NjQwNiAyOTMuMjgxMjUgMTEzLjAwNzgxMiBDIDI4NS41MTU2MjUgMTEwLjU2NjQwNiAyNzcuNjQwNjI1IDExNi4yODEyNSAyNzcuNTExNzE5IDEyNC41MzEyNSBDIDI3Ny40MjU3ODEgMTI5LjgxNjQwNiAyNzcuNTAzOTA2IDEzNS4xMDE1NjIgMjc3LjQ5MjE4OCAxNDAuMzg2NzE5IEMgMjc3LjQ4MDQ2OSAxNDQuMDA3ODEyIDI3NS43NDYwOTQgMTQ2LjE1NjI1IDI3Mi44MjAzMTIgMTQ2LjIyMjY1NiBDIDI2OS44MjAzMTIgMTQ2LjI4OTA2MiAyNjcuOTMzNTk0IDE0NC4wMzUxNTYgMjY3LjkxNzk2OSAxNDAuMzQ3NjU2IEMgMjY3LjkwNjI1IDEzNy41MzEyNSAyNjcuNzYxNzE5IDEyMy45MTQwNjIgMjY4LjQ4NDM3NSAxMjAuMDU4NTk0ICIvPjxwYXRoIGZpbGw9InVybCgjZykiIGQ9Ik0gMzA2LjYyMTA5NCAxNDYuMjIyNjU2IEMgMzA0LjAxOTUzMSAxNDYuMjIyNjU2IDMwMS45MTAxNTYgMTQ0LjExMzI4MSAzMDEuOTEwMTU2IDE0MS41MDc4MTIgTCAzMDEuOTEwMTU2IDE0MC4wNzAzMTIgQyAzMDEuOTEwMTU2IDEzNy40Njg3NSAzMDQuMDE5NTMxIDEzNS4zNTkzNzUgMzA2LjYyMTA5NCAxMzUuMzU5Mzc1IEMgMzA5LjIyNjU2MiAxMzUuMzU5Mzc1IDMxMS4zMzU5MzggMTM3LjQ2ODc1IDMxMS4zMzU5MzggMTQwLjA3MDMxMiBMIDMxMS4zMzU5MzggMTQxLjUwNzgxMiBDIDMxMS4zMzU5MzggMTQ0LjExMzI4MSAzMDkuMjI2NTYyIDE0Ni4yMjI2NTYgMzA2LjYyMTA5NCAxNDYuMjIyNjU2ICIvPjwvc3ZnPg==" alt=""></a>
+    <button type="button" class="lang" data-lang-toggle lang="en">EN</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ===================== العربية ===================== -->
+<article class="doc" lang="ar" dir="rtl">
+  <span class="eyebrow mono">هاي لينك · السياسات</span>
+  <h1>سياسة <span class="grad">الخصوصية</span></h1>
+  <p class="meta mono">آخر تحديث: 7 أكتوبر 2026</p>
+  <p class="lead">نجمع أقل قدر من البيانات يكفي للرد عليك وتشخيص شغلك. ما نبيع بياناتك، وما نستخدمها لإعلانات، وما نضع في موقعنا أدوات تتبع.</p>
+
+  <section>
+    <h2><span class="n mono">01</span>من المسؤول عن بياناتك</h2>
+    <p>هاي لينك، خدمة أتمتة أعمال تديرها <b>نهى عوض</b> من الخبر، المملكة العربية السعودية. نحن الجهة المسؤولة عن معالجة البيانات اللي تعطينا إياها عبر هذا الموقع.</p>
+    <p>للتواصل في أي شي يخص بياناتك: <a href="mailto:highlink.sa@gmail.com">highlink.sa@gmail.com</a></p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">02</span>وش البيانات اللي نجمعها</h2>
+    <p><b>لما تعبّي نموذج التشخيص في الصفحة:</b> اسم نشاطك، رقم الواتساب، المهمة اللي اخترتها، وإجاباتك في المحادثة السريعة لو استخدمتها، ولغة الصفحة.</p>
+    <p><b>لما تعبّي نموذج التشخيص التفصيلي:</b> إجاباتك عن طريقة شغلك الحالية، وإيميلك عشان نرسل لك التقرير.</p>
+    <p><b>لما تراسلنا:</b> محتوى رسائلك على الإيميل أو الواتساب.</p>
+    <p><b>لو صرت عميلًا:</b> البيانات اللي تمر عبر الأنظمة اللي نبنيها لك (مثل طلبات عملائك ومحادثاتهم). هذي بياناتك أنت، ونعالجها نيابة عنك وحسب تعليماتك فقط.</p>
+    <p><b>تقنيًا:</b></p>
+    <ul>
+      <li>ما نستخدم كوكيز تتبع، ولا أدوات تحليلات، ولا إعلانات.</li>
+      <li>نحفظ اختيارك للغة (عربي/English) في متصفحك فقط، وما يوصلنا.</li>
+      <li>الخطوط تُحمَّل من <span class="tool">Google Fonts</span>، فيستلم Google عنوان IP جهازك عند فتح الصفحة.</li>
+      <li>مستضيف الموقع وسيرفر الأتمتة يسجّلون سجلات تقنية مؤقتة (مثل وقت الطلب وعنوان IP) لأغراض الأمان وحل الأعطال.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n mono">03</span>ليش نستخدمها</h2>
+    <ul>
+      <li>للرد على طلبك والتواصل معك على الواتساب اللي أعطيتنا إياه.</li>
+      <li>لإجراء التشخيص وإرسال تقريره لك.</li>
+      <li>لتنفيذ المشروع لو اتفقنا عليه، ومتابعة النظام بعد التشغيل.</li>
+      <li>للوفاء بأي التزام نظامي علينا.</li>
+    </ul>
+    <p>ما نرسل لك رسائل تسويقية إلا بموافقتك، وتقدر توقفها متى ما بغيت.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">04</span>مع مين نشاركها</h2>
+    <p>ما نبيع بياناتك لأحد. نستخدم مزودي خدمات يعالجون البيانات نيابة عنا، كل واحد بقدر حاجته:</p>
+    <ul>
+      <li><span class="tool">GitHub Pages</span> (<span class="tool">GitHub</span>) — استضافة صفحات هذا الموقع، ويستلم عنوان IP جهازك عند فتحها مثل أي استضافة.</li>
+      <li><span class="tool">Hostinger</span> — تسجيل الدومين، واستضافة سيرفر الأتمتة (<span class="tool">n8n</span>) اللي يستقبل النموذج.</li>
+      <li><span class="tool">Google</span> — <span class="tool">Google Sheets</span> لحفظ الطلبات، و<span class="tool">Gmail</span> للمراسلة ولتنبيهنا بالطلبات الجديدة، و<span class="tool">Google Fonts</span> للخطوط.</li>
+      <li><span class="tool">Tally</span> — نموذج التشخيص التفصيلي.</li>
+      <li><span class="tool">Anthropic</span> — نموذج <span class="tool">Claude</span> اللي يساعدنا نصيغ تقرير التشخيص من إجاباتك.</li>
+      <li><span class="tool">WhatsApp</span> (<span class="tool">Meta</span>) — للتواصل معك.</li>
+    </ul>
+    <p>وقد نفصح عن بيانات لجهة حكومية إذا ألزمنا النظام بذلك.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">05</span>نقل البيانات خارج المملكة</h2>
+    <p>بعض مزودي الخدمات أعلاه خوادمهم خارج المملكة العربية السعودية، فقد تُنقل بياناتك إليها. ننقل أقل قدر لازم فقط، ونلتزم في ذلك بنظام حماية البيانات الشخصية ولوائحه.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">06</span>كم نحتفظ بها</h2>
+    <ul>
+      <li><b>طلبات التشخيص اللي ما تحولت لمشروع:</b> نحذفها بعد 12 شهرًا من آخر تواصل.</li>
+      <li><b>بيانات العملاء:</b> طوال مدة العمل معك، ثم المدة اللي تفرضها الأنظمة فقط.</li>
+      <li><b>سجلات سيرفر الأتمتة التقنية:</b> حتى 30 يومًا. ومستضيف الموقع يحتفظ بسجلاته حسب سياسته.</li>
+    </ul>
+    <p>وتقدر تطلب حذف بياناتك قبل هذي المدد في أي وقت.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">07</span>حقوقك</h2>
+    <p>حسب نظام حماية البيانات الشخصية في المملكة، لك الحق في:</p>
+    <ul>
+      <li>معرفة وش نجمع عنك وليش.</li>
+      <li>الحصول على نسخة من بياناتك.</li>
+      <li>تصحيح بياناتك لو فيها خطأ.</li>
+      <li>طلب حذفها.</li>
+      <li>الرجوع عن موافقتك في أي وقت.</li>
+    </ul>
+    <div class="box">
+      <p>أرسل طلبك إلى <a href="mailto:highlink.sa@gmail.com">highlink.sa@gmail.com</a> مع رقم الواتساب اللي سجلت فيه، ونرد عليك خلال 30 يومًا كحد أقصى.</p>
+      <p>ولو ما رضيت عن ردنا، لك حق تقديم شكوى للهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n mono">08</span>كيف نحميها</h2>
+    <p>نقصر الوصول لبياناتك على من يحتاجه للعمل فقط، ونستخدم اتصالًا مشفرًا (HTTPS)، وكلمات مرور قوية مع التحقق بخطوتين على الحسابات اللي تحفظ البيانات. ما فيه نظام آمن 100٪، لكن لو صار تسريب يمس بياناتك، نبلغك ونبلغ الجهات المختصة حسب النظام.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">09</span>القُصّر</h2>
+    <p>خدمتنا لأصحاب الأعمال، وما نجمع عن قصد بيانات من هم دون 18 سنة.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">10</span>التعديلات على هذي السياسة</h2>
+    <p>لو عدّلنا السياسة، ننشر النسخة الجديدة هنا ونحدّث تاريخ "آخر تحديث" أعلاه. والتعديلات الجوهرية نبلغ بها عملاءنا مباشرة.</p>
+  </section>
+</article>
+
+<!-- ===================== English ===================== -->
+<article class="doc" lang="en" dir="ltr">
+  <span class="eyebrow mono">Highlink · Policies</span>
+  <h1>Privacy <span class="grad">policy</span></h1>
+  <p class="meta mono">Last updated: 7 October 2026</p>
+  <p class="lead">We collect the least data needed to reply to you and diagnose your work. We don't sell your data, we don't use it for ads, and our website has no tracking tools.</p>
+
+  <section>
+    <h2><span class="n mono">01</span>Who is responsible for your data</h2>
+    <p>Highlink is a business automation service run by <b>Noha Awad</b> from Khobar, Saudi Arabia. We are responsible for processing the data you give us through this website.</p>
+    <p>For anything about your data: <a href="mailto:highlink.sa@gmail.com">highlink.sa@gmail.com</a></p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">02</span>What we collect</h2>
+    <p><b>When you fill in the diagnosis form on the page:</b> your business name, WhatsApp number, the task you chose, your answers in the quick chat if you used it, and the page language.</p>
+    <p><b>When you fill in the detailed diagnosis form:</b> your answers about how you work today, and your email so we can send you the report.</p>
+    <p><b>When you message us:</b> the content of your messages by email or WhatsApp.</p>
+    <p><b>If you become a client:</b> the data that passes through the systems we build for you (such as your customers' orders and conversations). That is your data, and we process it on your behalf and only on your instructions.</p>
+    <p><b>Technical:</b></p>
+    <ul>
+      <li>We don't use tracking cookies, analytics tools, or ads.</li>
+      <li>Your language choice (Arabic/English) is stored only in your browser and never reaches us.</li>
+      <li>Fonts load from <span class="tool">Google Fonts</span>, so Google receives your device's IP address when you open the page.</li>
+      <li>The website host and our automation server keep short-lived technical logs (such as request time and IP address) for security and troubleshooting.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n mono">03</span>Why we use it</h2>
+    <ul>
+      <li>To reply to your request and contact you on the WhatsApp number you gave us.</li>
+      <li>To carry out the diagnosis and send you its report.</li>
+      <li>To deliver the project if we agree on one, and to monitor the system after launch.</li>
+      <li>To meet any legal obligation we have.</li>
+    </ul>
+    <p>We only send you marketing messages with your consent, and you can stop them at any time.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">04</span>Who we share it with</h2>
+    <p>We don't sell your data to anyone. We use service providers that process data on our behalf, each only as much as it needs:</p>
+    <ul>
+      <li><span class="tool">GitHub Pages</span> (<span class="tool">GitHub</span>) — hosts this website's pages and receives your device's IP address when you open them, like any web host.</li>
+      <li><span class="tool">Hostinger</span> — registers our domain and hosts the automation server (<span class="tool">n8n</span>) that receives the form.</li>
+      <li><span class="tool">Google</span> — <span class="tool">Google Sheets</span> to store requests, <span class="tool">Gmail</span> for email and for alerting us to new requests, and <span class="tool">Google Fonts</span> for fonts.</li>
+      <li><span class="tool">Tally</span> — the detailed diagnosis form.</li>
+      <li><span class="tool">Anthropic</span> — the <span class="tool">Claude</span> model that helps us write the diagnosis report from your answers.</li>
+      <li><span class="tool">WhatsApp</span> (<span class="tool">Meta</span>) — to contact you.</li>
+    </ul>
+    <p>We may also disclose data to a government authority if the law requires it.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">05</span>Transfers outside Saudi Arabia</h2>
+    <p>Some of the providers above have servers outside Saudi Arabia, so your data may be transferred there. We transfer only the minimum needed, in line with the Personal Data Protection Law and its regulations.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">06</span>How long we keep it</h2>
+    <ul>
+      <li><b>Diagnosis requests that didn't become a project:</b> deleted 12 months after our last contact.</li>
+      <li><b>Client data:</b> for as long as we work together, then only as long as the law requires.</li>
+      <li><b>Our automation server's technical logs:</b> up to 30 days. The website host keeps its own logs under its own policy.</li>
+    </ul>
+    <p>You can ask us to delete your data before then at any time.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">07</span>Your rights</h2>
+    <p>Under Saudi Arabia's Personal Data Protection Law, you have the right to:</p>
+    <ul>
+      <li>Know what we collect about you and why.</li>
+      <li>Get a copy of your data.</li>
+      <li>Correct your data if it is wrong.</li>
+      <li>Ask us to delete it.</li>
+      <li>Withdraw your consent at any time.</li>
+    </ul>
+    <div class="box">
+      <p>Send your request to <a href="mailto:highlink.sa@gmail.com">highlink.sa@gmail.com</a> with the WhatsApp number you registered, and we will reply within 30 days at most.</p>
+      <p>If you are not satisfied with our reply, you can file a complaint with the Saudi Data and AI Authority (SDAIA).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n mono">08</span>How we protect it</h2>
+    <p>We limit access to your data to the people who need it for the work, and we use encrypted connections (HTTPS), strong passwords, and two-step verification on the accounts that store data. No system is 100% secure, but if a breach affects your data, we will tell you and notify the relevant authorities as the law requires.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">09</span>Minors</h2>
+    <p>Our service is for business owners, and we don't knowingly collect data from anyone under 18.</p>
+  </section>
+
+  <section>
+    <h2><span class="n mono">10</span>Changes to this policy</h2>
+    <p>If we change this policy, we publish the new version here and update the "Last updated" date above. We tell our clients directly about significant changes.</p>
+  </section>
+</article>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><a href="/">Highlink · هاي لينك</a></span>
+    <span><a href="privacy.html">سياسة الخصوصية · Privacy</a> &nbsp;·&nbsp; <a href="terms.html">الشروط والأحكام · Terms</a></span>
+    <span><a href="mailto:highlink.sa@gmail.com">highlink.sa@gmail.com</a></span>
+  </div>
+</footer>
+
+<script>
+/* Language toggle shared with landing.html (same storage key). Without JS: Arabic only. */
+(function(){
+  var root=document.documentElement,T={ar:'سياسة الخصوصية — هاي لينك',en:'Privacy policy — Highlink'};
+  var toggles=Array.prototype.slice.call(document.querySelectorAll('[data-lang-toggle]'));
+  function apply(l,save){
+    root.lang=l;root.dir=l==='en'?'ltr':'rtl';document.title=T[l];
+    toggles.forEach(function(t){t.textContent=l==='en'?'عربي':'EN';t.setAttribute('lang',l==='en'?'ar':'en');t.setAttribute('aria-label',l==='en'?'التبديل إلى العربية':'Switch to English');});
+    if(save){try{localStorage.setItem('hl-lang',l);}catch(e){}
+      try{var u=new URL(location.href);if(l==='en')u.searchParams.set('lang','en');else u.searchParams.delete('lang');history.replaceState(null,'',u);}catch(e){}}
+  }
+  toggles.forEach(function(t){t.addEventListener('click',function(){apply(root.lang==='en'?'ar':'en',true);});});
+  apply(root.lang==='en'?'en':'ar',false);
+})();
+</script>
+</body>
+</html>
