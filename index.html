@@ -154,6 +154,15 @@ footer a:hover{text-decoration:underline;text-underline-offset:4px}
 .chips button{font:inherit;font-size:14px;font-weight:500;padding:8px 12px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
 .chips button:hover{background:var(--ink);color:#fff}
 .chips button.go{background:var(--ink);color:#fff}
+.chat header,.chat-in{flex-shrink:0}
+.chat header{position:static;inset:auto;background:var(--paper);z-index:auto}
+.chat .log{flex:1;min-height:0;max-height:min(420px,55vh)}
+.chat-in{display:flex;border-top:1px solid var(--line)}
+.chat-in input{flex:1;min-width:0;font:inherit;font-size:15px;padding:12px 14px;border:0;background:var(--paper);color:var(--ink)}
+.chat-in input:focus{outline:2px solid var(--ink);outline-offset:-2px}
+.chat-in button{font:inherit;font-size:14px;font-weight:500;padding:0 16px;border:0;background:var(--ink);color:#fff;cursor:pointer}
+.chat-in button:disabled{opacity:.5;cursor:default}
+.msg.typing{color:var(--ink-3)}
 @media (max-width:780px){.chat-fab{left:16px}.chat{left:16px}}
 
 /* ===== Motion & finish — brand-safe: no shadows, no radius, no new colours, copy untouched ===== */
@@ -523,55 +532,64 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
 
 <button class="chat-fab" id="fab" aria-label="اسأل هاي لينك"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjMzLjcwMyAxNi40NzMgNTUuMzk5IDU1Ljg2MyIgd2lkdGg9IjU1IiBoZWlnaHQ9IjU2IiB4bWxuczpjMnBhPSJodHRwOi8vYzJwYS5vcmcvbWFuaWZlc3QiPjxtZXRhZGF0YT48YzJwYTptYW5pZmVzdD5BQUFXZ21wMWJXSUFBQUFlYW5WdFpHTXljR0VBRVFBUWdBQUFxZ0E0bTNFRFl6SndZUUFBQUJaY2FuVnRZZ0FBQUVkcWRXMWtZekp0WVFBUkFCQ0FBQUNxQURpYmNRTjFjbTQ2WXpKd1lUcGpZVFF5TW1RME5DMWtZMkl5TFRReFkyUXRPRGRsT0MxaFkySTFPVGsxTnprNU5qTUFBQUFEbDJwMWJXSUFBQUFwYW5WdFpHTXlZWE1BRVFBUWdBQUFxZ0E0bTNFRFl6SndZUzVoYzNObGNuUnBiMjV6QUFBQUFMeHFkVzFpQUFBQVJHcDFiV1JqWW05eUFCRUFFSUFBQUtvQU9KdHhFMk15Y0dFdWFXNW5jbVZrYVdWdWRDNTJNd0FBQUFBWVl6SnphSlB1MndlMmFwZCtOaUJrbmk2NkNIY0FBQUJ3WTJKdmNxTnBaR002Wm05eWJXRjBiV2x0WVdkbEwzTjJaeXQ0Yld4cWFXNXpkR0Z1WTJWSlJIZ3NlRzF3T21scFpEbzFaR1UwTm1SaFpDMHpaREkwTFRSbE0yUXRPVGMwTXkwM04ySTFOMkk1WVRneFltSnNjbVZzWVhScGIyNXphR2x3YUhCaGNtVnVkRTltQUFBQjRtcDFiV0lBQUFCQmFuVnRaR05pYjNJQUVRQVFnQUFBcWdBNG0zRVRZekp3WVM1aFkzUnBiMjV6TG5ZeUFBQUFBQmhqTW5Ob3dER1ZwaFphMjJSRENUcVRxQWdERFFBQUFabGpZbTl5b21kaFkzUnBiMjV6Z3FKbVlXTjBhVzl1YTJNeWNHRXViM0JsYm1Wa2FuQmhjbUZ0WlhSbGNuT2hhMmx1WjNKbFpHbGxiblJ6Z2FKamRYSnNlQzF6Wld4bUkycDFiV0ptUFdNeWNHRXVZWE56WlhKMGFXOXVjeTlqTW5CaExtbHVaM0psWkdsbGJuUXVkak5rYUdGemFGZ2dTRXhoK1liNkNnbHhaZVZrUUVrL01jQWRNRkNoOGgvbVBoUDVaSFRvcTY2a1ptRmpkR2x2Ym5nZFkyOXRMbUZ1ZEdoeWIzQnBZeTVqYkdGMVpHVXVjSEp2ZG1sa1pXUnFjR0Z5WVcxbGRHVnljNkY0SDJOdmJTNWhiblJvY205d2FXTXViM0pwWjJsdUxXTnZibVpwWkdWdVkyVm5kVzVyYm05M2JtdGtaWE5qY21sd2RHbHZibmhtUTJ4aGRXUmxJSEJ5YjNacFpHVmtJSFJvYVhNZ1ptbHNaU0JoZENCMGFHVWdjbVZ4ZFdWemRDQnZaaUJoSUhWelpYSWdZVzVrSUcxaGVTQm9ZWFpsSUdOeVpXRjBaV1FnYjNJZ2JXOWthV1pwWldRZ2RHaGxJR1pwYkdVZ1kyOXVkR1Z1ZEhNdWJYTnZablIzWVhKbFFXZGxiblNoWkc1aGJXVm1RMnhoZFdSbGNtRnNiRUZqZEdsdmJuTkpibU5zZFdSbFpQVUFBQURJYW5WdFlnQUFBRUJxZFcxa1kySnZjZ0FSQUJDQUFBQ3FBRGliY1JOak1uQmhMbWhoYzJndVpHRjBZUUFBQUFBWVl6SnphT0JkUmpQUXQzNlF4RFlYMDh5NlJNUUFBQUNBWTJKdmNxVmpZV3huWm5Ob1lUSTFObU53WVdSTkFBQUFBQUFBQUFBQUFBQUFBR1JvWVhOb1dDQ3R0djFncHRUbXhONDJraXBsSy92d0VDLzVyaks0bU85Nmc1UjZGc0x5Q0dSdVlXMWxibXAxYldKbUlHMWhibWxtWlhOMGFtVjRZMngxYzJsdmJuT0JvbVZ6ZEdGeWRCaWtabXhsYm1kMGFCa2VCQUFBQWo1cWRXMWlBQUFBSjJwMWJXUmpNbU5zQUJFQUVJQUFBS29BT0p0eEEyTXljR0V1WTJ4aGFXMHVkaklBQUFBQ0QyTmliM0tsWTJGc1oyWnphR0V5TlRacGMybG5ibUYwZFhKbGVFMXpaV3htSTJwMWJXSm1QUzlqTW5CaEwzVnlianBqTW5CaE9tTmhOREl5WkRRMExXUmpZakl0TkRGalpDMDROMlU0TFdGallqVTVPVFUzT1RrMk15OWpNbkJoTG5OcFoyNWhkSFZ5WldwcGJuTjBZVzVqWlVsRWVDeDRiWEE2YVdsa09qaGlZV1U1TjJFeExXWmxZakF0TkRRek5TMDVOR0pqTFdWbE56VmhPVGM0T0dJME1uSmpjbVZoZEdWa1gyRnpjMlZ5ZEdsdmJuT0RvbU4xY214NExYTmxiR1lqYW5WdFltWTlZekp3WVM1aGMzTmxjblJwYjI1ekwyTXljR0V1YVc1bmNtVmthV1Z1ZEM1Mk0yUm9ZWE5vV0NCSVRHSDVodm9LQ1hGbDVXUkFTVDh4d0Iwd1VLSHlIK1krRS9sa2RPaXJycUpqZFhKc2VDcHpaV3htSTJwMWJXSm1QV015Y0dFdVlYTnpaWEowYVc5dWN5OWpNbkJoTG1GamRHbHZibk11ZGpKa2FHRnphRmdndGR6dnp0TFExRENIWDNFelgxRVIwVDlMR0w0RnQ5M3ZvMmRrZUcxRGdjK2lZM1Z5YkhncGMyVnNaaU5xZFcxaVpqMWpNbkJoTG1GemMyVnlkR2x2Ym5Ndll6SndZUzVvWVhOb0xtUmhkR0ZrYUdGemFGZ2cxbHhlN2ZFZGl4aGowNTQwb2dFM2xRTHFPZ3BGVHY2MGVpYldZQSsrZ05aMFkyeGhhVzFmWjJWdVpYSmhkRzl5WDJsdVptK2paRzVoYldWdlFXNTBhSEp2Y0dsaklFWnBiR1Z6WjNabGNuTnBiMjVsTVM0d0xqQnJjM0JsWTFabGNuTnBiMjVsTWk0MExqQUFBQkE0YW5WdFlnQUFBQ2hxZFcxa1l6Smpjd0FSQUJDQUFBQ3FBRGliY1FOak1uQmhMbk5wWjI1aGRIVnlaUUFBQUJBSVkySnZjdEtFV1FJU29nRW1HQ0ZaQWdvd2dnSUdNSUlCamFBREFnRUNBaFJBNWFBSzdzSTUwTDY0Zy9vR1FnVTlaMVVUQURBS0JnZ3Foa2pPUFFRREF6QkpNUmN3RlFZRFZRUUtFdzVCYm5Sb2NtOXdhV01zSUZCQ1F6RXVNQ3dHQTFVRUF4TWxRVzUwYUhKdmNHbGpJRU52Ym5SbGJuUWdRM0psWkdWdWRHbGhiSE1nVW05dmRDQkRRVEFlRncweU5qQTRNRGN4T0RRek5UWmFGdzB5T0RBNE1EWXhPVFF6TlRaYU1FUXhGekFWQmdOVkJBb1REa0Z1ZEdoeWIzQnBZeXdnVUVKRE1Ta3dKd1lEVlFRREV5QkJiblJvY205d2FXTWdRMnhoZFdSbElFTnZiblJsYm5RZ1UybG5ibWx1WnpCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkpoNkNtdkxVQmdGRk5VMHZVS2xPVnRFNmRqZDE3TDVTdXdYMExlbUZpc0JNM2RrZC8zY3lqeEZBM1FvNVM0NmZYMC9paFkwVlo3bWZiOUtGNzAzdDVPaldEQldNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVZCZ05WSFNVRURqQU1CZ29yQmdFRUFZUG9YZ0lCTUF3R0ExVWRFd0VCL3dRQ01BQXdId1lEVlIwakJCZ3dGb0FVemxIaUJJRk9aRnNqK09QRXo1bytuTUhYWE1Jd0NnWUlLb1pJemowRUF3TURad0F3WkFJd01YTWRGSjRCZXRMTFZZN09SdUU5bm9xYmJBWk9abi9hQXJYeVR3RkFaZktyUHp4RjJ2UG9KTmYxK1VDZGcxWEdBakJ3WDF6ZDlXR3FZa3FtTDVTRnF3MVF5U2pyMXpKZnBKTTkrMXJkRHdTUExNT1BPakt1aVhqb1UvcFVVZUc5UndtaFkzQmhaRmtObmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQWllRT1ZPRmIySXFYd0wxandiNlUvUnNXakYwUnBpVjdIa2o3M1hTbjM0L1ovaWF2N3E3TFRLayttcTZQOHluN1o0S1BMUE1MamtoVUdYMjB6Zk42UFU0ajQ9PC9jMnBhOm1hbmlmZXN0PjwvbWV0YWRhdGE+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZDhmODY5Ii8+PHN0b3Agb2Zmc2V0PSIwLjUiIHN0b3AtY29sb3I9IiM2ZWRhOGUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM0ZWE1YTMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBmaWxsPSJ1cmwoI2cpIiBkPSJNIDQwLjQyMTg3NSA0MC4yMTg3NSBDIDQyLjQwNjI1IDI5LjYyNSA1Mi4wNjY0MDYgMjIuNDcyNjU2IDYzLjAyNzM0NCAyMy4wODU5MzggQyA3My4yNDIxODggMjMuNjU2MjUgODEuOTY0ODQ0IDMyLjExMzI4MSA4My4wMTk1MzEgNDIuNDgwNDY5IEMgODMuMDg5ODQ0IDQzLjE3NTc4MSA4My4xMDE1NjIgNDMuODgyODEyIDgzLjA3NDIxOSA0NC41ODIwMzEgQyA4Mi45NjA5MzggNDcuMzM5ODQ0IDgxLjA4NTkzOCA0OS4zMjAzMTIgNzguNTIzNDM4IDQ5LjQyNTc4MSBDIDc1Ljg3ODkwNiA0OS41MzUxNTYgNzMuODIwMzEyIDQ3LjU4MjAzMSA3My41NTg1OTQgNDQuNzE4NzUgQyA3My4wMTE3MTkgMzguNzg1MTU2IDcwLjA1NDY4OCAzNC43NSA2NS4xMDkzNzUgMzMuMTk5MjE5IEMgNTcuMzc4OTA2IDMwLjc2OTUzMSA0OS41MzkwNjIgMzYuNDYwOTM4IDQ5LjQxMDE1NiA0NC42NzU3ODEgQyA0OS4zMjgxMjUgNDkuOTMzNTk0IDQ5LjQwMjM0NCA1NS4xOTkyMTkgNDkuMzkwNjI1IDYwLjQ2MDkzOCBDIDQ5LjM4MjgxMiA2NC4wNjI1IDQ3LjY1MjM0NCA2Ni4yMDMxMjUgNDQuNzM4MjgxIDY2LjI2OTUzMSBDIDQxLjc1MzkwNiA2Ni4zMzU5MzggMzkuODc1IDY0LjA4OTg0NCAzOS44NTkzNzUgNjAuNDIxODc1IEMgMzkuODQ3NjU2IDU3LjYxMzI4MSAzOS43MDMxMjUgNDQuMDU4NTk0IDQwLjQyMTg3NSA0MC4yMTg3NSAiLz48cGF0aCBmaWxsPSJ1cmwoI2cpIiBkPSJNIDc4LjM5NDUzMSA2Ni4yNjk1MzEgQyA3NS44MDQ2ODggNjYuMjY5NTMxIDczLjcwMzEyNSA2NC4xNjc5NjkgNzMuNzAzMTI1IDYxLjU3ODEyNSBMIDczLjcwMzEyNSA2MC4xNDQ1MzEgQyA3My43MDMxMjUgNTcuNTU0Njg4IDc1LjgwNDY4OCA1NS40NTMxMjUgNzguMzk0NTMxIDU1LjQ1MzEyNSBDIDgwLjk4ODI4MSA1NS40NTMxMjUgODMuMDg1OTM4IDU3LjU1NDY4OCA4My4wODU5MzggNjAuMTQ0NTMxIEwgODMuMDg1OTM4IDYxLjU3ODEyNSBDIDgzLjA4NTkzOCA2NC4xNjc5NjkgODAuOTg4MjgxIDY2LjI2OTUzMSA3OC4zOTQ1MzEgNjYuMjY5NTMxICIvPjwvc3ZnPg==" alt=""></button>
 <div class="chat" id="chat" role="dialog" aria-label="محادثة سريعة">
-  <header><div><b>هاي لينك</b><span>سؤالان وتعرف إذا شغلك يستحق الأتمتة</span></div><button id="chatClose" aria-label="إغلاق">×</button></header>
-  <div class="log" id="log"></div>
+  <header><div><b>هاي لينك</b><span>اسأل أي سؤال عن الأتمتة وشغلك</span></div><button id="chatClose" aria-label="إغلاق">×</button></header>
+  <div class="log" id="log" aria-live="polite"></div>
+  <form class="chat-in" id="chatForm" autocomplete="off"><input id="chatText" maxlength="600" placeholder="اكتب سؤالك…" aria-label="اكتب سؤالك"><button type="submit" id="chatSend">أرسل</button></form>
 </div>
 <script>
 (function(){
   var fab=document.getElementById('fab'),chat=document.getElementById('chat'),log=document.getElementById('log');
   var sel=document.getElementById('type'),note=document.getElementById('note');
-  var state={task:null,vol:null},started=false;
-  function add(cls,txt){var d=document.createElement('div');d.className='msg '+cls;d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+  var form=document.getElementById('chatForm'),input=document.getElementById('chatText'),send=document.getElementById('chatSend');
+  var HL_CHAT_URL='https://n8n-38e4.srv1957870.hstgr.cloud/webhook/highlink-chat';
+  var history=[],started=false,busy=false;
+  function add(cls,txt){var d=document.createElement('div');d.className='msg '+cls;d.textContent=txt;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
   function chips(items,on){var w=document.createElement('div');w.className='chips';items.forEach(function(it){var b=document.createElement('button');b.type='button';b.textContent=it.t;if(it.go)b.className='go';b.onclick=function(){w.remove();on(it);};w.appendChild(b);});log.appendChild(w);log.scrollTop=log.scrollHeight;}
   var L={
-    ar:{tasks:[{t:'الرد على العملاء',v:'reply'},{t:'تسجيل الطلبات',v:'orders'},{t:'المواعيد والتذكير',v:'appts'},{t:'التقارير والمتابعة',v:'reports'},{t:'إدخال البيانات',v:'data'},{t:'شي ثاني',v:'unsure'}],
-        vols:[{t:'أقل من 10 باليوم',v:'<10'},{t:'10 إلى 50',v:'10-50'},{t:'أكثر من 50',v:'50+'}],
-        hi:'هلا. وش أكثر مهمة تاخذ وقتك كل يوم؟',
-        ask:'وكم طلب أو رسالة توصلك تقريبًا باليوم في هذي المهمة؟',
-        small:'عددها قليل، بس لو تتكرر بنفس الشكل كل يوم فالأتمتة تستاهل — نشوفها في التشخيص.',
-        big:'هذا حجم يستحق أتمتة من أول أسبوع. التشخيص مجاني ويوصلك تقرير مكتوب خلال 48 ساعة.',
-        book:'احجز التشخيص',note:'من المحادثة: '},
-    en:{tasks:[{t:'Customer replies',v:'reply'},{t:'Logging orders',v:'orders'},{t:'Bookings and reminders',v:'appts'},{t:'Reports and follow-up',v:'reports'},{t:'Data entry',v:'data'},{t:'Something else',v:'unsure'}],
-        vols:[{t:'Under 10 a day',v:'<10'},{t:'10 to 50',v:'10-50'},{t:'Over 50',v:'50+'}],
-        hi:'Hi. Which task takes most of your time every day?',
-        ask:'And roughly how many orders or messages come in for it each day?',
-        small:'That is a small number, but if it repeats the same way every day, automation is worth it — we will look at it in the diagnosis.',
-        big:'That volume is worth automating from week one. The diagnosis is free and you get a written report within 48 hours.',
-        book:'Book the diagnosis',note:'From chat: '}
+    ar:{hi:'هلا! أنا مساعد هاي لينك الآلي. اسألني عن أي مهمة تاخذ وقتك، وأقول لك إذا تنفع لها الأتمتة.',
+        starters:['وش تقدرون تأتمتون لي؟','كم يكلّف؟','كيف نبدأ؟'],
+        typing:'يكتب…',fail:'ما قدرت أرد الحين. أرسل النموذج اللي تحت ونرد عليك على الواتساب خلال ساعة.',
+        book:'احجز التشخيص المجاني',note:'من المحادثة: ',ph:'اكتب سؤالك…',send:'أرسل'},
+    en:{hi:'Hi! I am Highlink\u2019s AI assistant. Ask me about any task that eats your time, and I will tell you if automation fits it.',
+        starters:['What can you automate for me?','How much does it cost?','How do we start?'],
+        typing:'Typing…',fail:'I could not answer just now. Send the short form below and we will reply on WhatsApp within an hour.',
+        book:'Book the free diagnosis',note:'From chat: ',ph:'Type your question…',send:'Send'}
   };
   function T(){return L[document.documentElement.lang==='en'?'en':'ar'];}
+  function lang(){return document.documentElement.lang==='en'?'en':'ar';}
+  function bookChip(){
+    var t=T();
+    chips([{t:t.book,go:true}],function(){
+      var firstQ=(history.filter(function(m){return m.role==='user';})[0]||{}).text||'';
+      sel.value='unsure';note.value=(t.note+firstQ).slice(0,280);
+      chat.classList.remove('open');
+      document.getElementById('contact').scrollIntoView();
+      setTimeout(function(){document.getElementById('biz').focus();},500);
+    });
+  }
+  function ask(text){
+    text=String(text||'').trim().slice(0,600);
+    if(!text||busy)return;
+    var old=log.querySelector('.chips');if(old)old.remove();
+    add('me',text);history.push({role:'user',text:text});
+    busy=true;send.disabled=true;input.value='';
+    var dots=add('bot typing',T().typing);
+    fetch(HL_CHAT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lang(),messages:history.slice(-12)})})
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+      .then(function(d){dots.remove();var reply=(d&&d.reply)||T().fail;add('bot',reply);history.push({role:'assistant',text:reply});if(d&&d.book)bookChip();})
+      .catch(function(){dots.remove();add('bot',T().fail);bookChip();})
+      .then(function(){busy=false;send.disabled=false;input.focus();});
+  }
+  form.addEventListener('submit',function(e){e.preventDefault();ask(input.value);});
   /* Called by the language switch: clear the conversation and restart it in the new language if open */
-  window.hlChatReset=function(){log.innerHTML='';started=false;state={task:null,vol:null};if(chat.classList.contains('open'))start();};
+  window.hlChatReset=function(){log.innerHTML='';history=[];started=false;input.placeholder=T().ph;input.setAttribute('aria-label',T().ph);send.textContent=T().send;if(chat.classList.contains('open'))start();};
   function start(){
     if(started)return;started=true;
     var t=T();
     add('bot',t.hi);
-    chips(t.tasks,function(it){
-      state.task=it;add('me',it.t);
-      add('bot',t.ask);
-      chips(t.vols,function(v){
-        state.vol=v;add('me',v.t);
-        add('bot',v.v==='<10'?t.small:t.big);
-        chips([{t:t.book,go:true}],function(){
-          sel.value=state.task.v;note.value=t.note+state.task.t+' · '+state.vol.t;
-          chat.classList.remove('open');
-          document.getElementById('contact').scrollIntoView();
-          setTimeout(function(){document.getElementById('biz').focus();},500);
-        });
-      });
-    });
+    chips(t.starters.map(function(s){return {t:s};}),function(it){ask(it.t);});
   }
-  fab.onclick=function(){chat.classList.toggle('open');if(chat.classList.contains('open'))start();};
+  fab.onclick=function(){chat.classList.toggle('open');if(chat.classList.contains('open')){start();setTimeout(function(){input.focus();},50);}};
   document.getElementById('chatClose').onclick=function(){chat.classList.remove('open');};
 })();
 </script>
@@ -718,7 +736,7 @@ html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
     ['#fab',['Ask Highlink'],'aria-label'],
     ['#chat',['Quick chat'],'aria-label'],
     ['#chat header b',['Highlink']],
-    ['#chat header span',['Two questions to see if your work is worth automating']],
+    ['#chat header span',['Ask anything about automating your work']],
     ['#chatClose',['Close'],'aria-label']
   ];
   var TITLE={ar:document.title,en:'Highlink — We build the system that works for you'};
