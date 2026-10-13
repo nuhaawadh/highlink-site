@@ -17,18 +17,18 @@ var Core = (function () {
   /* أعمدة الجداول — نفس الترتيب في الشيت */
   var SCHEMA = {
     Brokers: ["id", "no", "name", "phone", "fal", "code", "active", "tgChat", "tgToken", "otpHash", "otpExp", "otpTries", "otpSentAt", "createdAt"],
-    Properties: ["id", "no", "title", "area", "deal", "price", "status", "closedBy", "falRef", "createdAt"],
-    Clients: ["id", "no", "name", "phone", "need", "source", "brokerId", "creditBrokerId", "propertyId", "stage", "createdAt", "next", "nextAction", "protectedUntil", "lostReason", "slaNotified"],
+    Properties: ["id", "no", "title", "area", "deal", "price", "status", "closedBy", "falRef", "createdAt", "deedNo", "contractNo", "contractEnd", "subAllowed"],
+    Clients: ["id", "no", "name", "phone", "need", "source", "brokerId", "creditBrokerId", "propertyId", "stage", "createdAt", "next", "nextAction", "protectedUntil", "lostReason", "slaNotified", "subContract", "subRemind"],
     Log: ["at", "type", "clientId", "brokerId", "propertyId", "note"],
     Conflicts: ["id", "at", "brokerId", "clientName", "phone", "propertyId", "holderId", "resolved"],
     Sessions: ["hash", "role", "brokerId", "exp", "createdAt"],
     Settings: ["key", "value"]
   };
-  var NUMERIC = { at: 1, createdAt: 1, next: 1, protectedUntil: 1, price: 1, slaNotified: 1, otpExp: 1, otpTries: 1, otpSentAt: 1, exp: 1 };
+  var NUMERIC = { at: 1, createdAt: 1, next: 1, protectedUntil: 1, price: 1, slaNotified: 1, otpExp: 1, otpTries: 1, otpSentAt: 1, exp: 1, contractEnd: 1, subRemind: 1 };
   var DEFAULTS = {
     officeName: "المكتب", officeCode: "", officeFal: "", commission: "0.025", coopSplit: "0.5", protectDays: "90", escalateDays: "2",
     leadSlaHours: "2", autoAssign: "1", appUrl: "", botUsername: "", officeTgChat: "", officeTgToken: "", rr: "0", tgOffset: "0",
-    seqB: "0", seqP: "0", seqC: "0", otpHash: "", otpExp: "0", otpTries: "0", otpSentAt: "0"
+    seqB: "0", seqP: "0", seqC: "0", tailDays: "60", contractWarnDays: "7", otpHash: "", otpExp: "0", otpTries: "0", otpSentAt: "0"
   };
   var OTP_TTL = 5 * 60 * 1000, OTP_GAP = 60 * 1000, OTP_TRIES = 5, SESSION_DAYS = 30;
   /* رموز المدن لرقم المكتب: XXX-000 */
@@ -81,6 +81,22 @@ var Core = (function () {
     if (kind === "C") { var d = new Date((at || Date.now()) + TZ); return officeCode(db) + "-C" + String(d.getUTCFullYear()).slice(2) + pad(d.getUTCMonth() + 1, 2) + "-" + pad(n, 4); }
     return officeCode(db) + "-" + kind + pad(n, 4);
   }
+  /* ---------- عقود الوساطة ----------
+     عقد المكتب مع المالك: رقمه وتاريخ انتهائه على العقار. بدونه ما يطلع ترخيص إعلان، والإعلان ينتهي معه.
+     الحماية في سند تمتد لنهاية العقد + فترة لاحقة (افتراضيًا ٦٠ يوم) عشان تتطابق مع استحقاق العمولة بعد انتهاء العقد.
+     العربون من وسيط متعاون بدون عقد فرعي مسجّل = تنبيه للمكتب يوثّق «عقد وسيط مع وسيط» في المنصة. */
+  function contractState(p, now) {
+    if (!p || !p.contractNo) return "none";
+    if (!p.contractEnd) return "active";
+    if (p.contractEnd < sod(now)) return "expired";
+    return (p.contractEnd - sod(now)) / DAY <= 7 ? "expiring" : "active";
+  }
+  function protectUntil(db, c, now) {
+    var s = db.settings, base = now + num(s, "protectDays") * DAY, p = prop(db, c.propertyId);
+    if (p && p.contractEnd) base = Math.max(base, p.contractEnd + num(s, "tailDays") * DAY);
+    return Math.max(c.protectedUntil || 0, base);
+  }
+  function needsSub(c) { return c.creditBrokerId && c.creditBrokerId !== "office" && !c.subContract && (c.stage === "dep" || c.stage === "won") && c.propertyId; }
   function validFal(s) { var d = toLatin(s).replace(/\D/g, ""); return d.length >= 7 && d.length <= 12 ? d : ""; }
 
   function S(db) {
@@ -184,7 +200,7 @@ var Core = (function () {
   /* ---------- اللقطة اللي تشوفها كل واجهة ---------- */
   function snapshot(db, who, now) {
     var s = S(db);
-    var pub = { officeName: s.officeName, officeCode: officeCode(db), officeFal: db.settings.officeFal, cities: CITIES, commission: s.commission, coopSplit: s.coopSplit, protectDays: s.protectDays, escalateDays: s.escalateDays, sources: SOURCES };
+    var pub = { tailDays: num(db.settings, "tailDays"), officeName: s.officeName, officeCode: officeCode(db), officeFal: db.settings.officeFal, cities: CITIES, commission: s.commission, coopSplit: s.coopSplit, protectDays: s.protectDays, escalateDays: s.escalateDays, sources: SOURCES };
     if (who.role === "office") {
       pub.leadSlaHours = s.leadSlaHours; pub.autoAssign = s.autoAssign; pub.appUrl = s.appUrl; pub.botUsername = s.botUsername;
       return {
@@ -247,12 +263,14 @@ var Core = (function () {
     var c = {
       id: uid("c"), no: serial(db, "C", now), name: name, phone: phone, need: clean(d.need, 200) || "—", source: clean(d.source, 40) || "—",
       brokerId: assignTo || "", creditBrokerId: credit, propertyId: propertyId, stage: "new", createdAt: now,
-      next: next, nextAction: nextAction, protectedUntil: now + s.protectDays * DAY, lostReason: "", slaNotified: 0
+      next: next, nextAction: nextAction, protectedUntil: 0, lostReason: "", slaNotified: 0, subContract: "", subRemind: 0
     };
+    c.protectedUntil = protectUntil(db, c, now);
     db.Clients.push(c);
     log(db, now, "تسجيل", c, "", credit === "office" ? assignTo || "office" : credit);
     if (who.role === "office" && assignTo) notifyAssigned(db, c, out, "عميل جديد من المكتب");
-    return { ok: true, client: c, msg: who.role === "broker" ? "انحمى «" + name + "» باسمك لمدة " + s.protectDays + " يوم." : "انضاف «" + name + "»." };
+    var pc = prop(db, propertyId), warn = pc && contractState(pc, now) === "expired" ? " تنبيه: عقد الوساطة على هذا العقار منتهي، بلّغ المكتب." : pc && contractState(pc, now) === "none" ? " تنبيه: هذا العقار ما عليه عقد وساطة مسجّل." : "";
+    return { ok: true, client: c, msg: (who.role === "broker" ? "انحمى «" + name + "» باسمك حتى " + new Date(c.protectedUntil + TZ).toISOString().slice(0, 10) + "." : "انضاف «" + name + "».") + warn };
   }
 
   function notifyAssigned(db, c, out, title) {
@@ -278,11 +296,15 @@ var Core = (function () {
     if (t === "lost") c.lostReason = note;
     if (p && t === "dep") p.status = "held";
     if (p && t === "won") { p.status = p.deal === "إيجار" ? "rented" : "sold"; p.closedBy = c.creditBrokerId; }
-    c.protectedUntil = Math.max(c.protectedUntil, now + S(db).protectDays * DAY);
+    c.protectedUntil = protectUntil(db, c, now);
     c.slaNotified = 1;
     log(db, now, STEP_LOG[t], c, note, who.role === "broker" ? who.id : c.brokerId);
     if (t === "won") out.notify.push({ to: "office", text: "🎉 صفقة: " + bname(db, c.creditBrokerId) + " قفل " + (p ? p.title : "طلب") + " مع «" + c.name + "»" + (note ? " · " + note : "") });
     if (t === "dep") out.notify.push({ to: "office", text: "💰 عربون: «" + c.name + "»" + (p ? " على " + p.title : "") + " عن طريق " + bname(db, c.brokerId) + (note ? " · " + note : "") });
+    if ((t === "dep" || t === "won") && needsSub(c)) {
+      c.subRemind = now;
+      out.notify.push({ to: "office", text: "📝 «" + c.name + "» جابه " + bname(db, c.creditBrokerId) + " (وسيط متعاون) ووصل " + (t === "won" ? "للإغلاق" : "للعربون") + ".\nوثّق «عقد وسيط مع وسيط» في منصة الهيئة" + (p && p.deedNo ? " على الصك " + p.deedNo : "") + "، وسجّل رقمه في سند عند العميل." });
+    }
     return { ok: true, msg: t === "won" ? "مبروك! انسجّلت الصفقة." : "انحفظت الخطوة." };
   }
 
@@ -314,8 +336,9 @@ var Core = (function () {
     var c = {
       id: uid("c"), no: serial(db, "C", now), name: name, phone: phone, need: clean(d.need, 200) || "—", source: clean(d.source, 40) || "نموذج الموقع",
       brokerId: b ? b.id : "", creditBrokerId: "office", propertyId: propertyId, stage: "new", createdAt: now,
-      next: now, nextAction: "أول تواصل خلال " + s.leadSlaHours + " ساعات", protectedUntil: now + s.protectDays * DAY, lostReason: "", slaNotified: 0
+      next: now, nextAction: "أول تواصل خلال " + s.leadSlaHours + " ساعات", protectedUntil: 0, lostReason: "", slaNotified: 0, subContract: "", subRemind: 0
     };
+    c.protectedUntil = protectUntil(db, c, now);
     db.Clients.push(c);
     log(db, now, "تسجيل", c, "من " + c.source, b ? b.id : "office");
     if (b) notifyAssigned(db, c, out, "عميل جديد وصل الحين");
@@ -361,10 +384,15 @@ var Core = (function () {
     if (!price) return err("اكتب السعر بالأرقام.");
     var deal = d.deal === "إيجار" ? "إيجار" : "بيع";
     var st = PSTAT[d.status] ? d.status : "avail";
+    var ce = d.contractEnd ? Number(d.contractEnd) : 0;
+    if (clean(d.contractNo) && !ce) return err("اكتب تاريخ انتهاء عقد الوساطة.");
     var p = d.id ? prop(db, d.id) : null;
     if (d.id && !p) return err("العقار غير موجود.");
     if (!p) { p = { id: uid("p"), no: serial(db, "P", now), closedBy: "", createdAt: now }; db.Properties.push(p); }
     p.title = title; p.area = clean(d.area, 40); p.deal = deal; p.price = price; p.status = st; p.falRef = clean(d.falRef, 40);
+    p.deedNo = toLatin(clean(d.deedNo, 30)); p.contractNo = toLatin(clean(d.contractNo, 30)); p.contractEnd = p.contractNo ? ce : 0; p.subAllowed = d.subAllowed === false || d.subAllowed === "0" ? "0" : "1";
+    // تجديد العقد يمدّ حماية العملاء النشطين على العقار
+    db.Clients.forEach(function (c) { if (c.propertyId === p.id && (isOpen(c) || c.stage === "won")) c.protectedUntil = protectUntil(db, c, now); });
     if (st === "avail" || st === "off") p.closedBy = "";
     return { ok: true, msg: d.id ? "انحفظ العقار." : "انضاف العقار." };
   }
@@ -402,6 +430,12 @@ var Core = (function () {
           res = cf ? (cf.resolved = "1", { ok: true, msg: "انقفل التعارض." }) : err("التعارض غير موجود.");
         }
         else if (req.action === "settings") res = saveSettings(db, d);
+        else if (req.action === "setSubContract") {
+          var sc = client(db, d.clientId), no = toLatin(clean(d.no, 30));
+          if (!sc) res = err("العميل غير موجود.");
+          else if (!no) res = err("اكتب رقم عقد الوسيط مع الوسيط من المنصة.");
+          else { sc.subContract = no; log(db, now, "عقد فرعي", sc, "رقم " + no, sc.creditBrokerId); res = { ok: true, msg: "انسجّل العقد الفرعي." }; }
+        }
         else res = err("طلب غير معروف.");
     }
     fin(res, dirty && (res.ok || res.conflict));
@@ -420,7 +454,7 @@ var Core = (function () {
       }
     }
     if (d.officeFal != null && d.officeFal !== "") { var f = validFal(d.officeFal); if (!f) return err("رقم رخصة فال للمكتب لازم يكون أرقام فقط (٧ إلى ١٢ رقم)."); db.settings.officeFal = f; }
-    ["officeName", "commission", "coopSplit", "protectDays", "escalateDays", "leadSlaHours", "autoAssign", "appUrl", "botUsername"].forEach(function (k) { if (d[k] != null) db.settings[k] = clean(d[k], 200); });
+    ["officeName", "commission", "coopSplit", "protectDays", "escalateDays", "leadSlaHours", "autoAssign", "appUrl", "botUsername", "tailDays"].forEach(function (k) { if (d[k] != null) db.settings[k] = clean(d[k], 200); });
     return { ok: true, msg: "انحفظت الإعدادات." };
   }
 
@@ -443,6 +477,11 @@ var Core = (function () {
       });
     });
     var lateAll = db.Clients.filter(function (c) { return isLate(c, now) && (sod(now) - sod(c.next)) / DAY >= s.escalateDays; });
+    var live = db.Properties.filter(function (p) { return p.status === "avail" || p.status === "held"; });
+    var expiring = live.filter(function (p) { var st = contractState(p, now); return st === "expiring"; });
+    var expired = live.filter(function (p) { return contractState(p, now) === "expired"; });
+    var noContract = live.filter(function (p) { return contractState(p, now) === "none"; });
+    var noSub = db.Clients.filter(needsSub);
     var unassigned = db.Clients.filter(function (c) { return isOpen(c) && !c.brokerId; });
     var conf = db.Conflicts.filter(function (x) { return x.resolved !== "1"; });
     var byB = {};
@@ -451,6 +490,10 @@ var Core = (function () {
       "• عملاء نشطين: " + db.Clients.filter(function (c) { return isOpen(c) && c.stage !== "later"; }).length,
       "• متابعات متأخرة أكثر من " + s.escalateDays + " يوم: " + lateAll.length + (lateAll.length ? " (" + Object.keys(byB).map(function (k) { return bname(db, k) + " " + byB[k]; }).join("، ") + ")" : ""),
       "• عملاء بدون وسيط: " + unassigned.length, "• تعارضات مفتوحة: " + conf.length];
+    if (expiring.length) parts.push("• عقود وساطة تنتهي خلال أسبوع: " + expiring.map(function (p) { return p.title; }).join("، "));
+    if (expired.length) parts.push("• عقود منتهية والعقار لسا معروض (الإعلان موقوف نظامًا): " + expired.map(function (p) { return p.title; }).join("، "));
+    if (noContract.length) parts.push("• عقارات معروضة بدون عقد وساطة مسجّل: " + noContract.length);
+    if (noSub.length) parts.push("• عربون/إغلاق من وسيط متعاون بدون عقد فرعي: " + noSub.map(function (c) { return c.name; }).join("، "));
     list.push({ to: "office", text: parts.join("\n"), buttons: s.appUrl ? [{ text: "افتح لوحة المكتب", url: s.appUrl }] : [] });
     return list;
   }
@@ -487,7 +530,7 @@ var Core = (function () {
   function chatFor(db, to) { if (String(to).indexOf("chat:") === 0) return String(to).slice(5); if (to === "office") return db.settings.officeTgChat; var b = broker(db, to); return b && b.active === "1" ? b.tgChat : ""; }
 
   return {
-    SCHEMA: SCHEMA, NUMERIC: NUMERIC, CITIES: CITIES, DEFAULTS: DEFAULTS, STAGES: STAGES, PSTAT: PSTAT, OPEN: OPEN, DAY: DAY,
+    SCHEMA: SCHEMA, NUMERIC: NUMERIC, CITIES: CITIES, contractState: contractState, needsSub: needsSub, DEFAULTS: DEFAULTS, STAGES: STAGES, PSTAT: PSTAT, OPEN: OPEN, DAY: DAY,
     handle: handle, digest: digest, slaCheck: slaCheck, telegram: telegram, chatFor: chatFor, normalize: normalize,
     p9: p9, sod: sod, waLink: waLink, token: token, code6: code6
   };
