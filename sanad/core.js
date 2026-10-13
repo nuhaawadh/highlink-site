@@ -104,7 +104,7 @@ var Core = (function () {
   function waLink(db, c) {
     var p = prop(db, c.propertyId), office = String(S(db).officeName).split("·")[0].trim();
     var msg = "السلام عليكم " + c.name + "، معك " + bname(db, c.brokerId) + " من " + office + "." +
-      (p ? " بخصوص " + p.title + "، " : " ") + (c.nextAction ? c.nextAction + "؟" : "حبيت أطمّن وش صار معك.");
+      (p ? " بخصوص " + p.title + "، حبيت أتابع معك." : " حبيت أطمّن وش صار معك."); // بدون nextAction: ملاحظة داخلية للوسيط، ما تروح للعميل
     return "https://wa.me/966" + p9(c.phone) + "?text=" + encodeURIComponent(msg);
   }
   function tgLink(db, tok) { var u = S(db).botUsername; return u && tok ? "https://t.me/" + u.replace(/^@/, "") + "?start=" + tok : ""; }
@@ -290,7 +290,8 @@ var Core = (function () {
     var c = client(db, d.clientId), b = broker(db, d.brokerId);
     if (!c || !b) return err("اختر العميل والوسيط.");
     if (b.active !== "1") return err("هذا الوسيط موقوف.");
-    var from = c.brokerId ? bname(db, c.brokerId) : "بدون وسيط";
+    var prevId = c.brokerId, from = prevId ? bname(db, prevId) : "بدون وسيط";
+    if (prevId && prevId !== b.id) out.notify.push({ to: prevId, text: "↪️ عميلك «" + c.name + "» تحوّل لـ " + b.name + " يتابعه." + (c.creditBrokerId === prevId ? "\nحق الصفقة باقي لك." : "") });
     c.brokerId = b.id; c.next = Number(d.next) || now; c.slaNotified = 0;
     if (!c.nextAction) c.nextAction = "متابعة بعد التحويل";
     log(db, now, "تحويل", c, "من " + from + " إلى " + b.name, b.id);
@@ -471,14 +472,16 @@ var Core = (function () {
     normalize(db);
     var text = String(msg && msg.text || ""), chat = String(msg && msg.chat && msg.chat.id || "");
     if (!chat) return null;
-    var m = text.match(/^\/start\s+(\S+)/);
+    var m = toLatin(text).replace(/[۰-۹]/g, function (c) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(c); })
+      .replace(/[‎‏‪-‮⁦-⁩﻿]/g, "").match(/^\s*\/start\s+(\S+)/);
+    if (m) m[1] = m[1].replace(/[^a-z0-9]/gi, ""); // الرموز حروف وأرقام فقط، ونشيل أي علامة اتجاه أو رمز انلصق مع النسخ
     if (!m) return { chat: chat, text: "هذا بوت «سند» للتنبيهات. افتح رابط الربط اللي وصلك من المكتب عشان تنربط." };
     if (m[1] === db.settings.officeTgToken) { db.settings.officeTgChat = chat; return { chat: chat, text: "تم ربط إدارة " + S(db).officeName + " ✅\nبيوصلك الملخص اليومي والتعارضات والصفقات هنا.", dirty: true }; }
     for (var i = 0; i < db.Brokers.length; i++) {
       var b = db.Brokers[i];
       if (b.tgToken && b.tgToken === m[1]) { b.tgChat = chat; return { chat: chat, text: "هلا " + b.name + " ✅\nانربط حسابك. من الحين رموز الدخول توصلك هنا، وكل صباح متابعات يومك، وأي عميل جديد يتحوّل لك.", dirty: true }; }
     }
-    return { chat: chat, text: "الرابط غير صحيح أو انتهى. اطلب رابطًا جديدًا من المكتب." };
+    return { chat: chat, text: "الرابط غير صحيح أو انتهى. اطلب رابطًا جديدًا من المكتب.\n(الرمز اللي وصلني: " + m[1] + ")" };
   }
 
   function chatFor(db, to) { if (String(to).indexOf("chat:") === 0) return String(to).slice(5); if (to === "office") return db.settings.officeTgChat; var b = broker(db, to); return b && b.active === "1" ? b.tgChat : ""; }
