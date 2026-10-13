@@ -448,7 +448,7 @@ function officeView(){
     </tbody></table></div>`:`<div class="empty">ما فيه عقارات بعد. أضف أول عقار عشان يقدر الوسطاء يسجّلون عملاءهم عليه.</div>`}</div>`;
     $("p-add").onclick = () => propModal(null);
     el.querySelectorAll("[data-pe]").forEach(b => b.onclick = () => propModal(P(b.dataset.pe)));
-    el.querySelectorAll("[data-pl]").forEach(b => b.onclick = () => { const u = leadUrl(b.dataset.pl); u ? copy(u, "انسخ رابط نموذج العقار. حطه في الإعلان أو حوّله QR.") : toast("حط رابط اللوحة في الإعدادات أول."); });
+    el.querySelectorAll("[data-pl]").forEach(b => b.onclick = () => linkModal(b.dataset.pl, ""));
   }
   if(oTab==="brokers"){
     const rows = D.brokers.map(b=>{
@@ -497,10 +497,28 @@ function officeView(){
   if(oTab==="settings") settingsView(el);
   wireActions(el);
 }
-function leadUrl(pid){
-  const base = D.settings.appUrl || (DEMO ? "" : location.href.split("#")[0].split("?")[0]);
+function leadUrl(pid, src, bid){
+  const base = D.settings.appUrl || location.href.split("#")[0].split("?")[0];
   if(!base) return "";
-  return base.replace(/[^/]*$/, "") + "lead.html" + (pid ? `?p=${encodeURIComponent(pid)}&src=${encodeURIComponent("إعلان فال")}` : "");
+  const q = new URLSearchParams();
+  if (pid) q.set("p", pid);
+  if (src) q.set("src", src);
+  if (bid) q.set("b", bid);
+  const qs = q.toString();
+  return base.replace(/[^/]*$/, "") + "lead.html" + (qs ? "?" + qs : "");
+}
+// نافذة رابط النموذج: يختار المنصة اللي بينشر فيها، وينسخ أو يشارك
+function linkModal(pid, bid){
+  const p = pid ? P(pid) : null, srcs = Core.LINK_SOURCES;
+  modal(`<h2>${bid?"رابطك":"رابط النموذج"}: ${p?esc(p.title):"عام"}</h2>
+    <p class="small muted">${bid?"أي عميل يعبّي النموذج من هذا الرابط يوصلك أنت مباشرة، والحق باسمك.":"العميل اللي يعبّي النموذج يتوزّع على الوسطاء حسب الإعدادات."}${p&&bid&&p.subAllowed==="0"?" <b>عقد هذا العقار للمكتب فقط:</b> المتابعة لك والحق للمكتب.":""}</p>
+    <div class="field"><label for="lk-s">وين بتنشره؟</label><select id="lk-s">${srcs.map(s=>`<option>${esc(s)}</option>`).join("")}</select></div>
+    <div class="field"><label for="lk-u">الرابط</label><input id="lk-u" class="ltr" readonly></div>
+    <div class="acts"><button class="btn" type="button" id="lk-c">انسخ الرابط</button><a class="btn wa" id="lk-w" target="_blank" rel="noopener">شارك على واتساب</a><button class="btn ghost" type="button" data-close>إغلاق</button></div>`, close => {
+    const upd = () => { const u = leadUrl(pid, $("lk-s").value, bid); $("lk-u").value = u; $("lk-w").href = "https://wa.me/?text=" + encodeURIComponent((p ? p.title + "\n" : "") + "سجّل طلبك هنا ونرجع لك: " + u); };
+    $("lk-s").onchange = upd; upd();
+    $("lk-c").onclick = () => copy($("lk-u").value, "انسخ الرابط. حطه في " + $("lk-s").value + ".");
+  });
 }
 function settingsView(el){
   const s = D.settings;
@@ -520,10 +538,10 @@ function settingsView(el){
     <div class="field"><label for="s-bot">اسم بوت تيليجرام</label><input id="s-bot" class="ltr" placeholder="SanadOfficeBot" value="${esc(s.botUsername)}"></div>
     <p class="err" id="s-err" hidden></p>
     <div class="acts" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="s-btn">احفظ الإعدادات</button>
-      <button class="btn ghost" type="button" id="s-lead">انسخ رابط نموذج العملاء العام</button></div>
+      <button class="btn ghost" type="button" id="s-lead">رابط نموذج العملاء العام</button></div>
     <p class="small muted">الحقول الفاضية تبقى على قيمتها الحالية.</p>
   </form>`;
-  $("s-lead").onclick = () => { const u = leadUrl(""); u ? copy(u, "انسخ رابط النموذج. حطه في البايو والإعلانات.") : toast("حط رابط اللوحة أول واحفظ."); };
+  $("s-lead").onclick = () => linkModal("", "");
   $("f-set").addEventListener("submit", async e => {
     e.preventDefault();
     const pct = id => { const v = parseFloat(String($(id).value).replace(",", ".")); return isNaN(v) ? null : String(v/100); };
@@ -592,11 +610,15 @@ function brokerView(){
   <div class="sec"><h2>عملائي</h2>
     <nav class="tabs" role="tablist">${[["open","نشطين"],["later","مؤجلين"],["won","مغلقة"],["lost","خسرناهم"],["handed","حقي عند غيري"]].map(([k,l])=>`<button role="tab" type="button" data-f="${k}" aria-selected="${bFilter===k}">${l} <span class="num">(${D.clients.filter(groups[k]).length})</span></button>`).join("")}</nav>
     ${listed.length?`<div class="queue">${listed.map(c=>queueItem(c,false)).join("")}</div>`:`<div class="empty">${bFilter==="handed"?"العملاء اللي جبتهم وتحوّلوا لوسيط ثاني يظهرون هنا، وحقك فيهم محفوظ.":"ما فيه عملاء هنا."}</div>`}</div>
+  <div class="banner"><div><b>روابطي</b><p class="small">حط رابطك في سنابك وانستقرامك وإعلاناتك. أي عميل يعبّي النموذج منه يوصلك أنت مباشرة، والحق باسمك.</p></div>
+    <button class="btn" type="button" id="my-link">رابطي العام</button></div>
   <div class="sec"><h2>عقارات المكتب</h2><p class="small muted">حصتك كوسيط متعاون ${Math.round(st.coopSplit*100)}% من عمولة ${(st.commission*100).toFixed(1).replace(/\.0$/,"")}%، معلنة من البداية.</p>
-    ${D.properties.length?`<div class="tbl-wrap"><table><thead><tr><th>العقار</th><th>السعر</th><th>الحالة</th><th>الإعلان</th><th>حصتك لو قفلتها</th></tr></thead><tbody>
-    ${D.properties.map(p=>`<tr><td><b>${esc(p.title)}</b><div class="small muted">${esc(p.deal)}${p.area?" · "+esc(p.area):""}</div></td><td class="n">${money(p.price)}${p.deal==="إيجار"?" / سنة":""}</td><td>${propPill(p)}</td><td class="small">${p.status!=="avail"?"—":cState(p)==="active"||cState(p)==="expiring"?(p.falRef?`ترخيص <span class="ltr num">${esc(p.falRef)}</span>`:`<span class="muted">عقد ساري، الترخيص عند المكتب</span>`):`<span style="color:var(--warn);font-weight:800">لا تعلن عنه، ${cState(p)==="expired"?"العقد منتهي":"ما عليه عقد"}</span>`}</td><td class="n">${p.status!=="avail"?"—":p.subAllowed==="0"?`<span class="small muted">للمكتب فقط</span>`:money(p.price*st.commission*st.coopSplit)}</td></tr>`).join("")}
+    ${D.properties.length?`<div class="tbl-wrap"><table><thead><tr><th>العقار</th><th>السعر</th><th>الحالة</th><th>الإعلان</th><th>حصتك لو قفلتها</th><th>رابطك</th></tr></thead><tbody>
+    ${D.properties.map(p=>`<tr><td><b>${esc(p.title)}</b><div class="small muted">${esc(p.deal)}${p.area?" · "+esc(p.area):""}</div></td><td class="n">${money(p.price)}${p.deal==="إيجار"?" / سنة":""}</td><td>${propPill(p)}</td><td class="small">${p.status!=="avail"?"—":cState(p)==="active"||cState(p)==="expiring"?(p.falRef?`ترخيص <span class="ltr num">${esc(p.falRef)}</span>`:`<span class="muted">عقد ساري، الترخيص عند المكتب</span>`):`<span style="color:var(--warn);font-weight:800">لا تعلن عنه، ${cState(p)==="expired"?"العقد منتهي":"ما عليه عقد"}</span>`}</td><td class="n">${p.status!=="avail"?"—":p.subAllowed==="0"?`<span class="small muted">للمكتب فقط</span>`:money(p.price*st.commission*st.coopSplit)}</td><td>${p.status==="avail"&&(cState(p)==="active"||cState(p)==="expiring")?`<button class="btn ghost sm" type="button" data-ml="${p.id}">رابطي</button>`:`<span class="small muted">—</span>`}</td></tr>`).join("")}
     </tbody></table></div>`:`<div class="empty">المكتب ما أضاف عقارات بعد.</div>`}</div>`;
   $("add").onclick = () => addModal("broker");
+  $("my-link").onclick = () => linkModal("", me.id);
+  document.querySelectorAll("[data-ml]").forEach(b => b.onclick = () => linkModal(b.dataset.ml, me.id));
   document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { bFilter=b.dataset.f; brokerView(); });
   wireActions($("app"));
 }

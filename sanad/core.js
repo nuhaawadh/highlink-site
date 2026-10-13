@@ -12,7 +12,8 @@ var Core = (function () {
   };
   var STEP_LOG = { contact: "تواصل", view: "معاينة", neg: "تفاوض", dep: "عربون", won: "إغلاق", later: "تأجيل", lost: "خسارة", note: "ملاحظة" };
   var PSTAT = { avail: "متاح", held: "محجوز بعربون", sold: "مباع", rented: "مؤجّر", off: "موقوف" };
-  var SOURCES = ["إعلان فال", "سناب", "انستقرام", "اتصال للمكتب", "زيارة للمكتب", "عميل الوسيط", "توصية", "نموذج الموقع"];
+  var SOURCES = ["إعلان فال", "سناب", "انستقرام", "تيك توك", "إكس", "واتساب", "اتصال للمكتب", "زيارة للمكتب", "عميل الوسيط", "توصية", "نموذج الموقع"];
+  var LINK_SOURCES = ["سناب", "انستقرام", "تيك توك", "إكس", "واتساب", "إعلان فال", "توصية"]; // اللي تنختار عند نسخ رابط النموذج
 
   /* أعمدة الجداول — نفس الترتيب في الشيت */
   var SCHEMA = {
@@ -332,17 +333,21 @@ var Core = (function () {
       if (existing.brokerId) out.notify.push({ to: existing.brokerId, text: "🔁 عميلك «" + existing.name + "» رجع تواصل من النموذج.\n" + clean(d.need, 200), buttons: [{ text: "راسله على واتساب", url: waLink(db, existing) }] });
       return { ok: true, msg: "وصل طلبك، بيتواصل معك فريقنا قريب." };
     }
-    var b = s.autoAssign ? nextBroker(db) : null;
+    // رابط الوسيط الشخصي: العميل له مباشرة والحق باسمه، إلا إذا عقد العقار للمكتب فقط
+    var own = d.broker ? broker(db, String(d.broker)) : null;
+    if (own && own.active !== "1") own = null;
+    var pp = prop(db, propertyId), officeOnly = pp && pp.subAllowed === "0";
+    var b = own || (s.autoAssign ? nextBroker(db) : null);
     var c = {
       id: uid("c"), no: serial(db, "C", now), name: name, phone: phone, need: clean(d.need, 200) || "—", source: clean(d.source, 40) || "نموذج الموقع",
-      brokerId: b ? b.id : "", creditBrokerId: "office", propertyId: propertyId, stage: "new", createdAt: now,
+      brokerId: b ? b.id : "", creditBrokerId: own && !officeOnly ? own.id : "office", propertyId: propertyId, stage: "new", createdAt: now,
       next: now, nextAction: "أول تواصل خلال " + s.leadSlaHours + " ساعات", protectedUntil: 0, lostReason: "", slaNotified: 0, subContract: "", subRemind: 0
     };
     c.protectedUntil = protectUntil(db, c, now);
     db.Clients.push(c);
-    log(db, now, "تسجيل", c, "من " + c.source, b ? b.id : "office");
-    if (b) notifyAssigned(db, c, out, "عميل جديد وصل الحين");
-    out.notify.push({ to: "office", text: "📥 عميل جديد من " + c.source + ": " + c.name + (b ? " → " + b.name : " (بدون وسيط، وزّعه من اللوحة)") });
+    log(db, now, "تسجيل", c, "من " + c.source + (own ? " · رابط " + own.name : ""), b ? b.id : "office");
+    if (b) notifyAssigned(db, c, out, own ? "عميل جديد من رابطك (" + c.source + ")" : "عميل جديد وصل الحين");
+    out.notify.push({ to: "office", text: "📥 عميل جديد من " + c.source + (own ? " عن طريق رابط " + own.name : "") + ": " + c.name + (own ? (officeOnly ? " (العقار للمكتب فقط، الحق للمكتب)" : "") : b ? " → " + b.name : " (بدون وسيط، وزّعه من اللوحة)") });
     return { ok: true, msg: "وصل طلبك، بيتواصل معك فريقنا قريب." };
   }
 
@@ -530,7 +535,7 @@ var Core = (function () {
   function chatFor(db, to) { if (String(to).indexOf("chat:") === 0) return String(to).slice(5); if (to === "office") return db.settings.officeTgChat; var b = broker(db, to); return b && b.active === "1" ? b.tgChat : ""; }
 
   return {
-    SCHEMA: SCHEMA, NUMERIC: NUMERIC, CITIES: CITIES, contractState: contractState, needsSub: needsSub, DEFAULTS: DEFAULTS, STAGES: STAGES, PSTAT: PSTAT, OPEN: OPEN, DAY: DAY,
+    SCHEMA: SCHEMA, NUMERIC: NUMERIC, CITIES: CITIES, LINK_SOURCES: LINK_SOURCES, contractState: contractState, needsSub: needsSub, DEFAULTS: DEFAULTS, STAGES: STAGES, PSTAT: PSTAT, OPEN: OPEN, DAY: DAY,
     handle: handle, digest: digest, slaCheck: slaCheck, telegram: telegram, chatFor: chatFor, normalize: normalize,
     p9: p9, sod: sod, waLink: waLink, token: token, code6: code6
   };

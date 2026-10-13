@@ -67,15 +67,25 @@ const API_URL = CFG.API_URL || "";
 const OFFICE_NAME = CFG.OFFICE_NAME || "";
 if (OFFICE_NAME) document.getElementById("office").textContent = OFFICE_NAME;
 const q = new URLSearchParams(location.search);
+// النسخة التجريبية: الطلب ينحفظ في نفس بيانات اللوحة التجريبية على هذا الجهاز
+async function demoLead(data){
+  await new Promise(r => setTimeout(r, 400));
+  let db = null; try { db = JSON.parse(localStorage.getItem("sanad-v5-demo") || "null"); } catch(e){}
+  if (!db) return {ok:true, msg:"(نسخة تجريبية) وصل طلبك، بيتواصل معك فريقنا قريب."};
+  if (!window.Core) await new Promise((ok, no) => { const s = document.createElement("script"); s.src = "core.js"; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+  const res = Core.handle(db, {action:"lead", data}, {officePin:"", hash:s=>s}, Date.now());
+  try { localStorage.setItem("sanad-v5-demo", JSON.stringify(db)); } catch(e){}
+  return res;
+}
 document.getElementById("f").addEventListener("submit", async e => {
   e.preventDefault();
   const $ = id => document.getElementById(id), err = $("err"), btn = $("btn");
   err.hidden = true;
-  const data = {name:$("n").value, phone:$("ph").value, need:$("need").value, website:$("website").value, propertyId:q.get("p")||"", source:q.get("src")||"نموذج الموقع"};
+  const data = {name:$("n").value, phone:$("ph").value, need:$("need").value, website:$("website").value, propertyId:q.get("p")||"", source:q.get("src")||"نموذج الموقع", broker:q.get("b")||""};
   if (!data.name.trim() || !data.phone.trim()) { err.textContent = "اكتب اسمك ورقم جوالك."; err.hidden = false; return; }
   btn.disabled = true; btn.textContent = "لحظة…";
   let res;
-  if (!API_URL) { await new Promise(r => setTimeout(r, 400)); res = {ok:true, msg:"(نسخة تجريبية) وصل طلبك، بيتواصل معك فريقنا قريب."}; }
+  if (!API_URL) { res = await demoLead(data); }
   else {
     try { const r = await fetch(API_URL, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify({action:"lead", data})}); res = await r.json(); }
     catch(x) { res = {ok:false, error:"تعذّر الإرسال. تأكد من الإنترنت وحاول مرة ثانية."}; }
