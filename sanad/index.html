@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>سند الوساطة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: operations console — summary strip, then work queues, then ledgers. Sharp corners, black/white, lime accent (Highlink). */
+:root{
+  --bg:#ffffff; --fg:#0b0c0b; --muted:#5b625d; --line:#e2e5e1; --surface:#f4f6f2; --raise:#ffffff;
+  --accent:#d0f94a; --accent-ink:#0b0c0b;
+  --ok:#1d7448; --ok-bg:#e6f3ea; --warn:#a4470f; --warn-bg:#fbeee4; --info:#1f5f8a; --info-bg:#e5f0f7; --off:#6b706c; --off-bg:#eef0ed;
+  --mark:linear-gradient(135deg,#1aa39a 0%,#5fd6a6 50%,#d0f94a 100%);
+  --f-body:"Tajawal",system-ui,"Segoe UI",Tahoma,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shade:rgba(11,12,11,.45);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b0c0b; --fg:#f1f3ef; --muted:#9aa29c; --line:#262a27; --surface:#141614; --raise:#181a18;
+  --ok:#6fd49c; --ok-bg:#12291c; --warn:#f0a06a; --warn-bg:#2d1a0e; --info:#7cbbe6; --info-bg:#11222e; --off:#a2a7a3; --off-bg:#1c1f1d; --shade:rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0c0b; --fg:#f1f3ef; --muted:#9aa29c; --line:#262a27; --surface:#141614; --raise:#181a18;
+  --ok:#6fd49c; --ok-bg:#12291c; --warn:#f0a06a; --warn-bg:#2d1a0e; --info:#7cbbe6; --info-bg:#11222e; --off:#a2a7a3; --off-bg:#1c1f1d; --shade:rgba(0,0,0,.6); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15.5px;line-height:1.6;direction:rtl}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:18px 56px;display:flex;flex-direction:column;gap:24px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.logo{width:32px;height:32px;background:var(--mark);position:relative;flex:none}
+.logo::after{content:"";position:absolute;width:7px;height:7px;background:var(--fg);left:6px;bottom:6px}
+.brand{display:flex;flex-direction:column;line-height:1.2}
+.brand b{font-size:18px;font-weight:800}
+.brand span{font-size:12.5px;color:var(--muted)}
+.who{margin-inline-start:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:800;padding:4px 10px;border:1px solid var(--line);color:var(--muted)}
+.chip.demo{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+h1{font-size:clamp(24px,4vw,30px);font-weight:800;line-height:1.25;margin:0;text-wrap:balance}
+h2{font-size:18px;font-weight:800;margin:0;text-wrap:balance}
+h3{font-size:15px;font-weight:800;margin:0}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.btn{font:inherit;font-weight:800;font-size:14.5px;padding:9px 14px;background:var(--fg);color:var(--bg);border:1px solid var(--fg);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--fg);background:var(--surface);color:var(--fg)}
+.btn.wa{background:#1f8f4e;border-color:#1f8f4e;color:#fff}
+.btn.wa:hover{background:#17733e;border-color:#17733e;color:#fff}
+.btn.sm{font-size:13px;padding:6px 10px}
+.btn:focus-visible,input:focus,select:focus,textarea:focus{outline:2px solid var(--fg);outline-offset:1px}
+.sec{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.kpis div{padding:14px 16px;border-inline-start:1px solid var(--line);display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpis div:first-child{border-inline-start:0}
+.kpis b{font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpis span{font-size:13px;color:var(--muted)}
+.kpis .alert b{color:var(--warn)}
+@media (max-width:640px){.kpis{grid-template-columns:1fr 1fr}.kpis div:nth-child(3){border-inline-start:0}.kpis div:nth-child(n+3){border-top:1px solid var(--line)}}
+.cols{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+/* pills */
+.pill{font-size:12px;font-weight:800;padding:2px 9px;white-space:nowrap;display:inline-block}
+.st-new{background:var(--info-bg);color:var(--info)}
+.st-contact,.st-view,.st-neg{background:var(--surface);color:var(--fg);border:1px solid var(--line)}
+.st-dep{background:var(--ok-bg);color:var(--ok)}
+.st-won{background:var(--accent);color:var(--accent-ink)}
+.st-later,.st-lost{background:var(--off-bg);color:var(--off)}
+.pr-avail{background:var(--surface);color:var(--fg);border:1px solid var(--line)}
+.pr-held{background:var(--ok-bg);color:var(--ok)}
+.pr-sold{background:var(--accent);color:var(--accent-ink)}
+.late{background:var(--warn-bg);color:var(--warn)}
+/* queue cards */
+.queue{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.q{display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center}
+.q.is-late{border-inline-start:4px solid var(--warn);padding-inline-start:12px}
+.q-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.q-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.q-top b{font-size:16px}
+.q-next{font-weight:700}
+.q-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:560px){.q{grid-template-columns:1fr}.q-acts{justify-content:flex-start}}
+/* feed */
+.feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.feed li{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.feed time{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
+.feed b{font-weight:800}
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th{font-size:12px;font-weight:800;color:var(--muted);text-align:right;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--surface);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:6px;background:var(--surface);position:relative;min-width:60px}
+.bar i{position:absolute;inset-block:0;inset-inline-start:0;background:var(--fg)}
+/* filters */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filters input{flex:1 1 220px;width:auto}
+.filters select{flex:0 1 170px;width:auto}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{font:inherit;font-weight:800;font-size:14.5px;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:9px 12px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg)}
+input,select,textarea{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:9px 11px;border-radius:0;width:100%}
+textarea{min-height:70px;resize:vertical}
+label{font-size:13.5px;font-weight:800}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.err{color:var(--warn);font-weight:800;font-size:14px}
+.empty{padding:22px;border:1px dashed var(--line);color:var(--muted);text-align:center;font-size:14px}
+/* login */
+.login{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:720px){.login{grid-template-columns:1fr}}
+.door{border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:12px}
+.door ul{margin:0;padding-inline-start:18px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:4px}
+.blist{display:flex;flex-direction:column;gap:6px}
+.blist button{font:inherit;text-align:right;display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.blist button:hover{border-color:var(--fg)}
+/* modal */
+.shade{position:fixed;inset:0;background:var(--shade);display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) 16px 24px;z-index:20;overflow-y:auto}
+.modal{background:var(--raise);color:var(--fg);border:1px solid var(--fg);width:100%;max-width:540px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.modal form{display:flex;flex-direction:column;gap:12px}
+.modal .acts{display:flex;gap:8px;flex-wrap:wrap}
+.credit{font-size:13px;background:var(--surface);padding:8px 10px}
+.toast{position:fixed;inset-inline:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:0 auto;max-width:440px;background:var(--fg);color:var(--bg);padding:12px 16px;font-weight:800;text-align:center;z-index:30}
+.tl{list-style:none;margin:0;padding:0 12px 0 0;border-inline-start:2px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:14px;padding-inline-start:12px}
+.tl time{color:var(--muted);font-variant-numeric:tabular-nums;margin-inline-end:6px}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+.banner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--fg);background:var(--surface)}
+.banner p{color:var(--muted)}
+.kpi-money{font-size:20px!important;padding-block:4px}
+.btn[disabled]{opacity:.55;cursor:wait}
+textarea{font-size:15px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <div class="brand"><b>سند الوساطة</b><span id="hdr-office"></span></div>
+    <div class="who" id="who"></div>
+  </header>
+  <main id="app" class="sec" style="gap:24px"></main>
+  <footer><span>هاي لينك · highlink.tech</span><span id="demo-foot" hidden><span class="muted">نسخة تجريبية: التعديلات تبقى على جهازك فقط · </span><button class="btn ghost sm" type="button" id="reset">أرجع البيانات التجريبية</button></span></footer>
+</div>
+<div id="modal-root"></div>
+<div class="toast" id="toast" hidden role="status"></div>
+<script src="config.js"></script>
+<script src="core.js"></script>
+<script>
+/* ============ الإعداد ============ */
+// الرابط يُضبط في config.js. فارغ أو غير موجود = وضع تجريبي ببيانات أمثلة على هذا الجهاز.
+const API_URL = (window.SANAD_CONFIG && window.SANAD_CONFIG.API_URL) || "";
+
+/* ============ طبقة الاتصال ============ */
+const DEMO = !API_URL;
+const DAY = Core.DAY, H = 36e5;
+let D = null;            // آخر لقطة من الخادم
+let AUTH = null;         // {token} بعد التحقق
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } },
+  set(k,v){ try { v==null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+
+function demoSeed(){
+  const N = Date.now(), T = Core.sod(N), at = (ago,h) => T - ago*DAY + h*H;
+  const b = (id,name,phone,code,linked,fal) => ({id,name,phone,fal,code,active:"1",tgChat:linked?"demo":"",tgToken:"t"+id,createdAt:at(60,9)+Number(id.slice(1))});
+  const p = (id,title,area,deal,price,status,closedBy) => ({id,title,area,deal,price,status,closedBy,falRef:"",createdAt:at(50,9)});
+  const c = (id,name,phone,need,source,broker,prop,stage,ago,next,nextAction,x={}) => ({id,name,phone,need,source,brokerId:broker,creditBrokerId:broker,propertyId:prop,stage,createdAt:at(ago,9),next:next===null?null:T+next*DAY+7*H,nextAction,protectedUntil:at(ago,9)+90*DAY,lostReason:"",slaNotified:1,...x});
+  const L = (ago,h,type,cl,br,pr,note="") => ({at:at(ago,h),type,clientId:cl,brokerId:br,propertyId:pr,note});
+  return {
+    settings:{officeName:"مكتب تجريبي",officeCode:"KHB-001",officeFal:"1100012345",commission:"0.025",coopSplit:"0.5",protectDays:"90",escalateDays:"2",leadSlaHours:"2",autoAssign:"1",appUrl:"",botUsername:"SanadDemoBot",officeTgChat:"demo",officeTgToken:"office-demo",rr:"0",tgOffset:"0"},
+    Brokers:[b("b1","فهد الدوسري","0551234567","111111",true,"1200123456"),b("b2","سارة العتيبي","0567654321","222222",true,"1200234567"),b("b3","ماجد القحطاني","0541112223","333333",false,""),b("b4","نورة الشهري","0598887776","444444",true,"1200345678")],
+    Properties:[p("p1","فيلا · الحزام الذهبي، الخبر","٤٥٠م","بيع",2300000,"avail",""),p("p2","شقة ٣ غرف · حي الشاطئ، الدمام","١٦٠م","بيع",850000,"sold","b2"),p("p3","أرض تجارية · طريق الملك فهد، الظهران","١٢٠٠م","بيع",4100000,"avail",""),p("p4","شقة مفروشة · حي العليا، الخبر","١٣٠م","إيجار",55000,"held",""),p("p5","دوبلكس · حي الفيصلية، الدمام","٣٢٠م","بيع",1400000,"avail","")],
+    Clients:[
+      c("c1","أبو خالد","0509876543","فيلا للتمليك بالخبر، الميزانية ٢.٥ مليون","إعلان فال","b1","p1","neg",14,0,"يرد على عرض ٢.١ مليون"),
+      c("c2","أم عبدالله","0533344455","شقة ٣ غرف للتمليك","سناب","b2","p2","won",48,null,""),
+      c("c3","محمد الزهراني","0522233344","أرض تجارية للاستثمار","اتصال للمكتب","b3","p3","view",9,-3,"يتأكد من موعد المعاينة الثانية"),
+      c("c4","عبدالرحمن","0544455566","شقة مفروشة للإيجار سنوي","إعلان فال","b4","p4","dep",6,1,"توقيع عقد الإيجار في إيجار"),
+      c("c5","ريم","0555566677","دوبلكس بالدمام حدود ١.٥ مليون","توصية","b1","p5","view",5,0,"مكالمة بعد المعاينة"),
+      c("c6","سلطان","0566677788","فيلا بالخبر، يحتاج تمويل","زيارة للمكتب","b2","p1","contact",3,-1,"يرسل خطاب التمويل"),
+      c("c7","أبو فيصل","0577788899","أرض سكنية، مو مستعجل","عميل الوسيط","b3","","later",40,62,"يرجع للسوق بعد بيع أرضه"),
+      c("c8","هند","0588899900","شقة غرفتين للإيجار بالخبر","نموذج الموقع","","","new",0,0,"أول تواصل خلال 2 ساعات",{creditBrokerId:"office"}),
+      c("c9","تركي","0511122233","دوبلكس للتمليك","إعلان فال","b2","p5","lost",30,null,"",{lostReason:"اشترى من مكتب ثاني"}),
+      c("c10","ناصر","0599900011","فيلا بالحزام الذهبي","اتصال للمكتب","b3","p1","contact",11,-6,"يرسل له فيديو الفيلا")
+    ],
+    Log:[L(48,10,"تسجيل","c2","b2","p2"),L(44,17,"معاينة","c2","b2","p2"),L(38,12,"عربون","c2","b2","p2","عربون ١٠ آلاف"),L(30,11,"إغلاق","c2","b2","p2","إفراغ الصك بـ ٨٢٥ ألف"),
+      L(30,15,"تسجيل","c9","b2","p5"),L(20,13,"خسارة","c9","b2","p5","اشترى من مكتب ثاني"),L(40,10,"تسجيل","c7","b3",""),L(38,16,"تأجيل","c7","b3","","يرجع بعد بيع أرضه"),
+      L(14,9,"تسجيل","c1","b1","p1"),L(12,17,"معاينة","c1","b1","p1","حضر مع زوجته"),L(4,20,"تفاوض","c1","b1","p1","عرض ٢.١ مليون، المالك يبغى ٢.٢"),
+      L(11,10,"تسجيل","c10","b3","p1"),L(10,12,"تواصل","c10","b3","p1"),L(9,11,"تسجيل","c3","b3","p3"),L(6,16,"معاينة","c3","b3","p3"),
+      L(6,10,"تسجيل","c4","b4","p4"),L(4,18,"معاينة","c4","b4","p4"),L(2,13,"عربون","c4","b4","p4","عربون ٥ آلاف"),L(5,9,"تسجيل","c5","b1","p5"),L(1,17,"معاينة","c5","b1","p5"),
+      L(3,12,"تسجيل","c6","b2","p1"),L(2,11,"تواصل","c6","b2","p1"),L(3,15,"تعارض","","b4","p1","نورة الشهري حاولت تسجّل «أبو خالد» على فيلا · الحزام الذهبي، الخبر وهو محمي لـ فهد الدوسري"),L(0,8,"تسجيل","c8","office","","من نموذج الموقع")],
+    Sessions:[],
+    Conflicts:[{id:"f1",at:at(3,15),brokerId:"b4",clientName:"أبو خالد",phone:"0509876543",propertyId:"p1",holderId:"b1",resolved:""}]
+  };
+}
+let demoDb = DEMO ? (store.get("sanad-v4-demo") || demoSeed()) : null;
+
+async function call(action, data){
+  const req = {action, auth:AUTH, data:data||{}};
+  if (DEMO){
+    await new Promise(r => setTimeout(r, 150));
+    const res = Core.handle(demoDb, JSON.parse(JSON.stringify(req)), DEMO_SEC, Date.now());
+    store.set("sanad-v4-demo", demoDb);
+    if (res.notify && res.notify.length) demoTg(res.notify);
+    return JSON.parse(JSON.stringify(res));
+  }
+  try {
+    const r = await fetch(API_URL, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(req)});
+    return await r.json();
+  } catch(e){ return {ok:false, error:"تعذّر الاتصال. تأكد من الإنترنت وحاول مرة ثانية."}; }
+}
+// في النسخة التجريبية ما فيه تيليجرام حقيقي، فنعرض الرسالة اللي كانت بتوصل
+const DEMO_SEC = {officePin:"1234", hash: s => { let h=2166136261; for (const ch of String(s)) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619) >>> 0; } return "d"+h.toString(36); }};
+function demoTg(notes){
+  const n = notes[0];
+  if (String(n.to).startsWith("chat:")) { const m = n.text.match(/\d{6}/); return setTimeout(() => toast(`تيليجرام (تجريبي): رمز التحقق ${m?m[0]:""}`, 9000), 400); }
+  const who = n.to==="office" ? "المكتب" : bname(n.to);
+  setTimeout(() => toast(`تيليجرام ← ${who}: ${n.text.split("\n")[0]}`, 4200), 2700);
+}
+
+/* ============ أدوات العرض ============ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const STAGES = Core.STAGES, PSTAT = Core.PSTAT, OPEN = Core.OPEN;
+const SCLS = {new:"st-new",contact:"st-contact",view:"st-view",neg:"st-neg",dep:"st-dep",won:"st-won",later:"st-later",lost:"st-lost"};
+const PCLS = {avail:"pr-avail",held:"pr-held",sold:"pr-sold",rented:"pr-sold",off:"st-lost"};
+const B = id => D.brokers.find(b => b.id===id);
+const P = id => D.properties.find(p => p.id===id);
+const C = id => D.clients.find(c => c.id===id);
+const bname = id => id==="office" ? "المكتب" : (D && B(id) ? B(id).name : "—");
+const dtf = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{day:"numeric",month:"short",timeZone:"Asia/Riyadh"});
+const tf = new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{hour:"numeric",minute:"2-digit",timeZone:"Asia/Riyadh"});
+const money = n => Math.round(n).toLocaleString("en-US") + " ر.س";
+const sod = Core.sod, now = () => Date.now();
+const dayDiff = t => Math.round((sod(t)-sod(now()))/DAY);
+function rel(t){ if(t==null) return "—"; const d=dayDiff(t); return d===0?"اليوم":d===1?"بكرة":d===-1?"أمس":d>0?`بعد ${d} أيام`:`متأخرة ${-d} أيام`; }
+const when = t => { const d=-dayDiff(t); return d===0?"اليوم "+tf.format(t):d===1?"أمس "+tf.format(t):dtf.format(t); };
+const isOpen = c => OPEN.includes(c.stage);
+const isLate = c => c.next!=null && isOpen(c) && sod(c.next) < sod(now());
+const isDue = c => c.next!=null && isOpen(c) && sod(c.next) <= sod(now());
+const lateDays = c => -dayDiff(c.next);
+const stagePill = s => `<span class="pill ${SCLS[s]}">${STAGES[s]}</span>`;
+const propPill = p => `<span class="pill ${PCLS[p.status]}">${PSTAT[p.status]}</span>`;
+const dateVal = t => { const d=new Date(t+3*H); return `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}`; };
+const fromDate = v => { if(!v) return 0; const [y,m,d]=v.split("-").map(Number); return Date.UTC(y,m-1,d,7); };
+const waLink = c => Core.waLink({Brokers:D.brokers.map(b=>({...b,active:"1"})),Properties:D.properties,settings:{officeName:D.settings.officeName}}, c);
+const expected = c => { const p=P(c.propertyId); return p ? p.price*D.settings.commission*D.settings.coopSplit : 0; };
+let toastT; function toast(m, ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true, ms||2600); }
+async function copy(text, done){ try { await navigator.clipboard.writeText(text); toast(done||"انسخ."); } catch(e){ toast("ما قدرنا ننسخ تلقائيًا. حدّد النص وانسخه."); } }
+function busy(btn, on){ if(!btn) return; btn.disabled=on; btn.dataset.t = btn.dataset.t || btn.textContent; btn.textContent = on ? "لحظة…" : btn.dataset.t; }
+
+async function act(action, data, btn){
+  busy(btn, true);
+  const res = await call(action, data);
+  busy(btn, false);
+  if (res.snapshot) D = res.snapshot;
+  if (res.expired) { AUTH=null; D=null; store.set("sanad-auth", null); route(); toast(res.error, 4000); }
+  return res;
+}
+
+/* ============ التوجيه ============ */
+function renderWho(){
+  const w = $("who");
+  const chip = DEMO ? `<span class="chip demo">نسخة تجريبية</span>` : "";
+  if(!D){ w.innerHTML = chip; return; }
+  const name = D.role==="office" ? "إدارة المكتب" : D.me.name;
+  w.innerHTML = `${chip}<span class="chip">${D.role==="office"?"المكتب":"وسيط"}: ${esc(name)} <span class="ltr num">${esc(D.role==="office"?D.settings.officeCode:D.me.no)}</span></span><button class="btn ghost sm" id="refresh" type="button">تحديث</button><button class="btn ghost sm" id="logout" type="button">خروج</button>`;
+  $("logout").onclick = async () => { await call("logout"); AUTH=null; D=null; store.set("sanad-auth", null); route(); };
+  $("refresh").onclick = async e => { const r = await act("snapshot", {}, e.target); if(r.ok){ route(); toast("تحدّثت البيانات."); } };
+}
+function route(){
+  $("hdr-office").textContent = D ? `${D.settings.officeName} · ${D.settings.officeCode}${D.settings.officeFal?" · فال "+D.settings.officeFal:""}` : "سجل محايد يحفظ حق الوسيط والمكتب";
+  renderWho();
+  if(!D) return loginView();
+  D.role==="office" ? officeView() : brokerView();
+}
+async function boot(){
+  $("demo-foot").hidden = !DEMO;
+  AUTH = store.get("sanad-auth");
+  if (AUTH){ const r = await call("snapshot"); if (r.ok){ D = r.snapshot; } else { AUTH=null; store.set("sanad-auth", null); } }
+  route();
+  setInterval(async () => { if (D && document.visibilityState==="visible" && !$("modal-root").innerHTML){ const r = await call("snapshot"); if(r.ok){ D=r.snapshot; route(); } } }, 120000);
+}
+$("reset").onclick = () => { demoDb = demoSeed(); store.set("sanad-v4-demo", demoDb); AUTH=null; D=null; store.set("sanad-auth", null); toast("رجعت البيانات التجريبية."); route(); };
+
+/* ============ الدخول ============ */
+// خطوتين: (١) الجوال أو رمز المكتب ← (٢) رمز تحقق يوصل على تيليجرام. أول دخول للوسيط قبل ربط تيليجرام يكون برمز الدعوة.
+function loginView(){
+  $("app").innerHTML = `
+  <div class="sec" style="gap:8px"><h1>كل عميل له صاحب، وكل حركة لها تاريخ.</h1>
+  <p class="muted" style="max-width:62ch">المكتب يشوف كل العقارات ومين يشتغل عليها ومين قفلها. والوسيط يشوف عملاءه ومتابعات يومه، وحقه محفوظ بالسند.</p></div>
+  <div class="login">
+    <form class="door" id="f-b" novalidate><h2>دخول الوسيط</h2>
+      <div class="field"><label for="l-ph">رقم جوالك</label><input id="l-ph" class="ltr" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx"></div>
+      <div class="field" id="l-bstep" hidden><label for="l-code" id="l-blabel">رمز التحقق</label><input id="l-code" class="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="6"></div>
+      <p class="small" id="l-binfo" hidden></p>
+      ${DEMO?`<p class="small muted">تجريبي: فهد 0551234567 (مربوط بتيليجرام، يوصله رمز) · ماجد 0541112223 (أول دخول برمز الدعوة 333333)</p>`:""}
+      <p class="err" id="l-berr" hidden></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="l-bbtn">أرسل رمز التحقق</button><button class="btn ghost" type="button" id="l-bre" hidden>أعد الإرسال</button></div></form>
+    <form class="door" id="f-o" novalidate><h2>دخول المكتب</h2>
+      <div class="field"><label for="l-pin">رمز المكتب</label><input id="l-pin" type="password" class="ltr" inputmode="numeric" autocomplete="current-password"></div>
+      <div class="field" id="l-ostep" hidden><label for="l-otp">رمز التحقق</label><input id="l-otp" class="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="6"></div>
+      <p class="small" id="l-oinfo" hidden></p>
+      ${DEMO?`<p class="small muted">تجريبي: رمز المكتب 1234، وبعده يوصل رمز تحقق</p>`:""}
+      <p class="err" id="l-oerr" hidden></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="l-obtn">التالي</button><button class="btn ghost" type="button" id="l-ore" hidden>أعد الإرسال</button></div></form>
+  </div>`;
+  const flow = (k, role, ident) => {
+    const f=$("f-"+k), btn=$("l-"+k+"btn"), re=$("l-"+k+"re"), info=$("l-"+k+"info"), step=$(k==="b"?"l-bstep":"l-ostep"), codeEl=$(k==="b"?"l-code":"l-otp");
+    let stage = "request", timer;
+    const errEl = "l-"+k+"err";
+    const cooldown = () => { let n=60; re.hidden=false; re.disabled=true; clearInterval(timer); re.textContent=`أعد الإرسال (${n})`; timer=setInterval(()=>{ n--; re.textContent = n>0?`أعد الإرسال (${n})`:"أعد الإرسال"; if(n<=0){ clearInterval(timer); re.disabled=false; } },1000); };
+    const request = async () => {
+      showErr(errEl,"");
+      const r = await act("requestOtp", {role, ...ident()}, stage==="request"?btn:re);
+      if(!r.ok) return showErr(errEl, r.error);
+      if (r.channel==="none") return verify();           // مكتب لسا ما ربط تيليجرام
+      stage = "verify"; step.hidden=false; info.hidden=false; codeEl.value=""; codeEl.focus();
+      if (r.channel==="invite"){ $("l-blabel").textContent="رمز الدعوة من المكتب"; info.textContent=r.msg; re.hidden=true; btn.textContent="ادخل"; }
+      else { if(k==="b") $("l-blabel").textContent="رمز التحقق"; info.textContent=r.msg+" صالح ٥ دقائق."; btn.textContent="تحقق وادخل"; cooldown(); }
+      btn.dataset.t = btn.textContent;
+    };
+    const verify = async () => {
+      showErr(errEl,"");
+      const r = await act("verifyOtp", {role, ...ident(), code:codeEl.value}, btn);
+      if(!r.ok) return showErr(errEl, r.error);
+      clearInterval(timer); AUTH = {token:r.token}; store.set("sanad-auth", AUTH); route();
+    };
+    f.addEventListener("submit", e => { e.preventDefault(); stage==="request" ? request() : verify(); });
+    re.onclick = request;
+    f.querySelector("input").addEventListener("input", () => { if(stage!=="request"){ stage="request"; step.hidden=true; info.hidden=true; re.hidden=true; btn.textContent = k==="b"?"أرسل رمز التحقق":"التالي"; btn.dataset.t=btn.textContent; } });
+  };
+  flow("b", "broker", () => ({phone:$("l-ph").value}));
+  flow("o", "office", () => ({pin:$("l-pin").value}));
+}
+
+/* ============ قطع مشتركة ============ */
+function queueItem(c, forOffice){
+  const p = P(c.propertyId), late = isLate(c), last = D.log.filter(l => l.clientId===c.id).sort((a,b)=>b.at-a.at)[0];
+  const credit = c.creditBrokerId && c.creditBrokerId!==c.brokerId ? `<span class="small muted">الحق محفوظ لـ ${esc(bname(c.creditBrokerId))}</span>` : "";
+  const mine = !forOffice && c.brokerId===D.me.id;
+  return `<div class="q ${late?"is-late":""}">
+    <div class="q-main">
+      <div class="q-top"><b>${esc(c.name)}</b>${stagePill(c.stage)}${late?`<span class="pill late">متأخرة ${lateDays(c)} أيام</span>`:""}${forOffice?`<span class="small muted">· ${c.brokerId?esc(bname(c.brokerId)):"<b style='color:var(--warn)'>بدون وسيط</b>"}</span>`:""}</div>
+      <span class="small muted"><span class="ltr num">${esc(c.no)}</span> · ${p?esc(p.title):esc(c.need)}</span>
+      ${isOpen(c)?`<span class="q-next">${esc(c.nextAction||"بدون خطوة محددة")} <span class="small muted">· ${rel(c.next)}</span></span>`:c.stage==="lost"?`<span class="small muted">السبب: ${esc(c.lostReason)}</span>`:""}
+      ${last?`<span class="small muted">آخر حركة: ${esc(last.type)} ${when(last.at)}</span>`:""}${credit}
+    </div>
+    <div class="q-acts">
+      ${forOffice ? `<button class="btn ${c.brokerId?"ghost":""} sm" data-act="reassign" data-c="${c.id}" type="button">${c.brokerId?"حوّل لوسيط آخر":"وزّع على وسيط"}</button><button class="btn ghost sm" data-act="open" data-c="${c.id}" type="button">التفاصيل</button>`
+      : mine && isOpen(c) ? `<a class="btn wa sm" href="${waLink(c)}" target="_blank" rel="noopener">راسل على واتساب</a><button class="btn sm" data-act="step" data-c="${c.id}" type="button">سجّل النتيجة</button>`
+      : `<button class="btn ghost sm" data-act="open" data-c="${c.id}" type="button">التفاصيل</button>`}
+    </div></div>`;
+}
+const VERB = {"تسجيل":"سجّل","تواصل":"تواصل مع","معاينة":"عاين مع","تفاوض":"تفاوض مع","عربون":"أخذ عربون من","خسارة":"خسر","تأجيل":"أجّل","ملاحظة":"كتب عن"};
+function feedItem(l){
+  const c = C(l.clientId), p = P(l.propertyId), bn = esc(bname(l.brokerId));
+  let line;
+  if(l.type==="تعارض") line = `<b>تعارض</b> · ${esc(l.note)}`;
+  else if(l.type==="تحويل") line = `<b>تحويل</b> «${esc(c?c.name:"")}» ${esc(l.note)}`;
+  else if(l.type==="إغلاق") line = `<b>${bn}</b> قفل ${p?`<b>${esc(p.title)}</b>`:"صفقة"} مع «${esc(c?c.name:"")}»${l.note?` · ${esc(l.note)}`:""}`;
+  else line = `<b>${bn}</b> ${VERB[l.type]||l.type} «${esc(c?c.name:"")}»${p?` · ${esc(p.title)}`:""}${l.note?` · <span class="muted">${esc(l.note)}</span>`:""}`;
+  return `<li><time>${when(l.at)}</time><span>${line}</span></li>`;
+}
+function wireActions(root){
+  root.querySelectorAll("[data-act]").forEach(el => el.onclick = () => {
+    const c = C(el.dataset.c);
+    ({step:stepModal, reassign:reassignModal, open:detailModal})[el.dataset.act](c);
+  });
+}
+function tgBanner(linked, link, who){
+  if (linked) return "";
+  return `<div class="banner"><div><b>اربط ${who} بتيليجرام</b><p class="small">عشان توصلك ${who==="المكتب"?"الملخصات اليومية والتعارضات والصفقات":"متابعات يومك وأي عميل جديد يتحوّل لك"} أول بأول.</p></div>
+    ${link?`<a class="btn sm" href="${esc(link)}" target="_blank" rel="noopener">افتح البوت</a>`:`<span class="small muted">البوت ما انضبط بعد في الإعدادات.</span>`}</div>`;
+}
+
+/* ============ المكتب ============ */
+let oTab = "today";
+function officeView(){
+  const st = D.settings;
+  const active = D.clients.filter(c => isOpen(c) && c.stage!=="later");
+  const late = D.clients.filter(isLate).sort((a,b)=>a.next-b.next);
+  const unassigned = D.clients.filter(c => isOpen(c) && !c.brokerId);
+  const conf = D.conflicts.filter(x => x.resolved!=="1");
+  const won30 = D.log.filter(l => l.type==="إغلاق" && l.at>now()-30*DAY).length;
+  const views7 = D.log.filter(l => l.type==="معاينة" && l.at>now()-7*DAY).length;
+  $("app").innerHTML = `
+  <div class="sec-head"><div class="sec" style="gap:4px"><h1>لوحة المكتب</h1><p class="muted">كل عميل وكل عقار وكل حركة، باسم الوسيط ووقتها.</p></div>
+    <button class="btn" type="button" id="o-add">+ عميل للمكتب</button></div>
+  ${tgBanner(D.officeTg.linked, D.officeTg.link, "المكتب")}
+  <div class="kpis">
+    <div><b>${active.length}</b><span>عميل نشط</span></div>
+    <div class="${late.length?"alert":""}"><b>${late.length}</b><span>متابعة متأخرة</span></div>
+    <div><b>${views7}</b><span>معاينة آخر ٧ أيام</span></div>
+    <div><b>${won30}</b><span>صفقة آخر ٣٠ يوم</span></div>
+  </div>
+  <nav class="tabs" role="tablist">
+    ${[["today",`يحتاج تدخلك${late.length+unassigned.length+conf.length?` (${late.length+unassigned.length+conf.length})`:""}`],["props","العقارات"],["brokers","الوسطاء"],["clients","كل العملاء"],["feed","سجل الحركات"],["settings","الإعدادات"]].map(([k,l])=>`<button role="tab" type="button" data-t="${k}" aria-selected="${oTab===k}">${l}</button>`).join("")}
+  </nav>
+  <div id="otab"></div>`;
+  $("o-add").onclick = () => addModal("office");
+  document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => { oTab=b.dataset.t; officeView(); });
+  const el = $("otab");
+  if(oTab==="today"){
+    el.innerHTML = `<div class="cols">
+      <div class="sec">
+        ${unassigned.length?`<div class="sec-head"><h2>عملاء بدون وسيط</h2></div><div class="queue">${unassigned.map(c=>queueItem(c,true)).join("")}</div>`:""}
+        <div class="sec-head"><h2>متابعات متأخرة</h2><span class="small muted">حوّلها لوسيط ثاني والحق يبقى لصاحبه</span></div>
+        ${late.length?`<div class="queue">${late.map(c=>queueItem(c,true)).join("")}</div>`:`<div class="empty">ما فيه متابعات متأخرة. كل العملاء لهم خطوة جاية في وقتها.</div>`}
+        <div class="sec-head" style="margin-top:8px"><h2>تعارضات</h2></div>
+        ${conf.length?`<div class="queue">${conf.map(x=>`<div class="q is-late"><div class="q-main"><div class="q-top"><b>${esc(x.clientName)}</b><span class="pill late">تعارض</span></div>
+          <span class="small">${esc(bname(x.brokerId))} حاول يسجّله${P(x.propertyId)?` على ${esc(P(x.propertyId).title)}`:""} · ${when(x.at)}</span>
+          <span class="small muted">محمي لـ ${esc(bname(x.holderId))} من قبل، والحماية سارية.</span></div>
+          <div class="q-acts"><button class="btn ghost sm" type="button" data-res="${x.id}">تمت المراجعة</button></div></div>`).join("")}</div>`:`<div class="empty">ما فيه تعارضات مفتوحة.</div>`}
+      </div>
+      <div class="sec"><div class="sec-head"><h2>آخر الحركات</h2><button class="btn ghost sm" type="button" id="morefeed">كل السجل</button></div>
+        ${D.log.length?`<ul class="feed">${[...D.log].sort((a,b)=>b.at-a.at).slice(0,12).map(feedItem).join("")}</ul>`:`<div class="empty">أول ما يسجّل وسيط عميلًا بتظهر الحركات هنا.</div>`}</div>
+    </div>`;
+    el.querySelectorAll("[data-res]").forEach(b => b.onclick = async () => { const r = await act("resolveConflict",{id:b.dataset.res},b); toast(r.ok?r.msg:r.error); officeView(); });
+    $("morefeed").onclick = () => { oTab="feed"; officeView(); };
+  }
+  if(oTab==="props"){
+    el.innerHTML = `<div class="sec"><div class="sec-head"><p class="small muted">حصة الوسيط المتعاون ${Math.round(st.coopSplit*100)}% من عمولة ${(st.commission*100).toFixed(1).replace(/\.0$/,"")}%.</p><button class="btn sm" type="button" id="p-add">+ عقار</button></div>
+    ${D.properties.length?`<div class="tbl-wrap"><table><thead><tr><th>العقار</th><th>السعر</th><th>الحالة</th><th>راح مع / يشتغلون عليه</th><th>عملاء</th><th></th></tr></thead><tbody>
+    ${D.properties.map(p=>{
+      const cs = D.clients.filter(c=>c.propertyId===p.id), activeC = cs.filter(isOpen);
+      const dep = cs.find(c=>c.stage==="dep");
+      const who = p.closedBy ? `<b>${esc(bname(p.closedBy))}</b> <span class="muted small">قفلها</span>` :
+        p.status==="held" && dep ? `<b>${esc(bname(dep.creditBrokerId))}</b> <span class="muted small">عربون من ${esc(dep.name)}</span>` :
+        [...new Set(activeC.map(c=>c.brokerId).filter(Boolean))].map(id=>esc(bname(id))).join("، ") || `<span class="muted">ما أحد</span>`;
+      return `<tr><td><b>${esc(p.title)}</b><div class="small muted"><span class="ltr num">${esc(p.no)}</span> · ${esc(p.deal)}${p.area?" · "+esc(p.area):""}${p.falRef?" · إعلان "+esc(p.falRef):""}</div></td><td class="n">${money(p.price)}${p.deal==="إيجار"?" / سنة":""}</td><td>${propPill(p)}</td><td>${who}</td><td class="n">${activeC.length} نشط · ${cs.length} الكل</td>
+        <td><div style="display:flex;gap:6px"><button class="btn ghost sm" type="button" data-pe="${p.id}">عدّل</button><button class="btn ghost sm" type="button" data-pl="${p.id}">رابط النموذج</button></div></td></tr>`;}).join("")}
+    </tbody></table></div>`:`<div class="empty">ما فيه عقارات بعد. أضف أول عقار عشان يقدر الوسطاء يسجّلون عملاءهم عليه.</div>`}</div>`;
+    $("p-add").onclick = () => propModal(null);
+    el.querySelectorAll("[data-pe]").forEach(b => b.onclick = () => propModal(P(b.dataset.pe)));
+    el.querySelectorAll("[data-pl]").forEach(b => b.onclick = () => { const u = leadUrl(b.dataset.pl); u ? copy(u, "انسخ رابط نموذج العقار. حطه في الإعلان أو حوّله QR.") : toast("حط رابط اللوحة في الإعدادات أول."); });
+  }
+  if(oTab==="brokers"){
+    const rows = D.brokers.map(b=>{
+      const mine = D.clients.filter(c=>c.brokerId===b.id), act = mine.filter(c=>isOpen(c)&&c.stage!=="later").length, lt = mine.filter(isLate).length;
+      const v30 = D.log.filter(l=>l.brokerId===b.id && l.type==="معاينة" && l.at>now()-30*DAY).length;
+      const won = D.clients.filter(c=>c.creditBrokerId===b.id && c.stage==="won").length;
+      return {b,act,lt,v30,won,disc: act ? Math.round(100*(act-lt)/act) : 100};
+    });
+    el.innerHTML = `<div class="sec"><div class="sec-head"><p class="small muted">الالتزام = نسبة عملائه النشطين اللي متابعتهم في وقتها. «إعادة تفعيل» تعطيه رمز دعوة جديد وتفصل تيليجرامه وتخرجه من كل الأجهزة، استخدمها إذا غيّر جواله أو فقده.</p><button class="btn sm" type="button" id="b-add">+ وسيط</button></div>
+    ${rows.length?`<div class="tbl-wrap"><table><thead><tr><th>الوسيط</th><th>الرقم / رخصة فال</th><th>نشطين</th><th>متأخرة</th><th>معاينات ٣٠ يوم</th><th>صفقات</th><th>الالتزام</th><th>تيليجرام</th><th></th></tr></thead><tbody>
+    ${rows.map(r=>`<tr${r.b.active?"":' style="opacity:.55"'}><td><b>${esc(r.b.name)}</b>${r.b.active?"":` <span class="pill st-lost">موقوف</span>`}<div class="small muted ltr num">${esc(r.b.phone)}</div></td><td class="n"><span class="ltr">${esc(r.b.no)}</span><div class="small ${r.b.fal?"muted":""}">${r.b.fal?`فال <span class="ltr">${esc(r.b.fal)}</span>`:`<span style="color:var(--warn);font-weight:800">بدون رخصة</span>`}</div></td><td class="n">${r.act}</td><td class="n">${r.lt?`<span class="pill late">${r.lt}</span>`:"0"}</td><td class="n">${r.v30}</td><td class="n">${r.won}</td>
+      <td><div style="display:flex;gap:8px;align-items:center;min-width:110px"><div class="bar" style="flex:1"><i style="width:${r.disc}%"></i></div><span class="num small">${r.disc}%</span></div></td>
+      <td>${r.b.tgLinked?`<span class="pill st-dep">مربوط</span>`:`<span class="pill st-lost">لا</span>`}</td>
+      <td><div style="display:flex;gap:6px"><button class="btn ghost sm" type="button" data-fal="${r.b.id}">الرخصة</button><button class="btn ghost sm" type="button" data-inv="${r.b.id}">إعادة تفعيل</button><button class="btn ghost sm" type="button" data-tog="${r.b.id}">${r.b.active?"أوقف":"فعّل"}</button></div></td></tr>`).join("")}
+    </tbody></table></div>`:`<div class="empty">أضف أول وسيط. بيطلع لك رمز دخوله ورسالة دعوة جاهزة ترسلها له.</div>`}</div>`;
+    $("b-add").onclick = brokerModal;
+    el.querySelectorAll("[data-tog]").forEach(b => b.onclick = async () => { const x = B(b.dataset.tog); const r = await act("updateBroker",{id:x.id, active:!x.active},b); toast(r.ok?r.msg:r.error); officeView(); });
+    el.querySelectorAll("[data-inv]").forEach(b => b.onclick = async () => { const r = await act("updateBroker",{id:b.dataset.inv, resetCode:true},b); if(r.ok) inviteModal(r.invite, "إعادة تفعيل"); else toast(r.error); });
+    el.querySelectorAll("[data-fal]").forEach(b => b.onclick = () => falModal(B(b.dataset.fal)));
+  }
+  if(oTab==="clients"){
+    el.innerHTML = `<div class="sec"><div class="filters">
+      <input id="fq" type="search" placeholder="ابحث باسم العميل أو جواله أو العقار">
+      <select id="fst"><option value="">كل المراحل</option>${Object.entries(STAGES).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select>
+      <select id="fb"><option value="">كل الوسطاء</option><option value="-">بدون وسيط</option>${D.brokers.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join("")}</select>
+      <button class="btn ghost sm" type="button" id="csv">انسخ كجدول</button></div><div id="crows"></div></div>`;
+    let list = [];
+    const draw = () => {
+      const q = Core.p9($("fq").value) && Core.p9($("fq").value).length>3 ? Core.p9($("fq").value) : $("fq").value.trim(), s=$("fst").value, bb=$("fb").value;
+      list = D.clients.filter(c => (!s||c.stage===s) && (!bb || (bb==="-" ? !c.brokerId : c.brokerId===bb)) && (!q || [c.name,c.phone,P(c.propertyId)?.title,c.need].join(" ").includes(q))).sort((a,b)=>b.createdAt-a.createdAt);
+      $("crows").innerHTML = list.length ? `<div class="tbl-wrap"><table><thead><tr><th>العميل</th><th>العقار / الطلب</th><th>المرحلة</th><th>الوسيط</th><th>الخطوة الجاية</th><th>المصدر</th></tr></thead><tbody>
+        ${list.map(c=>`<tr><td><button class="btn ghost sm" type="button" data-act="open" data-c="${c.id}">${esc(c.name)}</button><div class="small muted ltr num">${esc(c.no)} · ${esc(c.phone)}</div></td>
+          <td>${esc(P(c.propertyId)?.title || c.need)}</td><td>${stagePill(c.stage)}</td>
+          <td>${c.brokerId?esc(bname(c.brokerId)):`<span class="pill late">بدون</span>`}${c.creditBrokerId && c.creditBrokerId!==c.brokerId?`<div class="small muted">الحق: ${esc(bname(c.creditBrokerId))}</div>`:""}</td>
+          <td>${isOpen(c)?`${esc(c.nextAction)}<div class="small" style="${isLate(c)?"color:var(--warn);font-weight:800":"color:var(--muted)"}">${rel(c.next)}</div>`:`<span class="muted">${c.stage==="lost"?esc(c.lostReason):"—"}</span>`}</td>
+          <td class="small">${esc(c.source)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">${D.clients.length?"ما فيه عملاء بهذا البحث.":"ما فيه عملاء بعد."}</div>`;
+      wireActions($("crows"));
+    };
+    ["fq","fst","fb"].forEach(id => $(id).addEventListener("input", draw)); draw();
+    $("csv").onclick = () => copy([["العميل","الجوال","العقار/الطلب","المرحلة","الوسيط","صاحب الحق","الخطوة الجاية","موعدها","المصدر","تاريخ التسجيل"].join("\t"),
+      ...list.map(c=>[c.name,c.phone,P(c.propertyId)?.title||c.need,STAGES[c.stage],bname(c.brokerId),bname(c.creditBrokerId),c.nextAction,c.next?dtf.format(c.next):"",c.source,dtf.format(c.createdAt)].join("\t"))].join("\n"), "انسخ الجدول. الصقه في Excel أو Google Sheets.");
+  }
+  if(oTab==="feed"){
+    el.innerHTML = D.log.length ? `<ul class="feed">${[...D.log].sort((a,b)=>b.at-a.at).map(feedItem).join("")}</ul>` : `<div class="empty">ما فيه حركات بعد.</div>`;
+  }
+  if(oTab==="settings") settingsView(el);
+  wireActions(el);
+}
+function leadUrl(pid){
+  const base = D.settings.appUrl || (DEMO ? "" : location.href.split("#")[0].split("?")[0]);
+  if(!base) return "";
+  return base.replace(/[^/]*$/, "") + "lead.html" + (pid ? `?p=${encodeURIComponent(pid)}&src=${encodeURIComponent("إعلان فال")}` : "");
+}
+function settingsView(el){
+  const s = D.settings;
+  el.innerHTML = `<form class="sec" id="f-set" novalidate style="max-width:640px">
+    <div class="field"><label for="s-on">اسم المكتب</label><input id="s-on" value="${esc(s.officeName)}"></div>
+    <div class="grid2"><div class="field"><label for="s-oc">رقم المكتب في الشبكة</label><input id="s-oc" class="ltr" value="${esc(s.officeCode==="OFC-000"?"":s.officeCode)}" placeholder="KHB-001" maxlength="7">
+      <span class="small muted">رمز المدينة + رقم من ٣ خانات: ${Object.entries(s.cities).map(([k,v])=>`${k} ${v}`).join(" · ")}. تغييره يحدّث أرقام كل الوسطاء والعقارات والعملاء.</span></div>
+    <div class="field"><label for="s-of">رخصة فال للمكتب</label><input id="s-of" class="ltr" inputmode="numeric" value="${esc(s.officeFal||"")}"></div></div>
+    <div class="grid2"><div class="field"><label for="s-cm">نسبة العمولة %</label><input id="s-cm" class="ltr" inputmode="decimal" value="${+(s.commission*100).toFixed(2)}"></div>
+    <div class="field"><label for="s-sp">حصة الوسيط المتعاون %</label><input id="s-sp" class="ltr" inputmode="decimal" value="${Math.round(s.coopSplit*100)}"></div></div>
+    <div class="grid2"><div class="field"><label for="s-pd">مدة الحماية (يوم)</label><input id="s-pd" class="ltr" inputmode="numeric" value="${s.protectDays}"></div>
+    <div class="field"><label for="s-ed">تنبيه التأخير بعد (يوم)</label><input id="s-ed" class="ltr" inputmode="numeric" value="${s.escalateDays}"></div></div>
+    <div class="grid2"><div class="field"><label for="s-sla">مهلة أول تواصل مع عميل جديد (ساعة)</label><input id="s-sla" class="ltr" inputmode="numeric" value="${s.leadSlaHours}"></div>
+    <div class="field"><label for="s-aa">توزيع عملاء النموذج</label><select id="s-aa"><option value="1" ${s.autoAssign?"selected":""}>تلقائي على الوسطاء بالدور</option><option value="0" ${s.autoAssign?"":"selected"}>يدوي من المكتب</option></select></div></div>
+    <div class="field"><label for="s-url">رابط اللوحة بعد النشر</label><input id="s-url" class="ltr" placeholder="https://highlink.tech/sanad/" value="${esc(s.appUrl)}"></div>
+    <div class="field"><label for="s-bot">اسم بوت تيليجرام</label><input id="s-bot" class="ltr" placeholder="SanadOfficeBot" value="${esc(s.botUsername)}"></div>
+    <p class="err" id="s-err" hidden></p>
+    <div class="acts" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="s-btn">احفظ الإعدادات</button>
+      <button class="btn ghost" type="button" id="s-lead">انسخ رابط نموذج العملاء العام</button></div>
+    <p class="small muted">الحقول الفاضية تبقى على قيمتها الحالية.</p>
+  </form>`;
+  $("s-lead").onclick = () => { const u = leadUrl(""); u ? copy(u, "انسخ رابط النموذج. حطه في البايو والإعلانات.") : toast("حط رابط اللوحة أول واحفظ."); };
+  $("f-set").addEventListener("submit", async e => {
+    e.preventDefault();
+    const pct = id => { const v = parseFloat(String($(id).value).replace(",", ".")); return isNaN(v) ? null : String(v/100); };
+    const n = id => { const v = $(id).value.trim(); return v==="" ? null : String(parseInt(v,10)||""); };
+    const data = {officeCode:$("s-oc").value.trim()||null, officeFal:$("s-of").value.trim()||null, officeName:$("s-on").value.trim()||null, commission:pct("s-cm"), coopSplit:pct("s-sp"), protectDays:n("s-pd"), escalateDays:n("s-ed"), leadSlaHours:n("s-sla"), autoAssign:$("s-aa").value, appUrl:$("s-url").value.trim()||null, botUsername:$("s-bot").value.trim().replace(/^@/,"")||null};
+    const r = await act("settings", data, $("s-btn"));
+    toast(r.ok ? r.msg : r.error); if(r.ok) route();
+  });
+}
+
+/* ============ الوسيط ============ */
+let bFilter = "open";
+function brokerView(){
+  const me = D.me, st = D.settings;
+  const mine = D.clients.filter(c => c.brokerId===me.id);
+  const due = mine.filter(isDue).sort((a,b)=>a.next-b.next);
+  const late = mine.filter(isLate);
+  const active = mine.filter(c => isOpen(c) && c.stage!=="later");
+  const pipeline = D.clients.filter(c => c.creditBrokerId===me.id && ["neg","dep"].includes(c.stage)).reduce((s,c)=>s+expected(c),0);
+  const groups = {open:c=>c.brokerId===me.id&&isOpen(c)&&c.stage!=="later", later:c=>c.brokerId===me.id&&c.stage==="later", won:c=>c.creditBrokerId===me.id&&c.stage==="won", lost:c=>c.brokerId===me.id&&c.stage==="lost", handed:c=>c.creditBrokerId===me.id&&c.brokerId!==me.id&&isOpen(c)};
+  const listed = D.clients.filter(groups[bFilter]).sort((a,b)=>(a.next??9e15)-(b.next??9e15));
+  $("app").innerHTML = `
+  <div class="sec-head"><div class="sec" style="gap:4px"><h1>هلا ${esc(me.name.split(" ")[0])}</h1><p class="small muted"><span class="ltr num">${esc(me.no)}</span>${me.fal?` · فال <span class="ltr num">${esc(me.fal)}</span>`:""}</p><p class="muted">${due.length?`عندك ${due.length} متابعات اليوم${late.length?`، منها ${late.length} متأخرة`:""}.`:"ما عندك متابعات اليوم."}</p></div>
+  <button class="btn" type="button" id="add">+ عميل جديد</button></div>
+  ${tgBanner(me.tgLinked, me.tgLink, "جوالك")}
+  <div class="kpis">
+    <div><b>${due.length}</b><span>متابعات اليوم</span></div>
+    <div class="${late.length?"alert":""}"><b>${late.length}</b><span>متأخرة</span></div>
+    <div><b>${active.length}</b><span>عميل نشط</span></div>
+    <div><b class="kpi-money">${money(pipeline)}</b><span>عمولتك المتوقعة (تفاوض + عربون)</span></div>
+  </div>
+  <div class="sec"><h2>متابعات اليوم</h2>
+    ${due.length?`<div class="queue">${due.map(c=>queueItem(c,false)).join("")}</div>`:`<div class="empty">خلصت متابعات اليوم. أضف عميلًا جديدًا أو راجع المؤجلين.</div>`}</div>
+  <div class="sec"><h2>عملائي</h2>
+    <nav class="tabs" role="tablist">${[["open","نشطين"],["later","مؤجلين"],["won","مغلقة"],["lost","خسرناهم"],["handed","حقي عند غيري"]].map(([k,l])=>`<button role="tab" type="button" data-f="${k}" aria-selected="${bFilter===k}">${l} <span class="num">(${D.clients.filter(groups[k]).length})</span></button>`).join("")}</nav>
+    ${listed.length?`<div class="queue">${listed.map(c=>queueItem(c,false)).join("")}</div>`:`<div class="empty">${bFilter==="handed"?"العملاء اللي جبتهم وتحوّلوا لوسيط ثاني يظهرون هنا، وحقك فيهم محفوظ.":"ما فيه عملاء هنا."}</div>`}</div>
+  <div class="sec"><h2>عقارات المكتب</h2><p class="small muted">حصتك كوسيط متعاون ${Math.round(st.coopSplit*100)}% من عمولة ${(st.commission*100).toFixed(1).replace(/\.0$/,"")}%، معلنة من البداية.</p>
+    ${D.properties.length?`<div class="tbl-wrap"><table><thead><tr><th>العقار</th><th>السعر</th><th>الحالة</th><th>حصتك لو قفلتها</th></tr></thead><tbody>
+    ${D.properties.map(p=>`<tr><td><b>${esc(p.title)}</b><div class="small muted">${esc(p.deal)}${p.area?" · "+esc(p.area):""}</div></td><td class="n">${money(p.price)}${p.deal==="إيجار"?" / سنة":""}</td><td>${propPill(p)}</td><td class="n">${p.status==="avail"?money(p.price*st.commission*st.coopSplit):"—"}</td></tr>`).join("")}
+    </tbody></table></div>`:`<div class="empty">المكتب ما أضاف عقارات بعد.</div>`}</div>`;
+  $("add").onclick = () => addModal("broker");
+  document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { bFilter=b.dataset.f; brokerView(); });
+  wireActions($("app"));
+}
+
+/* ============ النوافذ ============ */
+function modal(html, onReady){
+  const root = $("modal-root");
+  root.innerHTML = `<div class="shade" id="shade"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;
+  const close = () => { root.innerHTML = ""; document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if(e.key==="Escape") close(); };
+  document.addEventListener("keydown", onKey);
+  $("shade").addEventListener("click", e => { if(e.target.id==="shade") close(); });
+  root.querySelectorAll("[data-close]").forEach(b => b.onclick = close);
+  const first = root.querySelector("input,select,textarea"); if(first) first.focus();
+  onReady && onReady(close);
+}
+const showErr = (id, m) => { $(id).textContent = m; $(id).hidden = !m; };
+
+function addModal(role){
+  const avail = D.properties.filter(p => p.status==="avail");
+  modal(`<h2>${role==="office"?"عميل للمكتب":"عميل جديد"}</h2>
+    <form id="fa" novalidate>
+      <div class="grid2"><div class="field"><label for="a-n">اسم العميل</label><input id="a-n" autocomplete="off"></div>
+      <div class="field"><label for="a-p">جواله</label><input id="a-p" class="ltr" inputmode="tel" placeholder="05xxxxxxxx" autocomplete="off"></div></div>
+      <div class="field"><label for="a-need">وش يبغى؟</label><input id="a-need" placeholder="مثال: شقة ٣ غرف للتمليك بالخبر، حدود ٩٠٠ ألف"></div>
+      <div class="grid2"><div class="field"><label for="a-prop">على عقار من المكتب؟</label><select id="a-prop"><option value="">لا، طلب عام</option>${avail.map(p=>`<option value="${p.id}">${esc(p.title)}</option>`).join("")}</select></div>
+      <div class="field"><label for="a-src">من وين جا؟</label><select id="a-src">${D.settings.sources.map(s=>`<option>${esc(s)}</option>`).join("")}</select></div></div>
+      ${role==="office"?`<div class="field"><label for="a-b">يتابعه</label><select id="a-b"><option value="">بدون وسيط الحين</option>${D.brokers.filter(b=>b.active).map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join("")}</select></div>`:""}
+      <div class="grid2"><div class="field"><label for="a-nd">موعد أول متابعة</label><input id="a-nd" type="date" value="${dateVal(now())}"></div>
+      <div class="field"><label for="a-na">وش الخطوة؟</label><input id="a-na" value="أول تواصل وتحديد موعد معاينة"></div></div>
+      <p class="err" id="a-err" hidden></p>
+      <div class="acts"><button class="btn" id="a-btn">${role==="office"?"سجّل العميل":"سجّل واحمِه باسمي"}</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, close => {
+    $("fa").addEventListener("submit", async e => {
+      e.preventDefault(); showErr("a-err","");
+      const data = {name:$("a-n").value, phone:$("a-p").value, need:$("a-need").value, propertyId:$("a-prop").value, source:$("a-src").value, next:fromDate($("a-nd").value), nextAction:$("a-na").value, brokerId:role==="office"?$("a-b").value:""};
+      const r = await act("addClient", data, $("a-btn"));
+      if(!r.ok){ showErr("a-err", r.error); if(r.conflict) route(); return; }
+      close(); toast(r.msg); route();
+    });
+  });
+}
+
+const STEP_TYPES = [["contact","تواصل"],["view","معاينة"],["neg","تفاوض"],["dep","عربون"],["won","إغلاق الصفقة"],["later","تأجيل"],["lost","خسارة"],["note","ملاحظة فقط"]];
+function stepModal(c){
+  const p = P(c.propertyId), pd = D.settings.protectDays;
+  modal(`<h2>نتيجة المتابعة مع ${esc(c.name)}</h2>
+    <p class="small muted">${p?esc(p.title):esc(c.need)} · الآن: ${STAGES[c.stage]}</p>
+    <form id="fs" novalidate>
+      <div class="field"><label for="s-t">وش صار؟</label><select id="s-t">${STEP_TYPES.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
+      <div class="field"><label for="s-note">التفاصيل</label><input id="s-note" placeholder="مثال: عاين وعجبه، يبغى يشاور أهله"></div>
+      <div id="s-next" class="grid2"><div class="field"><label for="s-d">المتابعة الجاية</label><input id="s-d" type="date" value="${dateVal(now()+2*DAY)}"></div>
+        <div class="field"><label for="s-a">وش الخطوة؟</label><input id="s-a" placeholder="مثال: يرد بعد ما يشاور أهله"></div></div>
+      <p class="credit" id="s-hint"></p>
+      <p class="err" id="s-err" hidden></p>
+      <div class="acts"><button class="btn" id="s-btn">احفظ</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, close => {
+    const sync = () => {
+      const t = $("s-t").value;
+      $("s-next").hidden = t==="won" || t==="lost";
+      $("s-hint").textContent = t==="won" ? `تنسجّل الصفقة باسم ${bname(c.creditBrokerId)}، ويتحوّل العقار إلى ${p&&p.deal==="إيجار"?"مؤجّر":"مباع"}.`
+        : t==="lost" ? "اكتب سبب الخسارة في التفاصيل. يساعد المكتب يعرف وين يضيع العملاء."
+        : t==="later" ? "حدد متى نرجع له. بيرجع لقائمتك تلقائيًا بنفس اليوم." : `المتابعة الجاية إلزامية. كل خطوة موثّقة تمدّد الحماية ${pd} يوم.`;
+      if (t==="later") $("s-d").value = dateVal(now()+90*DAY);
+    };
+    $("s-t").onchange = sync; sync();
+    $("fs").addEventListener("submit", async e => {
+      e.preventDefault(); showErr("s-err","");
+      const r = await act("logStep", {clientId:c.id, type:$("s-t").value, note:$("s-note").value, next:fromDate($("s-d").value), nextAction:$("s-a").value}, $("s-btn"));
+      if(!r.ok) return showErr("s-err", r.error);
+      close(); toast(r.msg); route();
+    });
+  });
+}
+
+function reassignModal(c){
+  const opts = D.brokers.filter(b => b.active && b.id!==c.brokerId);
+  modal(`<h2>${c.brokerId?"حوّل":"وزّع"} «${esc(c.name)}»</h2>
+    <p class="small muted">${c.brokerId?(isLate(c)?`المتابعة متأخرة ${lateDays(c)} أيام مع ${esc(bname(c.brokerId))}.`:`يتابعه حاليًا ${esc(bname(c.brokerId))}.`):"عميل جديد بدون وسيط."}</p>
+    <form id="fr" novalidate>
+      <div class="field"><label for="r-b">الوسيط</label><select id="r-b">${opts.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join("")}</select></div>
+      <div class="field"><label for="r-d">موعد المتابعة</label><input id="r-d" type="date" value="${dateVal(now())}"></div>
+      <p class="credit">حق الصفقة يبقى لـ <b>${esc(bname(c.creditBrokerId))}</b>، والوسيط الجديد يتولى المتابعة. بيوصله تنبيه على تيليجرام.</p>
+      <p class="err" id="r-err" hidden></p>
+      <div class="acts"><button class="btn" id="r-btn" ${opts.length?"":"disabled"}>${c.brokerId?"حوّل":"وزّع"}</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, close => {
+    $("fr").addEventListener("submit", async e => {
+      e.preventDefault();
+      const r = await act("reassign", {clientId:c.id, brokerId:$("r-b").value, next:fromDate($("r-d").value)}, $("r-btn"));
+      if(!r.ok) return showErr("r-err", r.error);
+      close(); toast(r.msg); route();
+    });
+  });
+}
+
+function detailModal(c){
+  const p = P(c.propertyId), evs = D.log.filter(l=>l.clientId===c.id).sort((a,b)=>a.at-b.at);
+  modal(`<div class="sec-head"><h2>${esc(c.name)}</h2>${stagePill(c.stage)}</div>
+    <p class="small"><b class="ltr num">${esc(c.no)}</b> · <span class="ltr num">${esc(c.phone)}</span> · ${esc(c.source)}</p>
+    <p>${p?`<b>${esc(p.title)}</b> · `:""}${esc(c.need)}</p>
+    <p class="credit">المتابعة: <b>${c.brokerId?esc(bname(c.brokerId)):"بدون وسيط"}</b> · الحق: <b>${esc(bname(c.creditBrokerId))}</b> · محمي حتى ${dtf.format(c.protectedUntil)}</p>
+    ${isOpen(c)?`<p>الخطوة الجاية: <b>${esc(c.nextAction)}</b> · ${rel(c.next)}</p>`:""}
+    <h3>كل الحركات</h3>
+    ${evs.length?`<ol class="tl">${evs.map(l=>`<li><time>${dtf.format(l.at)} ${tf.format(l.at)}</time><b>${esc(l.type)}</b> · ${esc(bname(l.brokerId))}${l.note?` · ${esc(l.note)}`:""}</li>`).join("")}</ol>`:`<p class="small muted">ما فيه حركات.</p>`}
+    <div class="acts">${D.role==="office"&&isOpen(c)?`<button class="btn" type="button" id="d-r">${c.brokerId?"حوّل لوسيط آخر":"وزّع على وسيط"}</button>`:""}<button class="btn ghost" type="button" data-close>إغلاق</button></div>`, () => {
+    const r = $("d-r"); if(r) r.onclick = () => reassignModal(c);
+  });
+}
+
+function brokerModal(){
+  modal(`<h2>وسيط جديد</h2>
+    <form id="fbk" novalidate>
+      <div class="field"><label for="k-n">الاسم</label><input id="k-n" autocomplete="off"></div>
+      <div class="field"><label for="k-p">الجوال</label><input id="k-p" class="ltr" inputmode="tel" placeholder="05xxxxxxxx" autocomplete="off"></div>
+      <div class="field"><label for="k-f">رقم رخصة فال للوسيط</label><input id="k-f" class="ltr" inputmode="numeric" autocomplete="off"><span class="small muted">هوية الوسيط في السوق كله. تقدر تضيفها بعدين، لكن بدونها الوسيط يظهر «بدون رخصة».</span></div>
+      <p class="err" id="k-err" hidden></p>
+      <div class="acts"><button class="btn" id="k-btn">أضف واعمل رمز دخول</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, () => {
+    $("fbk").addEventListener("submit", async e => {
+      e.preventDefault();
+      const r = await act("addBroker", {name:$("k-n").value, phone:$("k-p").value, fal:$("k-f").value}, $("k-btn"));
+      if(!r.ok) return showErr("k-err", r.error);
+      inviteModal(r.invite, "انضاف الوسيط"); if(oTab!=="brokers"){ oTab="brokers"; } officeView();
+    });
+  });
+}
+function inviteModal(inv, title){
+  modal(`<h2>${esc(title)}: ${esc(inv.name)}</h2>
+    <p>رقم الوسيط: <b class="ltr num">${esc(inv.no)}</b></p>
+    <p>رمز الدعوة لأول دخول: <b class="ltr num" style="font-size:22px;font-family:var(--f-mono)">${esc(inv.code)}</b></p>
+    <p class="small muted">بعد ما يربط تيليجرام، الرمز هذا يتوقف ويصير الدخول برمز تحقق يوصله كل مرة.</p>
+    <div class="field"><label for="i-t">رسالة الدعوة، أرسلها له على واتساب</label><textarea id="i-t" rows="7" readonly>${esc(inv.text)}</textarea></div>
+    <div class="acts"><button class="btn" type="button" id="i-cp">انسخ الرسالة</button><a class="btn wa" href="https://wa.me/966${Core.p9(inv.phone)}?text=${encodeURIComponent(inv.text)}" target="_blank" rel="noopener">افتح واتساب</a><button class="btn ghost" type="button" data-close>تم</button></div>`, () => {
+    $("i-cp").onclick = () => { $("i-t").select(); copy(inv.text, "انسخت الدعوة."); };
+  });
+  officeView();
+}
+function falModal(b){
+  modal(`<h2>رخصة فال: ${esc(b.name)}</h2>
+    <form id="ff" novalidate>
+      <div class="field"><label for="f-v">رقم الرخصة</label><input id="f-v" class="ltr" inputmode="numeric" value="${esc(b.fal||"")}"></div>
+      <p class="err" id="f-err" hidden></p>
+      <div class="acts"><button class="btn" id="f-btn">احفظ</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, close => {
+    $("ff").addEventListener("submit", async e => { e.preventDefault(); const r = await act("updateBroker", {id:b.id, fal:$("f-v").value}, $("f-btn")); if(!r.ok) return showErr("f-err", r.error); close(); toast(r.msg); route(); });
+  });
+}
+function propModal(p){
+  modal(`<h2>${p?"عدّل العقار":"عقار جديد"}</h2>
+    <form id="fp" novalidate>
+      <div class="field"><label for="pp-t">الوصف</label><input id="pp-t" value="${esc(p?.title||"")}" placeholder="مثال: فيلا · حي الحزام الذهبي، الخبر"></div>
+      <div class="grid2"><div class="field"><label for="pp-d">النوع</label><select id="pp-d"><option ${p?.deal==="بيع"?"selected":""}>بيع</option><option ${p?.deal==="إيجار"?"selected":""}>إيجار</option></select></div>
+      <div class="field"><label for="pp-pr">السعر (ر.س${p?.deal==="إيجار"?" سنويًا":""})</label><input id="pp-pr" class="ltr" inputmode="numeric" value="${p?p.price:""}"></div></div>
+      <div class="grid2"><div class="field"><label for="pp-a">المساحة</label><input id="pp-a" value="${esc(p?.area||"")}" placeholder="٤٥٠م"></div>
+      <div class="field"><label for="pp-f">رقم ترخيص الإعلان العقاري</label><input id="pp-f" class="ltr" value="${esc(p?.falRef||"")}"></div></div>
+      <div class="field"><label for="pp-s">الحالة</label><select id="pp-s">${Object.entries(PSTAT).map(([k,v])=>`<option value="${k}" ${p?.status===k?"selected":""}>${v}</option>`).join("")}</select></div>
+      <p class="err" id="pp-err" hidden></p>
+      <div class="acts"><button class="btn" id="pp-btn">احفظ</button><button class="btn ghost" type="button" data-close>إلغاء</button></div>
+    </form>`, close => {
+    $("fp").addEventListener("submit", async e => {
+      e.preventDefault();
+      const r = await act("saveProperty", {id:p?.id||"", title:$("pp-t").value, deal:$("pp-d").value, price:$("pp-pr").value, area:$("pp-a").value, falRef:$("pp-f").value, status:$("pp-s").value}, $("pp-btn"));
+      if(!r.ok) return showErr("pp-err", r.error);
+      close(); toast(r.msg); route();
+    });
+  });
+}
+
+boot();
+
+</script>
+</body>
+</html>
