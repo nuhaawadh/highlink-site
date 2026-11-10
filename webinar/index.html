@@ -174,6 +174,7 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
 <label for="email">الإيميل</label>
 <input id="email" name="email" type="email" class="ltr" autocomplete="email" required>
 </div>
+<div aria-hidden="true" style="position:absolute;right:-9999px;width:1px;height:1px;overflow:hidden"><label for="website">اترك هذا الحقل فارغًا</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <div class="consent">
 <input id="wa" name="whatsapp_consent" type="checkbox" checked>
 <label for="wa">أوافق على استلام رابط الورشة والتذكيرات على الواتساب.</label>
@@ -416,6 +417,7 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
       phone: $('code').value + phone,
       email: email,
       whatsapp_consent: $('wa').checked ? 'yes' : 'no',
+      website: $('website').value,
       workshop_date: CONFIG.WORKSHOP_DATE,
       page: location.href,
       submitted_at: new Date().toISOString()
