@@ -47,10 +47,15 @@ section{padding:64px 24px}
 .stack{display:flex;flex-direction:column;gap:32px}
 .h2{font-size:clamp(28px,5vw,44px);font-weight:700;line-height:1.2}
 .eyebrow{font-size:13px;font-weight:500;color:var(--ink-3)}
-header{background:var(--hero);color:#fff;padding:24px 24px 64px}
-.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:48px}
-.brand img{display:block;width:132px;height:auto}
-.pill{font-size:13px;font-weight:500;color:#fff;border:1px solid rgba(255,255,255,.5);padding:6px 12px}
+header{position:relative;color:#fff;padding:0 32px 64px;background:var(--hero) url("hero-bg.svg") center/cover no-repeat}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap;padding:24px 0;margin-bottom:40px}
+nav{display:flex;align-items:center;gap:24px}
+nav a{color:#fff;text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover{text-decoration:underline;text-underline-offset:4px}
+nav .btn.outline{min-height:0;padding:14px 24px;font-size:15px;color:#fff;border-color:#fff;background:transparent}
+nav .btn.outline:hover{background:#fff;color:var(--ink);text-decoration:none}
+.brand img{display:block;height:34px;width:auto}
+.k{color:#cfe8d0;font-size:14px;font-weight:500;display:block}
 .hero{display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start}
 .hero-text{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:24px}
 h1{font-size:clamp(40px,6.4vw,56px);font-weight:700;line-height:1.15}
@@ -115,6 +120,7 @@ details p{margin:0 34px 16px 0;font-size:17px;color:var(--ink-2)}
 .tcard h2{font-size:22px;font-weight:500;line-height:1.35}
 .tcard p{font-size:15px;line-height:1.7;color:var(--ink-2);margin:8px 0 16px}
 footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(--ink-3)}
+@media (max-width:780px){header{padding:0 24px 48px}nav a:not(.btn){display:none}.brand img{height:28px}nav .btn.outline{padding:10px 16px;font-size:14px}.top{margin-bottom:24px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}summary svg{transition:none}}
 </style>
 </head>
@@ -124,11 +130,17 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
 <header>
 <div class="wrap">
 <div class="top">
-<a class="brand" href="/" aria-label="هاي لينك"><img src="logo.svg" alt="هاي لينك" width="132" height="40"></a>
-<div class="pill">ورشة مجانية · لايف</div>
+<a class="brand" href="/" aria-label="هاي لينك"><img src="logo.svg" alt="Highlink" width="111" height="34"></a>
+<nav>
+<a href="/#what">وش نأتمت</a>
+<a href="/#stories">قصص عملاء</a>
+<a href="/#faq">أسئلة</a>
+<a href="/#contact" class="btn outline">تواصل</a>
+</nav>
 </div>
 <div class="hero">
 <div class="hero-text">
+<span class="k">ورشة مجانية · لايف على زووم</span>
 <h1>خلّ <span class="grad">كلود</span> يشتغل معك في مشروعك</h1>
 <p class="sub">ورشة لايف 60 دقيقة أطبّق فيها قدامك، خطوة بخطوة، كيف يصير كلود فريق التسويق والتشغيل لمشروعك. حتى لو بادي من الصفر.</p>
 <div class="facts">
