@@ -338,7 +338,15 @@ footer{padding:24px;text-align:center;font-size:15px;color:var(--ink2)}
 <div class="center stack" style="gap:12px">
 <div class="ok"><svg aria-hidden="true" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
 <h1 style="font-size:clamp(32px,7vw,46px)" tabindex="-1" id="thanks-title">تم حجز مقعدك</h1>
-<p style="font-size:20px;font-weight:700;color:var(--ink2)">باقي عليك عشان تكون جاهز للورشة:</p>
+<p style="font-size:20px;font-weight:700;color:var(--ink2)">بس باقي كم خطوة عشان تكون جاهز للورشة:</p>
+</div>
+<div class="tcard">
+<div class="tnum">١</div>
+<div>
+<h2>افتح الهدية اللي أرسلتها لك</h2>
+<p>١٠ أوامر جاهزة تبدأ فيها مع كلود من الليلة. وصلتك على الإيميل، وتقدر تفتحها من هنا.</p>
+<a class="btn" href="gift/" target="_blank" rel="noopener" style="min-height:52px;padding:0 28px;font-size:18px">افتح هديتك</a>
+</div>
 </div>
 <div class="tcard" id="t-cal">
 <div class="tnum">١</div>
@@ -403,7 +411,7 @@ footer{padding:24px;text-align:center;font-size:15px;color:var(--ink2)}
   else { $('t-wa').style.display = 'none'; }
 
   // ترقيم خطوات صفحة الشكر حسب الظاهر منها
-  var nums = ['١','٢','٣'], i = 0;
+  var nums = ['١','٢','٣','٤'], i = 0;
   Array.prototype.forEach.call(document.querySelectorAll('#thanks .tcard'), function(c){
     if (c.style.display !== 'none') { c.querySelector('.tnum').textContent = nums[i++]; }
   });
