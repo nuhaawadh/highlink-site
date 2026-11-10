@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ورشة كلود المجانية — Monetify by Nuha</title>
+<meta name="description" content="ورشة مجانية لايف على زووم: خلّ كلود يشتغل معك في مشروعك. ٦٠ دقيقة تطبيق عملي مع نهى عوض.">
+<meta name="theme-color" content="#0A0E1A">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+<script>
+/* ============ الإعدادات: عدّلي هذي القيم فقط ============ */
+var CONFIG = {
+  // موعد الورشة بتوقيت السعودية. مثال: '2026-11-25T20:00:00+03:00'
+  WORKSHOP_DATE: '2026-11-27T20:00:00+03:00',
+  // مدة الورشة بالدقايق (تُستخدم في رابط التقويم)
+  DURATION_MIN: 60,
+  // رابط الويب هوك في n8n اللي يستقبل بيانات التسجيل (Webhook node, method POST)
+  WEBHOOK_URL: '',
+  // رابط قروب الواتساب الخاص بالورشة (اتركيه فاضي لإخفاء الخطوة)
+  WHATSAPP_GROUP_URL: ''
+};
+/* ======================================================== */
+</script>
+
+<style>
+:root{--navy:#0A0E1A;--navy2:#141A29;--line:#1E2536;--lime:#A8E85C;--cyan:#4DD0E1;--ink2:#4A5261;--soft:#F4F6F9;--border:#E3E7EE;--green:#3E6B12}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Tajawal',system-ui,sans-serif;color:var(--navy);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto}
+.narrow{max-width:720px;margin:0 auto}
+section{padding:72px 20px}
+.soft{background:var(--soft)}
+.dark{background:var(--navy);color:#fff}
+.center{text-align:center}
+.stack{display:flex;flex-direction:column;gap:28px}
+.h2{font-size:clamp(28px,5vw,42px);font-weight:900;line-height:1.3}
+.eyebrow{font-size:16px;font-weight:700;color:var(--ink2)}
+.mark{background:var(--lime);padding:0 10px;border-radius:10px}
+.lime{color:var(--lime)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 40px;border-radius:999px;background:var(--navy);color:#fff;font-family:inherit;font-size:19px;font-weight:800;text-decoration:none;border:0;cursor:pointer}
+.btn.lime-bg{background:var(--lime);color:var(--navy)}
+.btn.ghost{background:transparent;color:var(--navy);border:2px solid var(--navy)}
+.btn:focus-visible,input:focus,select:focus,summary:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.btn[disabled]{opacity:.6;cursor:default}
+
+/* الهيدر */
+header{background:var(--navy);color:#fff;padding:24px 20px 64px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:44px}
+.brand{font-size:20px;font-weight:800;direction:ltr}
+.pill{font-size:15px;font-weight:700;color:var(--navy);background:var(--lime);padding:6px 16px;border-radius:999px}
+.hero{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
+.hero-text{flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:22px}
+h1{font-size:clamp(38px,7vw,68px);font-weight:900;line-height:1.2}
+.sub{font-size:clamp(18px,2.4vw,22px);color:#D5DAE3;max-width:560px}
+.facts{display:flex;flex-wrap:wrap;gap:12px}
+.fact{flex:1 1 130px;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.fact small{display:block;font-size:14px;color:#B8C0CC}
+.fact b{font-size:19px;font-weight:800}
+
+/* النموذج */
+form{flex:1 1 360px;min-width:0;background:#fff;color:var(--navy);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:16px}
+form h2{font-size:26px;font-weight:800}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:15px;font-weight:700}
+input[type=text],input[type=email],input[type=tel],select{height:52px;border:1.5px solid #C5CBD6;border-radius:12px;padding:0 14px;font-family:inherit;font-size:17px;width:100%;background:#fff;color:var(--navy)}
+.phone{display:flex;gap:8px;direction:ltr}
+.phone select{flex:0 0 108px;padding:0 8px}
+.phone input{flex:1 1 0;min-width:0}
+.ltr{direction:ltr;text-align:right}
+.consent{display:flex;gap:10px;align-items:flex-start}
+.consent input{width:22px;height:22px;margin:2px 0 0;flex:0 0 auto;accent-color:var(--navy)}
+.consent label{font-weight:500;color:var(--ink2)}
+.note{font-size:14px;color:var(--ink2);text-align:center}
+.error{font-size:15px;font-weight:700;color:#B3261E;min-height:0}
+
+/* العد التنازلي */
+.count{display:flex;gap:12px;max-width:520px;margin:0 auto;width:100%}
+.count div{flex:1 1 0;background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:14px 4px;text-align:center}
+.count b{display:block;font-size:clamp(28px,6vw,40px);font-weight:900;line-height:1.2;direction:ltr}
+.count span{font-size:15px;color:var(--ink2)}
+
+/* البطاقات */
+.cards{display:flex;flex-wrap:wrap;gap:16px}
+.card{flex:1 1 300px;background:var(--navy2);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;gap:18px;align-items:flex-start}
+.card .n{flex:0 0 auto;color:var(--cyan);font-weight:900;font-size:34px;line-height:1.1}
+.card:last-child .n{color:var(--lime)}
+.card h3{font-size:21px;font-weight:800;margin-bottom:6px}
+.card p{font-size:17px;color:#B8C0CC}
+
+/* الخط الزمني */
+.timeline{max-width:560px;margin:0 auto;width:100%}
+.step{display:flex;gap:20px}
+.rail{flex:0 0 auto;display:flex;flex-direction:column;align-items:center}
+.dot{width:40px;height:40px;border-radius:50%;border:3px solid var(--lime);display:flex;align-items:center;justify-content:center}
+.dot::after{content:"";width:14px;height:14px;border-radius:50%;background:var(--navy)}
+.rail i{flex:1 1 auto;border-right:2px dashed #C5CBD6}
+.step .txt{padding-bottom:32px}
+.step:last-child .txt{padding-bottom:0}
+.step small{display:block;font-size:15px;font-weight:700;color:var(--ink2)}
+.step b{font-size:22px;font-weight:800}
+
+/* القائمة */
+.checks{list-style:none;margin:0;padding:8px 24px;background:#fff;border:1.5px solid var(--border);border-radius:22px;width:100%}
+.checks li{display:flex;gap:14px;align-items:flex-start;font-size:19px;font-weight:500;padding:16px 0;border-bottom:1px dashed #D5DAE3}
+.checks li:last-child{border-bottom:0}
+.checks svg{flex:0 0 auto;margin-top:3px}
+
+/* المحادثة */
+.chat{background:var(--soft);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;width:100%}
+.chat div{max-width:85%;border-radius:16px;padding:14px 18px;font-size:20px;font-weight:700}
+.chat .a{align-self:flex-start;background:#fff}
+.chat .b{align-self:flex-end;background:var(--lime);font-weight:800}
+
+/* عن المدربة */
+.avatar{width:170px;height:170px;border-radius:50%;background:var(--navy);color:var(--lime);font-size:100px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;margin:0 auto}
+.bio{background:#fff;border:1.5px solid var(--border);border-radius:22px;padding:26px;text-align:right;display:flex;flex-direction:column;gap:14px;font-size:19px}
+
+/* الأسئلة */
+details{border-bottom:1px solid #D5DAE3;padding:8px 0}
+details:last-child{border-bottom:0}
+summary{min-height:56px;display:flex;align-items:center;gap:14px;font-size:20px;font-weight:800;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary svg{flex:0 0 auto;transition:transform .2s}
+details[open] summary svg{transform:rotate(180deg)}
+details p{margin:0 36px 14px 0;font-size:18px;color:var(--ink2)}
+
+/* صفحة الشكر */
+#thanks{display:none;min-height:100vh;background:var(--soft);padding:56px 20px 72px}
+.tcard{background:#fff;border:1.5px solid var(--border);border-radius:22px;padding:24px;display:flex;gap:18px;align-items:flex-start}
+.tnum{flex:0 0 auto;width:44px;height:44px;border-radius:12px;background:var(--navy);color:var(--lime);font-weight:900;font-size:22px;display:flex;align-items:center;justify-content:center}
+.tcard h2{font-size:22px;font-weight:800}
+.tcard p{font-size:18px;color:var(--ink2);margin:6px 0 12px}
+.ok{width:72px;height:72px;border-radius:50%;background:var(--lime);display:flex;align-items:center;justify-content:center;margin:0 auto}
+
+footer{padding:24px;text-align:center;font-size:15px;color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}summary svg{transition:none}}
+</style>
+</head>
+<body>
+
+<div id="landing">
+<header>
+<div class="wrap">
+<div class="top">
+<div class="brand">Monetify <span class="lime">by Nuha</span></div>
+<div class="pill">ورشة مجانية · لايف</div>
+</div>
+<div class="hero">
+<div class="hero-text">
+<h1>خلّ <span class="lime">كلود</span> يشتغل معك في مشروعك</h1>
+<p class="sub">ورشة لايف ٦٠ دقيقة أطبّق فيها قدامك، خطوة بخطوة، كيف يصير كلود فريق التسويق والتشغيل لمشروعك. حتى لو بادي من الصفر.</p>
+<div class="facts">
+<div class="fact"><small>التاريخ</small><b id="f-date">يُعلن قريبًا</b></div>
+<div class="fact"><small>اليوم</small><b id="f-day">—</b></div>
+<div class="fact"><small>الوقت</small><b id="f-time">—</b></div>
+<div class="fact"><small>المكان</small><b>زووم Zoom</b></div>
+</div>
+</div>
+
+<form id="register" novalidate>
+<h2>احجز مقعدك في دقيقة</h2>
+<div class="field">
+<label for="name">الاسم</label>
+<input id="name" name="name" type="text" autocomplete="name" required>
+</div>
+<div class="field">
+<label for="phone">رقم الواتساب</label>
+<div class="phone">
+<select id="code" name="code" aria-label="مفتاح الدولة">
+<option value="+966">🇸🇦 +966</option>
+<option value="+965">🇰🇼 +965</option>
+<option value="+971">🇦🇪 +971</option>
+<option value="+974">🇶🇦 +974</option>
+<option value="+973">🇧🇭 +973</option>
+<option value="+968">🇴🇲 +968</option>
+<option value="+20">🇪🇬 +20</option>
+<option value="+962">🇯🇴 +962</option>
+<option value="+961">🇱🇧 +961</option>
+<option value="+964">🇮🇶 +964</option>
+<option value="+970">🇵🇸 +970</option>
+<option value="+967">🇾🇪 +967</option>
+<option value="+249">🇸🇩 +249</option>
+<option value="+218">🇱🇾 +218</option>
+<option value="+216">🇹🇳 +216</option>
+<option value="+213">🇩🇿 +213</option>
+<option value="+212">🇲🇦 +212</option>
+</select>
+<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" required>
+</div>
+</div>
+<div class="field">
+<label for="email">الإيميل</label>
+<input id="email" name="email" type="email" class="ltr" autocomplete="email" required>
+</div>
+<div class="consent">
+<input id="wa" name="whatsapp_consent" type="checkbox" checked>
+<label for="wa">أوافق على استلام رابط الورشة والتذكيرات على الواتساب.</label>
+</div>
+<div class="error" id="err" role="alert"></div>
+<button class="btn" id="submit" type="submit">احجز مقعدي</button>
+<div class="note">يوصلك رابط الزووم على الإيميل والواتساب.</div>
+</form>
+</div>
+</div>
+</header>
+
+<section class="soft" id="countdown" style="padding:44px 20px;display:none">
+<div class="stack center" style="gap:16px">
+<div class="eyebrow" style="font-size:18px">الورشة تبدأ خلال</div>
+<div class="count">
+<div><b id="cd-d">00</b><span>يوم</span></div>
+<div><b id="cd-h">00</b><span>ساعة</span></div>
+<div><b id="cd-m">00</b><span>دقيقة</span></div>
+<div><b id="cd-s">00</b><span>ثانية</span></div>
+</div>
+</div>
+</section>
+
+<section class="dark">
+<div class="wrap stack">
+<h2 class="h2 center">بنهاية الورشة <span class="lime">بتعرف</span></h2>
+<div class="cards">
+<div class="card"><div class="n">١</div><div><h3>كيف تبدأ مع كلود صح</h3><p>تعرّفه على مشروعك مرة وحدة، ويفهمك ويفهم شغلك بعدها.</p></div></div>
+<div class="card"><div class="n">٢</div><div><h3>كيف تجهّز محتواك وتصاميمك</h3><p>بوستات، كاروسيلات، سكربتات ريلز وإعلانات.</p></div></div>
+<div class="card"><div class="n">٣</div><div><h3>كيف تربطه بأدواتك</h3><p>إيميلك، ملفاتك وتقويمك، عشان يشتغل على بياناتك.</p></div></div>
+<div class="card"><div class="n">٤</div><div><h3>كيف تبني صفحة لمشروعك</h3><p>بدون مبرمج وبدون خبرة تقنية.</p></div></div>
+<div class="card"><div class="n">٥</div><div><h3>كيف تحوّله لدخل</h3><p>تكبّر مشروعك، تبدأ مشروع جديد، أو توفّر وقتك وفلوسك كل يوم.</p></div></div>
+</div>
+<div class="center"><a class="btn lime-bg" href="#register">احجز مكانك</a></div>
+</div>
+</section>
+
+<section>
+<div class="stack">
+<h2 class="h2 center">خطواتك <span class="mark">للورشة</span></h2>
+<div class="timeline">
+<div class="step"><div class="rail"><div class="dot"></div><i></i></div><div class="txt"><small>الخطوة الأولى</small><b>سجّل مكانك المجاني</b></div></div>
+<div class="step"><div class="rail"><div class="dot"></div><i></i></div><div class="txt"><small>الخطوة الثانية</small><b>يوصلك رابط الزووم على الإيميل والواتساب</b></div></div>
+<div class="step"><div class="rail"><div class="dot"></div><i></i></div><div class="txt"><small>الخطوة الثالثة</small><b>احضر الورشة لايف</b></div></div>
+<div class="step"><div class="rail"><div class="dot"></div></div><div class="txt"><small>الخطوة الرابعة</small><b>طبّق على مشروعك من نفس اليوم</b></div></div>
+</div>
+</div>
+</section>
+
+<section class="soft">
+<div class="narrow stack" style="align-items:center">
+<h2 class="h2 center">الورشة لك إذا…</h2>
+<ul class="checks">
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>عندك مشروع وتبي تكبّره بدون ما توظّف فريق.</span></li>
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>تبي تسوّق لمشروعك: محتوى، تصاميم وإعلانات.</span></li>
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>عندك حساب بالسوشال ميديا وتبي تكبّره.</span></li>
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>تبي تبدأ مشروعك الخاص وما تعرف من وين.</span></li>
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>موظف وتبي تنجز شغلك أسرع.</span></li>
+<li><svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3E6B12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>دايم تقول بتعلّم الذكاء الاصطناعي، ولسه ما بديت.</span></li>
+</ul>
+<div class="center" style="font-size:clamp(22px,4vw,30px);font-weight:900">وإذا وحدة منها تنطبق عليك، الورشة لك.</div>
+<a class="btn" href="#register">احجز مكانك</a>
+</div>
+</section>
+
+<section>
+<div class="stack" style="max-width:600px;margin:0 auto;align-items:center">
+<h2 class="h2 center" style="font-size:clamp(26px,4.6vw,38px)">بس ما عندي خبرة…!</h2>
+<div class="chat">
+<div class="a">إذا تعرف ترسل رسالة بالواتساب…</div>
+<div class="b">تعرف تستخدم كلود.</div>
+</div>
+<a class="btn" href="#register">احجز مكانك</a>
+</div>
+</section>
+
+<section class="soft">
+<div class="narrow stack center" style="gap:22px">
+<div class="eyebrow">عن المدرّبة</div>
+<h2 class="h2">أشتغل لحالي… <span class="mark">وكلود فريقي</span></h2>
+<div class="avatar" aria-hidden="true">ن</div>
+<div>
+<div style="font-size:26px;font-weight:900">نهى عوض</div>
+<div style="font-size:17px;color:var(--ink2)">مؤسسة هاي لينك · Monetify by Nuha</div>
+</div>
+<div class="bio">
+<div style="font-size:22px;font-weight:900">أنا نهى.</div>
+<p>أسست هاي لينك وأشتغل فيها لحالي، بدون فريق.</p>
+<p>بكلود أبني مواقع عملائي، أنظمة الأتمتة، والمحتوى. شغل كان يحتاج مبرمج ومصمم وكاتب محتوى.</p>
+<p style="font-weight:800">وهذا بالضبط اللي بوريك إياه في الورشة.</p>
+</div>
+<div><a class="btn" href="#register">احجز مكانك</a></div>
+</div>
+</section>
+
+<section>
+<div class="narrow stack center" style="gap:18px">
+<div class="eyebrow">ليش الحين</div>
+<h2 class="h2">شخص واحد صار يقدر يسوي <span class="mark">شغل فريق</span></h2>
+<p style="font-size:19px">الإنترنت، بعدها السوشال ميديا، بعدها الإعلانات الممولة. في كل مرة، اللي تعلّم بدري هو اللي سبق.</p>
+<p style="font-size:21px;font-weight:800">اليوم الفرصة هي الذكاء الاصطناعي.</p>
+<p style="font-size:19px">مشاريع صغيرة صارت تنافس شركات كبيرة، وناس بدت بدون فريق وبدون ميزانية.</p>
+<p style="font-size:22px;font-weight:900">ساعة وحدة تكفي عشان تبدأ صح.</p>
+<div><a class="btn" href="#register">احجز مكانك مجانًا</a></div>
+</div>
+</section>
+
+<section class="soft">
+<div class="narrow">
+<div class="eyebrow center">أسئلة شائعة</div>
+<h2 class="h2 center" style="margin-bottom:24px">كل اللي تبي تعرفه</h2>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>١. هل الورشة مجانية فعلًا؟</span></summary><p>إيه، مجانية بالكامل. سجّل ويوصلك الرابط.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٢. عمري ما استخدمت كلود ولا أي ذكاء اصطناعي، ينفع أحضر؟</span></summary><p>ينفع. نبدأ من أول محادثة مع كلود.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٣. أحتاج خبرة تقنية؟</span></summary><p>لا. إذا تعرف تكتب رسالة، تعرف تطبّق معنا.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٤. ما عندي مشروع للحين، الورشة لي؟</span></summary><p>إيه. بتطلع بفكرة واضحة كيف تبدأ مشروعك بكلود.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٥. وش أحتاج عشان أحضر؟</span></summary><p>جهاز وإنترنت وتطبيق زووم. والأفضل تحضر من لابتوب عشان تطبّق.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٦. لازم أشترك بكلود قبل الورشة؟</span></summary><p>لا، تقدر تبدأ بالنسخة المجانية.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٧. كيف يوصلني رابط الزووم؟</span></summary><p>على الإيميل والواتساب بعد التسجيل، مع تذكير قبل الورشة.</p></details>
+<details><summary><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg><span>٨. بأي لغة؟</span></summary><p>بالعربي، باللهجة السعودية.</p></details>
+</div>
+</section>
+
+<section class="dark" style="padding:84px 20px">
+<div class="narrow stack center" style="gap:24px">
+<h2 class="h2" style="font-size:clamp(30px,6vw,48px)">لا تطلع بمعلومات أكثر… <span class="lime">اطلع وكلود يشتغل لك.</span></h2>
+<div><a class="btn lime-bg" href="#register">احجز مكانك مجانًا</a></div>
+</div>
+</section>
+
+<footer>© Monetify by Nuha · ورشة كلود المجانية</footer>
+</div>
+
+<!-- تظهر بعد التسجيل -->
+<main id="thanks">
+<div class="stack" style="max-width:620px;margin:0 auto">
+<div class="center stack" style="gap:12px">
+<div class="ok"><svg aria-hidden="true" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#0A0E1A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+<h1 style="font-size:clamp(32px,7vw,46px)" tabindex="-1" id="thanks-title">تم حجز مقعدك</h1>
+<p style="font-size:20px;font-weight:700;color:var(--ink2)">باقي عليك عشان تكون جاهز للورشة:</p>
+</div>
+<div class="tcard" id="t-cal">
+<div class="tnum">١</div>
+<div>
+<h2>ثبّت الموعد عندك</h2>
+<p>لا تعتمد على ذاكرتك، ضيف الورشة الحين على تقويمك.</p>
+<a class="btn ghost" id="cal-link" href="#" target="_blank" rel="noopener" style="min-height:52px;padding:0 28px;font-size:18px">أضف الموعد لتقويمك</a>
+</div>
+</div>
+<div class="tcard" id="t-wa">
+<div class="tnum">٢</div>
+<div>
+<h2>انضم لقروب الواتساب الخاص بالورشة</h2>
+<p>التذكيرات والملفات بتكون هناك.</p>
+<a class="btn lime-bg" id="wa-link" href="#" target="_blank" rel="noopener" style="min-height:52px;padding:0 28px;font-size:18px">انضم للقروب</a>
+</div>
+</div>
+<div class="tcard">
+<div class="tnum" id="t-last">٣</div>
+<div>
+<h2>راقب إيميلك والواتساب</h2>
+<p style="margin-bottom:0">رابط الزووم يوصلك هناك قبل الورشة.</p>
+</div>
+</div>
+<div class="note">© Monetify by Nuha · ورشة كلود المجانية</div>
+</div>
+</main>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var start = CONFIG.WORKSHOP_DATE ? new Date(CONFIG.WORKSHOP_DATE) : null;
+  if (start && isNaN(start.getTime())) start = null;
+  var pad = function(n){ return String(n).padStart(2,'0'); };
+
+  // تعبئة التاريخ واليوم والوقت والعد التنازلي من الإعدادات
+  if (start) {
+    var tz = { timeZone: 'Asia/Riyadh' };
+    var loc = 'ar-SA-u-ca-gregory-nu-arab';
+    $('f-date').textContent = new Intl.DateTimeFormat(loc, Object.assign({ day:'numeric', month:'long' }, tz)).format(start);
+    $('f-day').textContent = new Intl.DateTimeFormat(loc, Object.assign({ weekday:'long' }, tz)).format(start);
+    $('f-time').textContent = new Intl.DateTimeFormat(loc, Object.assign({ hour:'numeric', minute:'2-digit', hour12:true }, tz)).format(start) + ' السعودية';
+    $('countdown').style.display = 'block';
+    var tick = function(){
+      var s = Math.max(0, Math.floor((start.getTime() - Date.now())/1000));
+      $('cd-d').textContent = pad(Math.floor(s/86400));
+      $('cd-h').textContent = pad(Math.floor(s%86400/3600));
+      $('cd-m').textContent = pad(Math.floor(s%3600/60));
+      $('cd-s').textContent = pad(s%60);
+    };
+    tick(); setInterval(tick, 1000);
+
+    var fmt = function(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); };
+    var end = new Date(start.getTime() + CONFIG.DURATION_MIN*60000);
+    $('cal-link').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' +
+      encodeURIComponent('ورشة كلود المجانية مع نهى عوض') + '&dates=' + fmt(start) + '/' + fmt(end) + '&location=Zoom';
+  } else {
+    $('t-cal').style.display = 'none';
+  }
+
+  if (CONFIG.WHATSAPP_GROUP_URL) { $('wa-link').href = CONFIG.WHATSAPP_GROUP_URL; }
+  else { $('t-wa').style.display = 'none'; }
+
+  // ترقيم خطوات صفحة الشكر حسب الظاهر منها
+  var nums = ['١','٢','٣'], i = 0;
+  Array.prototype.forEach.call(document.querySelectorAll('#thanks .tcard'), function(c){
+    if (c.style.display !== 'none') { c.querySelector('.tnum').textContent = nums[i++]; }
+  });
+
+  var showThanks = function(){
+    $('landing').style.display = 'none';
+    $('thanks').style.display = 'block';
+    window.scrollTo(0,0);
+    $('thanks-title').focus();
+  };
+
+  // إرسال التسجيل
+  $('register').addEventListener('submit', function(e){
+    e.preventDefault();
+    var err = $('err'), btn = $('submit');
+    var name = $('name').value.trim();
+    var phone = $('phone').value.replace(/[^\d]/g,'').replace(/^0+/,'');
+    var email = $('email').value.trim();
+    err.textContent = '';
+    if (name.length < 2) { err.textContent = 'اكتب اسمك.'; $('name').focus(); return; }
+    if (phone.length < 7) { err.textContent = 'اكتب رقم واتساب صحيح.'; $('phone').focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'اكتب إيميل صحيح.'; $('email').focus(); return; }
+    if (!CONFIG.WEBHOOK_URL) { err.textContent = 'التسجيل غير مفعّل بعد. (لم يُضبط رابط الاستقبال)'; return; }
+
+    var data = new URLSearchParams({
+      name: name,
+      phone: $('code').value + phone,
+      email: email,
+      whatsapp_consent: $('wa').checked ? 'yes' : 'no',
+      workshop_date: CONFIG.WORKSHOP_DATE,
+      page: location.href,
+      submitted_at: new Date().toISOString()
+    });
+    btn.disabled = true; btn.textContent = 'جاري الحجز…';
+    fetch(CONFIG.WEBHOOK_URL, { method:'POST', body:data })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); showThanks(); })
+      .catch(function(){
+        err.textContent = 'ما قدرنا نسجّلك، جرّب مرة ثانية.';
+        btn.disabled = false; btn.textContent = 'احجز مقعدي';
+      });
+  });
+})();
+</script>
+</body>
+</html>
