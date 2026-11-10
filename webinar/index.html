@@ -421,8 +421,16 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
       submitted_at: new Date().toISOString()
     });
     btn.disabled = true; btn.textContent = 'جاري الحجز…';
-    fetch(CONFIG.WEBHOOK_URL, { method:'POST', body:data })
-      .then(function(r){ if (!r.ok) throw new Error(r.status); showThanks(); })
+    var send = function(left){
+      return fetch(CONFIG.WEBHOOK_URL, { method:'POST', body:data })
+        .then(function(r){ if (!r.ok) throw new Error(r.status); })
+        .catch(function(e){
+          if (left <= 0) throw e;
+          return new Promise(function(res){ setTimeout(res, 1500); }).then(function(){ return send(left - 1); });
+        });
+    };
+    send(2)
+      .then(showThanks)
       .catch(function(){
         err.textContent = 'ما قدرنا نسجّلك، جرّب مرة ثانية.';
         btn.disabled = false; btn.textContent = 'احجز مقعدي';
