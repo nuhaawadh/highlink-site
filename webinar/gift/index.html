@@ -4,42 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>هديتك: ١٠ أوامر جاهزة لكلود — Monetify by Nuha</title>
-<meta name="theme-color" content="#0A0E1A">
+<title>هديتك: 10 أوامر جاهزة لكلود — هاي لينك</title>
+<meta name="theme-color" content="#062029">
 <link rel="icon" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#0A0E1A;--lime:#A8E85C;--cyan:#4DD0E1;--ink2:#4A5261;--soft:#F4F6F9;--border:#E3E7EE}
+:root{--paper:#ffffff;--paper-2:#f4f4f4;--ink:#0a0a0a;--ink-2:#4a4a4a;--ink-3:#767676;--line:#d4d4d4;--lime:#d0f94a;--on-lime:#0a0a0a;--grad-teal:#4ea5a3;--grad-mint:#6eda8e;--grad-lime:#d8f869;--avatar-top:#9be77b;--avatar-mid:#69d794;--avatar-bottom:#55ba9e;--error:#c81e1e;--hero:#062029;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Tajawal',system-ui,sans-serif;color:var(--navy);background:var(--soft);line-height:1.7}
-h1,h2,p{margin:0}
-header{background:var(--navy);color:#fff;padding:24px 20px 48px}
-.wrap{max-width:760px;margin:0 auto}
-.brand{font-size:20px;font-weight:800;direction:ltr;text-align:right;margin-bottom:36px}
-.lime{color:var(--lime)}
-h1{font-size:clamp(32px,7vw,52px);font-weight:900;line-height:1.25}
-.sub{font-size:19px;color:#D5DAE3;margin-top:14px}
-main{padding:32px 20px 72px}
-.how{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 22px;font-size:18px;margin-bottom:20px}
-.how b{font-weight:800}
-.card{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:22px;margin-bottom:16px}
-.head{display:flex;gap:14px;align-items:center;margin-bottom:12px}
-.n{flex:0 0 auto;width:42px;height:42px;border-radius:12px;background:var(--navy);color:var(--lime);font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center}
-h2{font-size:21px;font-weight:800}
-.prompt{background:var(--soft);border-radius:14px;padding:16px;font-size:17px;white-space:pre-line;margin-bottom:14px}
-.copy{min-height:48px;padding:0 24px;border-radius:999px;border:0;background:var(--navy);color:#fff;font-family:inherit;font-size:17px;font-weight:800;cursor:pointer}
-.copy.done{background:var(--lime);color:var(--navy)}
-.copy:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
-footer{text-align:center;font-size:15px;color:var(--ink2);padding:0 20px 32px}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Tajawal","Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.8;font-size:17px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+.grad{background:linear-gradient(90deg,var(--grad-teal),var(--grad-mint),var(--grad-lime));-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 32px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-family:inherit;font-size:17px;font-weight:500;line-height:1;text-decoration:none;cursor:pointer;border-radius:0}
+.btn.lime-bg{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.btn[disabled]{opacity:.6;cursor:default}
+header{background:var(--hero);color:#fff;padding:24px 24px 48px}
+.wrap{max-width:720px;margin:0 auto}
+.brand{display:block;margin-bottom:40px}.brand img{display:block;width:132px;height:auto}
+h1{font-size:clamp(34px,6.4vw,48px);font-weight:700;line-height:1.2}
+.sub{font-size:19px;line-height:1.75;color:#d4d4d4;margin-top:16px}
+main{padding:32px 24px 64px;background:var(--paper-2)}
+.how{background:var(--paper);border:1px solid var(--line);padding:16px 24px;margin-bottom:16px}
+.how b{font-weight:700}
+.card{background:var(--paper);border:1px solid var(--line);padding:24px;margin-bottom:16px}
+.head{display:flex;gap:12px;align-items:baseline;margin-bottom:12px}
+.n{flex:0 0 auto;font-family:var(--mono);font-size:19px;color:var(--ink-3)}
+h2{font-size:22px;font-weight:500;line-height:1.35}
+.prompt{background:var(--paper-2);padding:16px;font-size:17px;white-space:pre-line;margin-bottom:16px}
+.copy{min-height:48px;padding:0 24px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;border-radius:0}
+.copy.done{background:var(--paper);color:var(--ink)}
+.copy:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+footer{text-align:center;font-size:13px;font-weight:500;color:var(--ink-3);padding:0 24px 32px;background:var(--paper-2)}
 </style>
 </head>
 <body>
 <header>
 <div class="wrap">
-<div class="brand">Monetify <span class="lime">by Nuha</span></div>
-<h1>١٠ أوامر جاهزة <span class="lime">تبدأ فيها مع كلود</span> من الليلة</h1>
+<a class="brand" href="/" aria-label="هاي لينك"><img src="../logo.svg" alt="هاي لينك" width="132" height="40"></a>
+<h1>10 أوامر جاهزة <span class="grad">تبدأ فيها مع كلود</span> من الليلة</h1>
 <p class="sub">انسخ الأمر، بدّل اللي بين الأقواس بمعلومات مشروعك، والصقه في كلود.</p>
 </div>
 </header>
@@ -47,49 +54,49 @@ footer{text-align:center;font-size:15px;color:var(--ink2);padding:0 20px 32px}
 <div class="wrap">
 <div class="how"><b>قبل ما تبدأ:</b> ابدأ بالأمر الأول دايمًا. كل ما عرف كلود مشروعك أكثر، طلعت باقي النتايج أدق.</div>
 
-<div class="card"><div class="head"><div class="n">١</div><h2>عرّف كلود على مشروعك</h2></div>
-<div class="prompt">أبغاك تفهم مشروعي قبل ما نشتغل. اسألني ١٠ أسئلة، سؤال واحد كل مرة، عن: وش أبيع، لمن، بكم، وش يميزني، ووش أكبر مشكلة عندي الحين. بعد ما أجاوب، لخّص لي مشروعي في فقرة وحدة أحفظها وأعطيك إياها في كل محادثة جديدة.</div>
+<div class="card"><div class="head"><div class="n">1</div><h2>عرّف كلود على مشروعك</h2></div>
+<div class="prompt">أبغاك تفهم مشروعي قبل ما نشتغل. اسألني 10 أسئلة، سؤال واحد كل مرة، عن: وش أبيع، لمن، بكم، وش يميزني، ووش أكبر مشكلة عندي الحين. بعد ما أجاوب، لخّص لي مشروعي في فقرة وحدة أحفظها وأعطيك إياها في كل محادثة جديدة.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٢</div><h2>اعرف عميلك المثالي</h2></div>
-<div class="prompt">مشروعي: [وصف مشروعك]. اوصف لي ٣ أنواع من العملاء المحتملين. لكل نوع: مين هو، وش مشكلته اللي تخليه يدور على حل، وش يخوّفه من الشراء، ووين يقضي وقته على السوشال ميديا. ثم قل لي أي نوع أبدأ فيه وليش.</div>
+<div class="card"><div class="head"><div class="n">2</div><h2>اعرف عميلك المثالي</h2></div>
+<div class="prompt">مشروعي: [وصف مشروعك]. اوصف لي 3 أنواع من العملاء المحتملين. لكل نوع: مين هو، وش مشكلته اللي تخليه يدور على حل، وش يخوّفه من الشراء، ووين يقضي وقته على السوشال ميديا. ثم قل لي أي نوع أبدأ فيه وليش.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٣</div><h2>خطة محتوى لأسبوع</h2></div>
-<div class="prompt">مشروعي: [وصف مشروعك]. عميلي: [وصف عميلك]. اكتب لي خطة محتوى لـ٧ أيام على [انستقرام / تيك توك]. لكل يوم: فكرة البوست، نوعه (ريل، كاروسيل، ستوري)، وأول جملة تشد الانتباه. خلّ ٥ أيام محتوى يفيد العميل ويومين عن منتجي.</div>
+<div class="card"><div class="head"><div class="n">3</div><h2>خطة محتوى لأسبوع</h2></div>
+<div class="prompt">مشروعي: [وصف مشروعك]. عميلي: [وصف عميلك]. اكتب لي خطة محتوى لـ7 أيام على [انستقرام / تيك توك]. لكل يوم: فكرة البوست، نوعه (ريل، كاروسيل، ستوري)، وأول جملة تشد الانتباه. خلّ 5 أيام محتوى يفيد العميل ويومين عن منتجي.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٤</div><h2>سكربت ريل ٣٠ ثانية</h2></div>
-<div class="prompt">اكتب لي سكربت ريل مدته ٣٠ ثانية عن: [الموضوع]. باللهجة السعودية، بكلام بسيط كأني أكلّم صديق. أول ٣ ثواني لازم توقف التمرير. اختمه بطلب واحد واضح من المشاهد. أعطني ٣ نسخ مختلفة لأول جملة.</div>
+<div class="card"><div class="head"><div class="n">4</div><h2>سكربت ريل 30 ثانية</h2></div>
+<div class="prompt">اكتب لي سكربت ريل مدته 30 ثانية عن: [الموضوع]. باللهجة السعودية، بكلام بسيط كأني أكلّم صديق. أول 3 ثواني لازم توقف التمرير. اختمه بطلب واحد واضح من المشاهد. أعطني 3 نسخ مختلفة لأول جملة.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٥</div><h2>نص إعلان ممول</h2></div>
-<div class="prompt">اكتب لي ٣ نصوص إعلان ممول لـ[المنتج أو الخدمة] بسعر [السعر]. الجمهور: [وصف عميلك]. كل نص بزاوية مختلفة: واحد يبدأ بالمشكلة، واحد بالنتيجة، واحد بسؤال. كل نص أقل من ٦٠ كلمة وباللهجة السعودية.</div>
+<div class="card"><div class="head"><div class="n">5</div><h2>نص إعلان ممول</h2></div>
+<div class="prompt">اكتب لي 3 نصوص إعلان ممول لـ[المنتج أو الخدمة] بسعر [السعر]. الجمهور: [وصف عميلك]. كل نص بزاوية مختلفة: واحد يبدأ بالمشكلة، واحد بالنتيجة، واحد بسؤال. كل نص أقل من 60 كلمة وباللهجة السعودية.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٦</div><h2>رد على استفسارات العملاء</h2></div>
-<div class="prompt">هذي أكثر ٥ أسئلة توصلني من العملاء: [الصق الأسئلة]. اكتب لي رد جاهز لكل سؤال، قصير ومهذب وباللهجة السعودية، وينتهي بخطوة واضحة تقرّب العميل من الشراء.</div>
+<div class="card"><div class="head"><div class="n">6</div><h2>رد على استفسارات العملاء</h2></div>
+<div class="prompt">هذي أكثر 5 أسئلة توصلني من العملاء: [الصق الأسئلة]. اكتب لي رد جاهز لكل سؤال، قصير ومهذب وباللهجة السعودية، وينتهي بخطوة واضحة تقرّب العميل من الشراء.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٧</div><h2>صفحة هبوط لمنتجك</h2></div>
-<div class="prompt">ابنِ لي صفحة هبوط من ملف واحد لـ[المنتج أو الخدمة]. فيها: عنوان يوضح النتيجة، ٣ فوايد، قسم "لمن هذا المنتج"، أسئلة شائعة، وزر تواصل على الواتساب رقم [رقمك]. بالعربي، متجاوبة مع الجوال، وألوانها [ألوانك].</div>
+<div class="card"><div class="head"><div class="n">7</div><h2>صفحة هبوط لمنتجك</h2></div>
+<div class="prompt">ابنِ لي صفحة هبوط من ملف واحد لـ[المنتج أو الخدمة]. فيها: عنوان يوضح النتيجة، 3 فوايد، قسم "لمن هذا المنتج"، أسئلة شائعة، وزر تواصل على الواتساب رقم [رقمك]. بالعربي، متجاوبة مع الجوال، وألوانها [ألوانك].</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٨</div><h2>حلّل منافسيك</h2></div>
-<div class="prompt">هذي حسابات ٣ منافسين لي: [الروابط أو الأسماء]. وهذا وصف اللي يقدمونه: [الصق وصفهم أو نصوص من صفحاتهم]. قارن بينهم في جدول: وش يبيعون، بكم، ووش رسالتهم الأساسية. ثم قل لي ٣ فرص ما أحد منهم مغطيها أقدر أدخل منها.</div>
+<div class="card"><div class="head"><div class="n">8</div><h2>حلّل منافسيك</h2></div>
+<div class="prompt">هذي حسابات 3 منافسين لي: [الروابط أو الأسماء]. وهذا وصف اللي يقدمونه: [الصق وصفهم أو نصوص من صفحاتهم]. قارن بينهم في جدول: وش يبيعون، بكم، ووش رسالتهم الأساسية. ثم قل لي 3 فرص ما أحد منهم مغطيها أقدر أدخل منها.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">٩</div><h2>سعّر خدمتك</h2></div>
-<div class="prompt">أقدم [الخدمة] وآخذ عليها [السعر الحالي]. تاخذ مني [عدد الساعات] ساعة. ساعدني أبني ٣ باقات (أساسية، متوسطة، كاملة): وش يدخل في كل باقة، وسعر مقترح لكل وحدة، وليش العميل يختار المتوسطة. اسألني أي معلومة ناقصة قبل ما تجاوب.</div>
+<div class="card"><div class="head"><div class="n">9</div><h2>سعّر خدمتك</h2></div>
+<div class="prompt">أقدم [الخدمة] وآخذ عليها [السعر الحالي]. تاخذ مني [عدد الساعات] ساعة. ساعدني أبني 3 باقات (أساسية، متوسطة، كاملة): وش يدخل في كل باقة، وسعر مقترح لكل وحدة، وليش العميل يختار المتوسطة. اسألني أي معلومة ناقصة قبل ما تجاوب.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
-<div class="card"><div class="head"><div class="n">١٠</div><h2>خطة ٣٠ يوم لأول دخل</h2></div>
-<div class="prompt">عندي [عدد الساعات] ساعة في اليوم ومهارتي [مهارتك]. أبغى أول دخل من الذكاء الاصطناعي خلال ٣٠ يوم. اقترح لي ٣ أفكار تناسبني، ثم خذ أقواها وقسّمها لخطة أسبوعية بمهام يومية صغيرة. كن واقعي وقل لي وش الصعب فيها.</div>
+<div class="card"><div class="head"><div class="n">10</div><h2>خطة 30 يوم لأول دخل</h2></div>
+<div class="prompt">عندي [عدد الساعات] ساعة في اليوم ومهارتي [مهارتك]. أبغى أول دخل من الذكاء الاصطناعي خلال 30 يوم. اقترح لي 3 أفكار تناسبني، ثم خذ أقواها وقسّمها لخطة أسبوعية بمهام يومية صغيرة. كن واقعي وقل لي وش الصعب فيها.</div>
 <button class="copy" type="button">انسخ الأمر</button></div>
 
 </div>
 </main>
-<footer>© Monetify by Nuha · نطبّق هذي الأوامر سوا في الورشة</footer>
+<footer>© هاي لينك · نطبّق هذي الأوامر سوا في الورشة</footer>
 <script>
 document.querySelectorAll('.copy').forEach(function(b){
   b.addEventListener('click', function(){
