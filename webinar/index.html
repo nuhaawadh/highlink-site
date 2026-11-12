@@ -447,7 +447,17 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
     send(2)
       .then(function(){
         if (window.fbq && !$('website').value) { fbq('track', 'CompleteRegistration', { content_name: 'claude-workshop' }); }
-        if (window.snaptr && !$('website').value) { snaptr('track', 'SIGN_UP'); }
+        if (window.snaptr && !$('website').value) {
+          // نرسل لسناب نسخة مشفّرة (SHA-256) من الإيميل لمطابقة التسجيل بالإعلان، وليس الإيميل نفسه
+          var hashed = (window.crypto && crypto.subtle)
+            ? crypto.subtle.digest('SHA-256', new TextEncoder().encode(email.toLowerCase())).then(function(buf){
+                return Array.prototype.map.call(new Uint8Array(buf), function(x){ return ('0' + x.toString(16)).slice(-2); }).join('');
+              })
+            : Promise.resolve('');
+          hashed.catch(function(){ return ''; }).then(function(h){
+            snaptr('track', 'SIGN_UP', h ? { user_hashed_email: h } : {});
+          });
+        }
         showThanks();
       })
       .catch(function(){
