@@ -23,7 +23,9 @@ var CONFIG = {
   // رابط قروب الواتساب الخاص بالورشة (اتركيه فاضي لإخفاء الخطوة)
   WHATSAPP_GROUP_URL: '',
   // رقم بكسل ميتا (Dataset ID). اتركيه فاضي لإيقاف التتبع
-  META_PIXEL_ID: '3008480072833328'
+  META_PIXEL_ID: '3008480072833328',
+  // رقم بكسل سناب (Pixel ID من Snapchat Ads Manager). اتركيه فاضي لإيقاف التتبع
+  SNAP_PIXEL_ID: ''
 };
 /* ======================================================== */
 </script>
@@ -32,6 +34,11 @@ if (CONFIG.META_PIXEL_ID) {
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', CONFIG.META_PIXEL_ID);
 fbq('track', 'PageView');
+}
+if (CONFIG.SNAP_PIXEL_ID) {
+(function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');
+snaptr('init', CONFIG.SNAP_PIXEL_ID);
+snaptr('track', 'PAGE_VIEW');
 }
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=3008480072833328&ev=PageView&noscript=1"></noscript>
@@ -440,6 +447,7 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
     send(2)
       .then(function(){
         if (window.fbq && !$('website').value) { fbq('track', 'CompleteRegistration', { content_name: 'claude-workshop' }); }
+        if (window.snaptr && !$('website').value) { snaptr('track', 'SIGN_UP'); }
         showThanks();
       })
       .catch(function(){
