@@ -16,8 +16,8 @@
 /* ============ الإعدادات ============ */
 var CONFIG = {
   N8N: 'https://n8n-38e4.srv1957870.hstgr.cloud/webhook',
-  REGULAR_PRICE: 199,
-  OFFER_PRICE: 99,
+  REGULAR_PRICE: 499,
+  OFFER_PRICE: 199,
   META_PIXEL_ID: '3008480072833328'
 };
 /* =================================== */
@@ -132,9 +132,9 @@ footer a{margin:0 8px}
 </div>
 
 <form id="checkout" novalidate>
-<div class="offer" id="offer" role="status">عرض حضور الورشة ينتهي خلال <b id="timer">30:00</b></div>
+<div class="offer" id="offer" role="status">سعر حضور الورشة متاح لمدة <b id="timer">30:00</b></div>
 <div class="price">
-<span class="now" id="price">199</span><span class="cur">ريال</span><s id="was">199 ريال</s>
+<span class="now" id="price">499</span><span class="cur">ريال</span><span id="was" style="display:none;font-size:15px;color:var(--ink-2);width:100%">السعر الرسمي 499 ريال بالشهر · هذا سعر خاص لحضور الورشة</span>
 <span class="per" id="per">اشتراك شهري، تقدر تلغيه متى ما بغيت.</span>
 </div>
 <div class="field">
@@ -154,7 +154,7 @@ footer a{margin:0 8px}
 <div class="error" id="err" role="alert"></div>
 <button class="btn lime-bg" id="submit" type="submit">اشترك الحين</button>
 <div class="pay" aria-label="طرق الدفع"><span>مدى</span><span>Apple Pay</span><span>Visa</span><span>Mastercard</span></div>
-<div class="note">الدفع آمن عبر بوابة ميسّر. بعد الدفع يوصلك إيميل فيه رابط الدخول.</div>
+<div class="note">الدفع آمن عبر بوابة دفع سعودية معتمدة. بعد الدفع يوصلك إيميل فيه رابط الدخول.</div>
 </form>
 </div>
 </div>
@@ -223,7 +223,7 @@ footer a{margin:0 8px}
 <h3>الخدمة</h3>
 <p>اشتراك شهري في مجتمع Monetify by Nuha التدريبي على منصة Skool، يقدمه هاي لينك (نهى عوض، عمل حر). الخدمة رقمية بالكامل، ويتم التفعيل بعد الدفع عبر رابط يصلك على الإيميل.</p>
 <h3>السعر</h3>
-<p>199 ريال سعودي شهريًا. عرض حضور الورشة: 99 ريال لأول شهر فقط ولمدة محدودة يُعلن عنها، وبعدها يكون الاشتراك 199 ريال شهريًا.</p>
+<p>السعر الرسمي 499 ريال سعودي شهريًا. حضور الورشة يقدرون يشتركون بسعر خاص 199 ريال شهريًا خلال مدة محدودة تُعلن في الورشة، ويبقى هذا السعر ثابتًا لهم طول ما الاشتراك مستمر.</p>
 <h3>الإلغاء</h3>
 <p>تقدر تلغي اشتراكك في أي وقت قبل موعد الشهر التالي بإيميل على nuha@highlink.tech.</p>
 <h3>الاسترداد</h3>
@@ -288,7 +288,7 @@ footer a{margin:0 8px}
       $('offer').style.display = 'block';
       $('price').textContent = CONFIG.OFFER_PRICE;
       $('was').style.display = 'inline';
-      $('per').textContent = 'لأول شهر، وبعدها ' + CONFIG.REGULAR_PRICE + ' ريال شهريًا. تقدر تلغي متى ما بغيت.';
+      $('per').textContent = 'بالشهر، وثابت لك طول ما أنت مشترك. تقدر تلغي متى ما بغيت.';
     } else {
       clearInterval(tick);
       $('offer').style.display = 'none';
@@ -300,6 +300,7 @@ footer a{margin:0 8px}
   function loadOffer(){
     fetch(CONFIG.N8N + '/monetify-offer').then(function(r){ return r.json(); }).then(function(d){
       var skew = Date.now() - new Date(d.now).getTime();
+      if (d.price && d.regular) { CONFIG.REGULAR_PRICE = d.regular; CONFIG.OFFER_PRICE = d.active ? d.price : CONFIG.OFFER_PRICE; }
       endsAt = d.active && d.ends_at ? new Date(d.ends_at).getTime() + skew : 0;
       clearInterval(tick); render(); if (endsAt) tick = setInterval(render, 1000);
     }).catch(function(){});
