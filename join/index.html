@@ -146,8 +146,8 @@ footer a{margin:0 8px}
 <input id="email" name="email" type="email" class="ltr" autocomplete="email" required>
 </div>
 <div class="field">
-<label for="phone">رقم الجوال (اختياري)</label>
-<input id="phone" name="phone" type="tel" class="ltr" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx">
+<label for="phone">رقم الجوال</label>
+<input id="phone" name="phone" type="tel" class="ltr" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" required>
 </div>
 <div aria-hidden="true" style="position:absolute;right:-9999px;width:1px;height:1px;overflow:hidden"><label for="website">اترك هذا الحقل فارغًا</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <div class="consent"><input id="agree" type="checkbox" required><label for="agree">قرأت <a href="#policy">شروط الاشتراك وسياسة الاسترداد</a> وأوافق عليها.</label></div>
@@ -314,6 +314,7 @@ footer a{margin:0 8px}
     var name = $('name').value.trim(), email = $('email').value.trim();
     if (name.length < 2) { err.textContent = 'اكتب اسمك.'; $('name').focus(); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'اكتب إيميل صحيح.'; $('email').focus(); return; }
+    if ($('phone').value.replace(/[^0-9]/g, '').length < 9) { err.textContent = 'اكتب رقم جوالك.'; $('phone').focus(); return; }
     if (!$('agree').checked) { err.textContent = 'وافق على شروط الاشتراك أول.'; return; }
     var btn = $('submit'); btn.disabled = true; btn.textContent = 'لحظة…';
     var amount = endsAt > Date.now() ? CONFIG.OFFER_PRICE : CONFIG.REGULAR_PRICE;
