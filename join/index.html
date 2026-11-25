@@ -18,7 +18,8 @@ var CONFIG = {
   N8N: 'https://n8n-38e4.srv1957870.hstgr.cloud/webhook',
   REGULAR_PRICE: 499,
   OFFER_PRICE: 199,
-  META_PIXEL_ID: '3008480072833328'
+  META_PIXEL_ID: '3008480072833328',
+  MOYASAR_PK: 'pk_test_mwg6m7FZstchE93F5GJLdZrfZDtdWUBULCUJ774A'
 };
 /* =================================== */
 </script>
@@ -110,6 +111,9 @@ footer{padding:24px;text-align:center;font-size:13px;font-weight:500;color:var(-
 footer a{margin:0 8px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}summary svg{transition:none}}
 </style>
+<link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css">
+<script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js" defer></script>
+<style>#paybox{display:none;flex:1 1 380px;min-width:0;background:var(--paper);color:var(--ink);padding:24px;flex-direction:column;gap:16px}#paybox .sum{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;font-size:15px}#paybox .sum b{font-size:24px}#paybox .back{background:none;border:0;color:var(--ink-2);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;align-self:flex-start;padding:0}</style>
 </head>
 <body>
 
@@ -131,6 +135,12 @@ footer a{margin:0 8px}
 </div>
 </div>
 
+<div id="paybox" aria-live="polite">
+<div class="sum"><span>اشتراك Monetify by Nuha · شهري</span><b><span id="pay-amt"></span> ريال</b></div>
+<p class="note" style="text-align:right">يتجدد الاشتراك تلقائيًا كل شهر بنفس السعر، وتقدر تلغيه متى ما بغيت بإيميل على nuha@highlink.tech.</p>
+<div class="mysr-form"></div>
+<button type="button" class="back" id="pay-back">رجوع وتعديل البيانات</button>
+</div>
 <form id="checkout" novalidate>
 <div class="offer" id="offer" role="status">سعر حضور الورشة متاح لمدة <b id="timer">30:00</b></div>
 <div class="price">
@@ -225,7 +235,7 @@ footer a{margin:0 8px}
 <h3>السعر</h3>
 <p>السعر الرسمي 499 ريال سعودي شهريًا. حضور الورشة يقدرون يشتركون بسعر خاص 199 ريال شهريًا خلال مدة محدودة تُعلن في الورشة، ويبقى هذا السعر ثابتًا لهم طول ما الاشتراك مستمر.</p>
 <h3>الإلغاء</h3>
-<p>تقدر تلغي اشتراكك في أي وقت قبل موعد الشهر التالي بإيميل على nuha@highlink.tech.</p>
+<p>الاشتراك يتجدد تلقائيًا كل 30 يومًا بنفس السعر على البطاقة اللي دفعت فيها. تقدر تلغي التجديد في أي وقت قبل موعده بإيميل على nuha@highlink.tech، ويتوقف الخصم من الشهر التالي.</p>
 <h3>الاسترداد</h3>
 <p>ضمان استرداد كامل خلال 15 يومًا من تاريخ أول دفعة، بطلب عبر الإيميل وبدون شروط. يُعاد المبلغ لنفس وسيلة الدفع. بعد مدة الضمان لا يُسترد مبلغ الشهر الجاري.</p>
 <h3>التواصل</h3>
@@ -308,6 +318,37 @@ footer a{margin:0 8px}
   loadOffer();
   setInterval(loadOffer, 60000);
 
+  // نموذج ميسّر (يحفظ الكرت للتجديد الشهري)
+  function showMoyasar(d, who) {
+    if (!window.Moyasar) { throw new Error('moyasar_not_loaded'); }
+    $('checkout').style.display = 'none';
+    var box = $('paybox'); box.style.display = 'flex';
+    $('pay-amt').textContent = d.amount / 100;
+    var meta = { order: d.order, plan: d.plan, email: who.email, name: who.name, phone: who.phone };
+    Moyasar.init({
+      element: '.mysr-form',
+      amount: d.amount,
+      currency: 'SAR',
+      language: 'ar',
+      description: d.description + ' · ' + d.order,
+      publishable_api_key: CONFIG.MOYASAR_PK,
+      callback_url: CONFIG.N8N + '/monetify-moyasar-return',
+      methods: ['creditcard', 'applepay'],
+      supported_networks: ['mada', 'visa', 'mastercard'],
+      fixed_width: false,
+      metadata: meta,
+      credit_card: { save_card: true },
+      apple_pay: { country: 'SA', label: 'Monetify by Nuha', validate_merchant_url: 'https://api.moyasar.com/v1/applepay/initiate', save_card: true },
+      on_completed: function (payment) {
+        var tok = payment && payment.source && payment.source.token;
+        if (!tok) return Promise.resolve();
+        return fetch(CONFIG.N8N + '/monetify-moyasar-token', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ payment_id: payment.id, token: tok }) }).catch(function(){});
+      }
+    });
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  $('pay-back').addEventListener('click', function(){ location.reload(); });
+
   // الدفع
   $('checkout').addEventListener('submit', function(e){
     e.preventDefault();
@@ -327,6 +368,7 @@ footer a{margin:0 8px}
     }).then(function(r){ return r.json().then(function(d){ return { ok: r.ok, d: d }; }); })
       .then(function(res){
         if (res.ok && res.d.url) { location.href = res.d.url; return; }
+        if (res.ok && res.d.mode === 'moyasar') { showMoyasar(res.d, { name: name, email: email, phone: $('phone').value.trim() }); return; }
         throw new Error(res.d && res.d.error);
       }).catch(function(){
         err.textContent = 'صار خلل في بوابة الدفع. جرّب بعد دقايق أو راسلنا على nuha@highlink.tech';
