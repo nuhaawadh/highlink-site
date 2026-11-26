@@ -23,7 +23,33 @@ var CONFIG = {
   // لين تتفعّل بوابة الدفع: الصفحة تحوّل مباشرة لسكول. فضّيه '' عشان ترجع صفحة الدفع.
   SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about'
 };
-if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) location.replace(CONFIG.SKOOL_DIRECT);
+CONFIG.USD = { 199: 53, 499: 133 };
+if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
+  document.write('<style id="skh">body{visibility:hidden;background:#062029}</style>');
+  document.addEventListener('DOMContentLoaded', function () {
+    var S = CONFIG.SKOOL_DIRECT, R = CONFIG.REGULAR_PRICE, O = CONFIG.OFFER_PRICE;
+    document.body.innerHTML =
+      '<style>.sk{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:#062029;color:#fff;font-family:Tajawal,system-ui,sans-serif}' +
+      '.sk .c{width:min(460px,100%);text-align:center}.sk img{height:34px;margin-bottom:28px}.sk h1{font-size:28px;margin:0 0 10px;font-weight:800}' +
+      '.sk p{color:#b9c7cc;font-size:16px;line-height:1.8;margin:0 0 22px}.sk .pr{background:#0d2f3a;border:1px solid #1d4654;border-radius:16px;padding:22px;margin-bottom:22px}' +
+      '.sk .big{font-size:44px;font-weight:800;color:#d4f54a;line-height:1.1}.sk .usd{font-size:15px;color:#b9c7cc;margin-top:6px}.sk .off{font-size:15px;color:#b9c7cc;margin-top:14px}' +
+      '.sk .tag{display:inline-block;background:#d4f54a;color:#062029;font-weight:700;font-size:13px;border-radius:999px;padding:4px 12px;margin-bottom:12px}' +
+      '.sk a.b{display:block;background:#d4f54a;color:#062029;font-weight:800;font-size:18px;text-decoration:none;border-radius:12px;padding:16px}' +
+      '.sk small{display:block;color:#8aa0a7;font-size:13px;margin-top:14px;line-height:1.7}</style>' +
+      '<div class="sk"><div class="c"><img src="logo.svg" alt="هاي لينك" onerror="this.remove()">' +
+      '<h1>Monetify by Nuha</h1><p>المجتمع والكورس على منصة سكول.</p>' +
+      '<div class="pr" id="pr"><div class="big">' + R + ' ريال</div><div class="usd">بالشهر · في سكول $' + CONFIG.USD[R] + '</div></div>' +
+      '<a class="b" href="' + S + '">اشترك الحين في سكول</a>' +
+      '<small>سكول يعرض السعر بالدولار، وبطاقتك تنخصم بالريال حسب سعر الصرف.<br>ضمان استرداد كامل خلال 15 يوم · nuha@highlink.tech</small></div></div>';
+    var h = document.getElementById('skh'); if (h) h.remove(); document.body.style.visibility = 'visible';
+    fetch(CONFIG.N8N + '/monetify-offer').then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.active) return;
+      document.getElementById('pr').innerHTML = '<span class="tag">سعر خاص لحضور الورشة</span>' +
+        '<div class="big">' + O + ' ريال</div><div class="usd">بالشهر · في سكول $' + CONFIG.USD[O] + '</div>' +
+        '<div class="off">السعر الرسمي ' + R + ' ريال بالشهر</div>';
+    }).catch(function () {});
+  });
+}
 /* =================================== */
 </script>
 <script>
