@@ -19,8 +19,11 @@ var CONFIG = {
   REGULAR_PRICE: 499,
   OFFER_PRICE: 199,
   META_PIXEL_ID: '3008480072833328',
-  MOYASAR_PK: 'pk_test_mwg6m7FZstchE93F5GJLdZrfZDtdWUBULCUJ774A'
+  MOYASAR_PK: 'pk_test_mwg6m7FZstchE93F5GJLdZrfZDtdWUBULCUJ774A',
+  // لين تتفعّل بوابة الدفع: الصفحة تحوّل مباشرة لسكول. فضّيه '' عشان ترجع صفحة الدفع.
+  SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about'
 };
+if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) location.replace(CONFIG.SKOOL_DIRECT);
 /* =================================== */
 </script>
 <script>
