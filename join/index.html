@@ -23,7 +23,7 @@ var CONFIG = {
   // لين تتفعّل بوابة الدفع: الصفحة تحوّل مباشرة لسكول. فضّيه '' عشان ترجع صفحة الدفع.
   SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about',
   // true = الصفحة تعرض سعر الورشة 199 دايم (يدويًا). false = حسب رابط التحكم.
-  FORCE_OFFER: true
+  FORCE_OFFER: false
 };
 CONFIG.USD = { 199: 53, 499: 133 };
 if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
