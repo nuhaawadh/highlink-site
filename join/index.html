@@ -21,7 +21,9 @@ var CONFIG = {
   META_PIXEL_ID: '3008480072833328',
   MOYASAR_PK: 'pk_test_mwg6m7FZstchE93F5GJLdZrfZDtdWUBULCUJ774A',
   // لين تتفعّل بوابة الدفع: الصفحة تحوّل مباشرة لسكول. فضّيه '' عشان ترجع صفحة الدفع.
-  SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about'
+  SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about',
+  // true = الصفحة تعرض سعر الورشة 199 دايم (يدويًا). false = حسب رابط التحكم.
+  FORCE_OFFER: true
 };
 CONFIG.USD = { 199: 53, 499: 133 };
 if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
@@ -42,12 +44,13 @@ if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
       '<a class="b" href="' + S + '">اشترك الحين في سكول</a>' +
       '<small>سكول يعرض السعر بالدولار، وبطاقتك تنخصم بالريال حسب سعر الصرف.<br>ضمان استرداد كامل خلال 15 يوم · nuha@highlink.tech</small></div></div>';
     var h = document.getElementById('skh'); if (h) h.remove(); document.body.style.visibility = 'visible';
-    fetch(CONFIG.N8N + '/monetify-offer').then(function (r) { return r.json(); }).then(function (d) {
-      if (!d || !d.active) return;
+    function showOffer() {
       document.getElementById('pr').innerHTML = '<span class="tag">سعر خاص لحضور الورشة</span>' +
         '<div class="big">' + O + ' ريال</div><div class="usd">بالشهر · في سكول $' + CONFIG.USD[O] + '</div>' +
         '<div class="off">السعر الرسمي ' + R + ' ريال بالشهر</div>';
-    }).catch(function () {});
+    }
+    if (CONFIG.FORCE_OFFER) showOffer();
+    else fetch(CONFIG.N8N + '/monetify-offer').then(function (r) { return r.json(); }).then(function (d) { if (d && d.active) showOffer(); }).catch(function () {});
   });
 }
 /* =================================== */
