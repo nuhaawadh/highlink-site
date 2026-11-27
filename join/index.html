@@ -23,7 +23,9 @@ var CONFIG = {
   // لين تتفعّل بوابة الدفع: الصفحة تحوّل مباشرة لسكول. فضّيه '' عشان ترجع صفحة الدفع.
   SKOOL_DIRECT: 'https://www.skool.com/monetify-1512/about',
   // true = الصفحة تعرض سعر الورشة 199 دايم (يدويًا). false = حسب رابط التحكم.
-  FORCE_OFFER: false
+  FORCE_OFFER: true,
+  // بعد هالوقت ترجع الصفحة 499 لحالها
+  OFFER_UNTIL: '2026-11-29T23:59:00+03:00'
 };
 CONFIG.USD = { 199: 53, 499: 133 };
 if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
@@ -47,9 +49,10 @@ if (CONFIG.SKOOL_DIRECT && !/[?&]status=/.test(location.search)) {
     function showOffer() {
       document.getElementById('pr').innerHTML = '<span class="tag">سعر خاص لحضور الورشة</span>' +
         '<div class="big">' + O + ' ريال</div><div class="usd">بالشهر · في سكول $' + CONFIG.USD[O] + '</div>' +
-        '<div class="off">السعر الرسمي ' + R + ' ريال بالشهر</div>';
+        '<div class="off">السعر الرسمي ' + R + ' ريال بالشهر</div>' +
+        (CONFIG.OFFER_UNTIL ? '<div class="off" style="color:#d4f54a;font-weight:700">متاح لين الأحد 29 نوفمبر، 11:59 مساءً</div>' : '');
     }
-    if (CONFIG.FORCE_OFFER) showOffer();
+    if (CONFIG.FORCE_OFFER && (!CONFIG.OFFER_UNTIL || Date.now() < Date.parse(CONFIG.OFFER_UNTIL))) showOffer();
     else fetch(CONFIG.N8N + '/monetify-offer').then(function (r) { return r.json(); }).then(function (d) { if (d && d.active) showOffer(); }).catch(function () {});
   });
 }
